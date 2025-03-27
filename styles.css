@@ -17,7 +17,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
 .phone {
@@ -40,15 +39,16 @@ body {
 }
 
 .chat-wrapper {
-    height: calc(100vh - 200px);
-    padding: 0 0 15px;
+    height: 480px;
+    padding: 0 0 150px;
     overflow: hidden;
 }
 
 .chat-messages {
-    padding: 15px;
+    padding:  15px 15px 15px;
+    padding-bottom: 40px;
     display: flex;
-    overflow-y: auto;
+    overflow-y: scroll;
     flex-direction: column;
     gap: 12px;
     height: 100%;
@@ -56,16 +56,10 @@ body {
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
-.chat-messages::after {
-    content: '';
-    display: block;
-    height: 60px;
-}
-
 .message {
     max-width: 85%;
-    padding: 12px 15px;
-    margin: 8px 0;
+    padding: 14px 18px;
+    margin: 10px 0;
     border-radius: 15px;
     animation: msgIn 0.3s ease;
     word-break: break-word;
@@ -86,13 +80,25 @@ body {
     align-self: flex-end;
 }
 
+.chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--neon);
+    border-radius: 3px;
+}
+
 .choices {
     position: fixed;
-    bottom: 70px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     width: 92%;
-    max-height: 150px;
     background: var(--bg);
     padding: 15px;
     border: 1px solid var(--border);
@@ -101,7 +107,6 @@ body {
     z-index: 1000;
     display: flex;
     gap: 10px;
-    overflow-y: auto;
 }
 
 .choice-btn {
@@ -119,7 +124,6 @@ body {
 .choice-btn:hover {
     background: #003300;
 }
-
 
 .pg-header {
     display: flex;
@@ -221,7 +225,7 @@ body {
     }
 
     .chat-wrapper {
-        padding-bottom: 15px;
+        padding-bottom: 100px;
     }
 }
 
