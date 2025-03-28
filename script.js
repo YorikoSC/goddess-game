@@ -89,7 +89,7 @@ class Game {
         this.isBusy = true;
         const choice = GameData[this.lang][this.currentChapter].choices[index];
         
-        if (choice.printable) {
+        if (choice.printable !== false) {
             this.addMessage('sent', choice.text);
         }
         
