@@ -1,4 +1,4 @@
-const GameData2 = {
+const GameData = {
   ru: {
     // NTR branch - девушка тайно изменяет главному герою
     ntr_chapter1: {

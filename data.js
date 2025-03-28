@@ -1446,6 +1446,6 @@ const GameData = {
                   nextChapter: "chapter15"
               }
           ],
-      },
-  }
+        },
+    }
 };

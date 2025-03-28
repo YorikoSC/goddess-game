@@ -1,3 +1,5 @@
+const DELAY_MULTIPLIER = 1.4;
+
 class Game {
     constructor() {
         this.lang = 'ru';
@@ -24,7 +26,7 @@ class Game {
                 setTimeout(() => {
                     this.addMessage(msg.type, msg.text);
                     resolve();
-                }, msg.delay);
+                }, msg.delay * DELAY_MULTIPLIER);
             });
         });
         
@@ -50,6 +52,11 @@ class Game {
         msg.className = `message ${type}`;
         msg.textContent = text;
         chat.appendChild(msg);
+
+        const sound = document.getElementById('sound');
+        if (sound && type === 'received') {
+            sound.play();
+        }
         
         setTimeout(() => {
             chat.scrollTo({
@@ -90,7 +97,7 @@ class Game {
                 setTimeout(() => {
                     this.addMessage(msg.type, msg.text);
                     resolve();
-                }, msg.delay);
+                }, msg.delay * DELAY_MULTIPLIER);
             });
         });
 
