@@ -3,7 +3,7 @@ const DELAY_MULTIPLIER = 1.4;
 class Game {
     constructor() {
         this.lang = 'ru';
-        this.currentChapter = 'chapter1';
+        this.currentChapter = 'start';
         this.isBusy = false;
         this.dialogueEnded = false;
         this.isChapterEnding = false;
@@ -89,7 +89,9 @@ class Game {
         this.isBusy = true;
         const choice = GameData[this.lang][this.currentChapter].choices[index];
         
-        this.addMessage('sent', choice.text);
+        if (choice.printable) {
+            this.addMessage('sent', choice.text);
+        }
         
         // Create an array of promises for each message
         const messagePromises = choice.result.map((msg) => {

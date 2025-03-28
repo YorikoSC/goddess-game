@@ -119,6 +119,7 @@ body {
     transition: all 0.3s;
     text-align: center;
     flex-basis: 50%;
+    flex-grow: 1;
 }
 
 .choice-btn:hover {

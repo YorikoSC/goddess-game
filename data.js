@@ -1,5 +1,16 @@
 const GameData = {
   ru: {
+      start: {
+        messages: [],
+        choices: [
+          {
+            text: '"У меня новые сообщения... надо посмотреть"',
+            printable: false,
+            result: [],
+            nextChapter: "chapter1",
+          }
+        ]
+      },
       chapter1: {
           messages: [
               {
