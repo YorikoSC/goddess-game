@@ -1,4 +1,4 @@
-const GameData = {
+const GameData2 = {
   ru: {
     // NTR branch - девушка тайно изменяет главному герою
     ntr_chapter1: {
@@ -25,7 +25,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Смотри, что получилось! {photo}",
+          text: "Смотри, что получилось! {photo_name_1}",
           delay: 7000
         },
       ],
@@ -168,7 +168,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Смотри, какое на мне платье! {photo}",
+          text: "Смотри, какое на мне платье! {photo_name_2}",
           delay: 11500
         },
       ],
@@ -316,7 +316,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Вот эскизы образов, которые он мне прислал... {photo}",
+          text: "Вот эскизы образов, которые он мне прислал... {photo_name_3}",
           delay: 8500
         },
       ],
@@ -390,7 +390,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Смотри, какие коктейли нам принесли! {photo}",
+          text: "Смотри, какие коктейли нам принесли! {photo_name_4}",
           delay: 10000
         },
       ],
@@ -543,7 +543,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Смотри, какое платье я буду надевать! {photo}",
+          text: "Смотри, какое платье я буду надевать! {photo_name_5}",
           delay: 10000
         },
       ],
@@ -612,7 +612,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Смотри, какие у нас коктейли! {photo}",
+          text: "Смотри, какие у нас коктейли! {photo_name_6}",
           delay: 8500
         },
         {
@@ -807,7 +807,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Смотри, вот одно из фото с пробной съёмки... {photo}",
+          text: "Смотри, вот одно из фото с пробной съёмки... {photo_name_7}",
           delay: 7000
         },
       ],
@@ -935,7 +935,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Вот пример того, что он имеет в виду... {photo}",
+          text: "Вот пример того, что он имеет в виду... {photo_name_8}",
           delay: 7000
         },
       ],
@@ -1083,7 +1083,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Вот несколько примеров из его портфолио... {photo}",
+          text: "Вот несколько примеров из его портфолио... {photo_name_9}",
           delay: 11500
         },
       ],
@@ -1152,7 +1152,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Вот, он прислал мне примерный сценарий съёмки... {photo}",
+          text: "Вот, он прислал мне примерный сценарий съёмки... {photo_name_10}",
           delay: 8500
         },
       ],
@@ -1305,7 +1305,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Вот ещё несколько примеров из его портфолио... {photo}",
+          text: "Вот ещё несколько примеров из его портфолио... {photo_name_11}",
           delay: 10000
         },
       ],
@@ -1374,7 +1374,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Вот, посмотри некоторые фотографии... {photo}",
+          text: "Вот, посмотри некоторые фотографии... {photo_name_12}",
           delay: 8500
         },
         {
@@ -1458,7 +1458,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Тебе нравится мой образ? {photo}",
+          text: "Тебе нравится мой образ? {photo_name_13}",
           delay: 10000
         },
       ],
@@ -1803,7 +1803,7 @@ const GameData = {
         },
         {
           type: "received",
-          text: "Смотри, как красиво получилось! {photo}",
+          text: "Смотри, как красиво получилось! {photo_name_14}",
           delay: 4000
         },
         {
@@ -1840,6 +1840,1847 @@ const GameData = {
           type: "system",
           text: "Конец истории",
           delay: 14500
+        },
+      ],
+      choices: [],
+    }
+  },
+  en: {
+    // NTR branch - girl secretly cheats on the main character
+    ntr_chapter1: {
+      messages: [
+        {
+          type: "received",
+          text: "Hi! How was your day? 😊",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "Hi! Been preparing for the exam all day. How are you doing?",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "I'm great! I had a photoshoot today with that photographer...",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "He's such a professional! Took amazing shots 📸",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Look what we got! {photo_name_1}",
+          delay: 7000
+        },
+      ],
+      choices: [
+        {
+          text: "Wow, you look amazing! But that dress is so... revealing?",
+          result: [
+            {
+              type: "received",
+              text: "Thank you! It's for a fashion magazine, so we needed something striking 💁‍♀️",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer said I have the perfect figure for these kinds of looks...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter2"
+        },
+        {
+          text: "Beautiful! When will you finish the photoshoot? Maybe we can meet tonight?",
+          result: [
+            {
+              type: "received",
+              text: "Oh, I can't today... We still have a lot of work to do 😓",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer wants to take a few more shots in the evening light...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter2"
+        }
+      ],
+    },
+
+    ntr_chapter2: {
+      messages: [
+        {
+          type: "sent",
+          text: "I see... And how late will you be working?",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "I'm not sure exactly... Maybe until late 🌙",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "He says the best shots happen after sunset. Something about the 'magic blue hour'...",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "By the way, he invited me to a private party for photographers and models this Friday.",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "He says there will be important industry people there. This could be a chance for my career! ✨",
+          delay: 7000
+        },
+      ],
+      choices: [
+        {
+          text: "Sounds interesting. Can I come with you?",
+          result: [
+            {
+              type: "received",
+              text: "Umm... It's invitation only. And I only have one ticket 😕",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "But don't worry! I'll keep you updated. I'll text you how it goes!",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter3"
+        },
+        {
+          text: "I'm not sure that's a good idea. You barely know this photographer.",
+          result: [
+            {
+              type: "received",
+              text: "Are you jealous again? 🙄 It's just a professional event!",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "I thought you supported my ambitions... This is important for my career.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter3"
+        }
+      ],
+    },
+
+    ntr_chapter3: {
+      messages: [
+        {
+          type: "sent",
+          text: "Alright, text me how it goes. I'll be waiting.",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Of course! Don't worry 😘",
+          delay: 2500
+        },
+        {
+          type: "system",
+          text: "Friday, 11:45 PM",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "Heeeey! The party is amazing! 🎉",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "There are so many famous photographers and models here! I've already met a fashion magazine editor!",
+          delay: 7000
+        },
+        {
+          type: "sent",
+          text: "Great! Glad you're enjoying it. When do you plan to come back?",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "Oh, I don't know... It's just getting started! 💃",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "Look at the dress I'm wearing! {photo_name_2}",
+          delay: 11500
+        },
+      ],
+      choices: [
+        {
+          text: "You look stunning! But it's so... revealing. Are you there alone?",
+          result: [
+            {
+              type: "received",
+              text: "Thanks! Of course not alone, there are tons of people here! 😄",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer introduced me to his friends. They're all so interesting!",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter4"
+        },
+        {
+          text: "It's getting late. Maybe you should head home?",
+          result: [
+            {
+              type: "received",
+              text: "What are you, my dad? 🙄 I'm a big girl!",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "Don't worry, the photographer promised to drive me home. He's very caring...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter4"
+        }
+      ],
+    },
+
+    ntr_chapter4: {
+      messages: [
+        {
+          type: "system",
+          text: "Saturday, 10:30 AM",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "Good morning! How are you? Did you get home safely?",
+          delay: 2500
+        },
+        {
+          type: "system",
+          text: "Message read",
+          delay: 4000
+        },
+        {
+          type: "system",
+          text: "Saturday, 1:15 PM",
+          delay: 5500
+        },
+        {
+          type: "sent",
+          text: "Are you okay there?",
+          delay: 7000
+        },
+        {
+          type: "system",
+          text: "Saturday, 3:40 PM",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "Hi! Sorry, just woke up 😴",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "The party went on until morning... It was so much fun!",
+          delay: 11500
+        },
+      ],
+      choices: [
+        {
+          text: "Where did you sleep? I was worried.",
+          result: [
+            {
+              type: "received",
+              text: "I stayed at a friend's place, she was at the party too 👯‍♀️",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "It was already late, and we decided it would be safer that way.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter5"
+        },
+        {
+          text: "Glad you enjoyed it! Will you tell me the details?",
+          result: [
+            {
+              type: "received",
+              text: "Of course! There was so much interesting stuff! 🎭",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "By the way, the photographer offered me another photoshoot. Tonight already!",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter5"
+        }
+      ],
+    },
+
+    // Netorase branch - guy discovers the cheating and becomes a cuckold
+    netorase_chapter1: {
+      messages: [
+        {
+          type: "received",
+          text: "Hi! You won't believe what happened! 😱",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "What is it? Something serious?",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "Remember that photographer? He offered me a contract for a whole series of photoshoots! 📸",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "And they pay really well! This is my chance to start a modeling career!",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Look, here's one of the photos from the test shoot... {photo_name_7}",
+          delay: 7000
+        },
+      ],
+      choices: [
+        {
+          text: "Wow... that's quite a revealing photo. Are you sure about this contract?",
+          result: [
+            {
+              type: "received",
+              text: "This is modern fashion photography! Everyone shoots like this now 💁‍♀️",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "Besides, the photographer says I have the potential to become a top model...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter2"
+        },
+        {
+          text: "Congratulations! I'm glad things are working out for you!",
+          result: [
+            {
+              type: "received",
+              text: "Thanks for your support! You're the best! ❤️",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer said I'm very photogenic... especially from certain angles 😏",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter2"
+        }
+      ],
+    },
+
+    netorase_chapter2: {
+      messages: [
+        {
+          type: "sent",
+          text: "What kind of photoshoots will they be? All in the same style?",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Different ones! Some for fashion magazines, some for swimwear ads...",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "And there will also be a private photoshoot for an exclusive calendar 📅",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "By the way... the photographer asked if I have a boyfriend.",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "I told him I do. For some reason, he was very interested in you 🤔",
+          delay: 7000
+        },
+      ],
+      choices: [
+        {
+          text: "Me? Why would he need me?",
+          result: [
+            {
+              type: "received",
+              text: "I'm not sure exactly... He said something like 'interesting to meet the person who's dating such a beautiful girl'",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "And he also asked if you'd like to attend one of the photoshoots... Strange, right?",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter3"
+        },
+        {
+          text: "I don't like this. It sounds suspicious.",
+          result: [
+            {
+              type: "received",
+              text: "Come on! He's just friendly 😊",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "By the way, he suggested doing a couple's photoshoot for us. Says it would be an interesting experience for both of us...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter3"
+        }
+      ],
+    },
+
+    netorase_chapter3: {
+      messages: [
+        {
+          type: "sent",
+          text: "A couple's photoshoot? What exactly does he mean?",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Well, you know, couple photos are very popular now! For portfolios and stuff...",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "He said we would have great 'chemistry' on camera 📸",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "And also... he suggested taking some... um... more intimate photos.",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Here's an example of what he means... {photo_name_8}",
+          delay: 7000
+        },
+      ],
+      choices: [
+        {
+          text: "That's too revealing! I don't think we should do this.",
+          result: [
+            {
+              type: "received",
+              text: "Come on! It's art! Besides, it would be our private collection 🎭",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer said such photos help couples... loosen up. Become closer to each other...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter4"
+        },
+        {
+          text: "Hmm... this could be interesting. When does he want to do the shoot?",
+          result: [
+            {
+              type: "received",
+              text: "Really?! I didn't think you'd agree! 😍",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "He suggested this Saturday. He has a private studio with... a special atmosphere.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter4"
+        }
+      ],
+    },
+
+    netorase_chapter4: {
+      messages: [
+        {
+          type: "sent",
+          text: "I don't know... This all seems strange. Why does he want to photograph us together?",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "He says he has a special project. Something like 'Modern Relationships' 🎭",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "And he also said something interesting...",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "What exactly?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "He said that... he likes watching couples. Their dynamics, interactions...",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "And that he would like to... direct us during the shoot. Give... instructions 😳",
+          delay: 8500
+        },
+      ],
+      choices: [
+        {
+          text: "This sounds increasingly strange. I don't think we should agree to this.",
+          result: [
+            {
+              type: "received",
+              text: "Maybe you're right... Although I think it could be an interesting experience 🤔",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "You know what? Let me go meet with him first, discuss the details, and then tell you everything?",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter5"
+        },
+        {
+          text: "What kind of instructions does he mean?",
+          result: [
+            {
+              type: "received",
+              text: "Well... how to pose, how to look at each other... That kind of thing 📸",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "He said he wants to capture real passion. And that sometimes couples need... help expressing it.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter5"
+        }
+      ],
+    },
+    netorase_chapter5: {
+      messages: [
+        {
+          type: "sent",
+          text: "Okay, go by yourself first. But then tell me all the details.",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Of course! I'll tell you everything! 😘",
+          delay: 2500
+        },
+        {
+          type: "system",
+          text: "Two days later",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "Hi! I met with the photographer... And I have news 😳",
+          delay: 5500
+        },
+        {
+          type: "sent",
+          text: "What news? What did he say?",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "He... he showed me his studio. And told me more about the project.",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "It really is a project about modern relationships. About how couples... experiment.",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "Here are some examples from his portfolio... {photo_name_9}",
+          delay: 11500
+        },
+      ],
+      choices: [
+        {
+          text: "This... this is almost erotic! He seriously wants us to participate in this?",
+          result: [
+            {
+              type: "received",
+              text: "Well... yes. But he says everything will be very aesthetic and tasteful 🎭",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "And you know... I think it could be an interesting experience for us...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter6"
+        },
+        {
+          text: "I don't understand why you need this. This is a strange project.",
+          result: [
+            {
+              type: "received",
+              text: "I thought you would understand... This isn't just photos, it's art! 🖼️",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "Besides... the photographer said it could be a very... liberating experience for a couple.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter6"
+        }
+      ],
+    },
+
+    netorase_chapter6: {
+      messages: [
+        {
+          type: "sent",
+          text: "I don't know... This all seems very strange.",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Listen... I've already agreed to an individual photoshoot with him this Friday.",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "But he really wants you to participate in the project too. At least... be present at the shoot.",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "Present? In what sense?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Well... watching. He says he's interested in... the dynamics between us.",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "Here, he sent me a rough script for the shoot... {photo_name_10}",
+          delay: 8500
+        },
+      ],
+      choices: [
+        {
+          text: "This is crossing all boundaries! I won't participate in this.",
+          result: [
+            {
+              type: "received",
+              text: "I understand your reaction... But maybe you'll at least think about it? 🤔",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer said you can just come, see how it all happens. No obligations.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter7_reluctant"
+        },
+        {
+          text: "Hmm... what exactly does he want me to do?",
+          result: [
+            {
+              type: "received",
+              text: "Really?! You're considering it? 😍",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "He said at first you can just observe. And then... if you want... join the process.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter7_curious"
+        }
+      ],
+    },
+
+    netorase_chapter7_reluctant: {
+      messages: [
+        {
+          type: "sent",
+          text: "I won't even think about it. This is some kind of perversion.",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Okay... I understand your position 😔",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "But I'm still going to this photoshoot. It's important for my career.",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "Seriously? After everything I said?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Listen... I don't want to argue. But this is MY decision and MY body.",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "Besides, the photographer promised that everything would be very professional and aesthetic.",
+          delay: 8500
+        },
+        {
+          type: "system",
+          text: "Friday, 10:30 PM",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "Hi... The photoshoot is over. I want to talk to you.",
+          delay: 11500
+        },
+      ],
+      choices: [
+        {
+          text: "What happened? Is everything okay?",
+          result: [
+            {
+              type: "received",
+              text: "Yes... Just... It wasn't quite what I expected 😳",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer was very... insistent. Asked me to take quite revealing poses...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter8_reluctant"
+        },
+        {
+          text: "I don't want to discuss this. You made your choice.",
+          result: [
+            {
+              type: "received",
+              text: "Please don't be angry... I need to talk to someone about this 🥺",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer... he behaved strangely. Kept talking about you, asking how you would react to certain poses...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter8_reluctant"
+        }
+      ],
+    },
+
+    netorase_chapter7_curious: {
+      messages: [
+        {
+          type: "sent",
+          text: "Join the process? What exactly does that mean?",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Well... First you just watch the photoshoot. How I pose, how the photographer works...",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "And then... if you want... you can join the shoot. Or even... give directions 🎬",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "Give directions? What kind?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Well, for example... how I should pose. What... positions to take.",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "The photographer said it could be a very... arousing experience for a couple 🔥",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "Here are some more examples from his portfolio... {photo_name_11}",
+          delay: 10000
+        },
+      ],
+      choices: [
+        {
+          text: "This is too much... But I'll come. Just to make sure everything is okay.",
+          result: [
+            {
+              type: "received",
+              text: "Really?! Thank you! I'm so glad you agreed! 😍",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer will be happy too! He said your presence would add... a special energy.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter8_curious"
+        },
+        {
+          text: "You know... this sounds intriguing. I'm willing to try.",
+          result: [
+            {
+              type: "received",
+              text: "Wow! I didn't expect you to react like that! 😳",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer will be thrilled! He said he rarely meets couples ready for such... experiments.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter8_curious"
+        }
+      ],
+    },
+
+    netorase_chapter8_reluctant: {
+      messages: [
+        {
+          type: "sent",
+          text: "What do you mean? What exactly did he say about me?",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "It was strange... He kept asking: 'What would your boyfriend say if he saw you now?' 😳",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "And he also... he constantly asked me to imagine that you were watching us.",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "'Us'? What was happening between you two?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Nothing like that! Just... he was very close. Directing me, showing poses...",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "Here, look at some of the photos... {photo_name_12}",
+          delay: 8500
+        },
+        {
+          type: "sent",
+          text: "This is... quite revealing. And he's touching you in these photos.",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "Yes, he said it was part of the concept... That it shows 'guiding male energy' or something like that 🤔",
+          delay: 11500
+        },
+      ],
+      choices: [
+        {
+          text: "I don't want you to work with him anymore. This crosses all boundaries.",
+          result: [
+            {
+              type: "received",
+              text: "I understand... But you know, despite all the strangeness, the photos turned out really beautiful.",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "And he offered me a contract for a whole series. Says he can make me a famous model...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter9_reluctant"
+        },
+        {
+          text: "And how did you feel when he asked you to imagine that I was watching?",
+          result: [
+            {
+              type: "received",
+              text: "Honestly? It was... strangely arousing 🙈",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "Like I was doing something forbidden, but you were still with me... It's hard to explain.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter9_reluctant"
+        }
+      ],
+    },
+
+    netorase_chapter8_curious: {
+      messages: [
+        {
+          type: "system",
+          text: "Friday, 7:30 PM",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "I've arrived at the studio. Is this the right address?",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "Yes! Come up to the third floor, door on the right. We've already started preparations! 😊",
+          delay: 4000
+        },
+        {
+          type: "system",
+          text: "20 minutes later",
+          delay: 5500
+        },
+        {
+          type: "sent",
+          text: "This is... not quite what I expected to see.",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "I know it's a bit unusual... But the photographer says it's part of his artistic vision 🎭",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "Do you like my look? {photo_name_13}",
+          delay: 10000
+        },
+      ],
+      choices: [
+        {
+          text: "You look... amazing. But I'm not sure I'm ready for this.",
+          result: [
+            {
+              type: "received",
+              text: "Please, give it a chance! The photographer says your presence is very important for the project 🙏",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "You can just sit there, in the chair, and watch. Nothing more.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter9_curious"
+        },
+        {
+          text: "You look incredible. What exactly does the photographer want me to do?",
+          result: [
+            {
+              type: "received",
+              text: "Really?! I'm so glad you like it! 😍",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer said at first you can just observe from that chair. And then, if you want, give directions or... participate more actively.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter9_curious"
+        }
+      ],
+    },
+
+    netorase_chapter9_reluctant: {
+      messages: [
+        {
+          type: "sent",
+          text: "A contract? Are you seriously considering his offer after all this?",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "I... I don't know. On one hand, it's a great opportunity. On the other... he is really strange 😕",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "But you know what's the strangest thing? He offered triple the fee if you agree to be present at the next photoshoot.",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "What? Why would he want that?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "He says he wants to capture 'real emotions'. To see your reaction to how I pose...",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "And he also said something... That it helps some couples 'discover new facets of their relationship' 🤔",
+          delay: 8500
+        },
+      ],
+      choices: [
+        {
+          text: "This sounds like some kind of manipulation. I don't want you to continue working with him.",
+          result: [
+            {
+              type: "received",
+              text: "I understand your feelings... But maybe we could at least discuss it? It's really good money...",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "And if you're there, nothing bad will happen. You can control everything.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter10_reluctant"
+        },
+        {
+          text: "New facets of relationships? What exactly does he mean?",
+          result: [
+            {
+              type: "received",
+              text: "Well... he said something about some couples finding it... arousing 🙈",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "When one partner watches the other in... aesthetically revealing situations.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter10_reluctant"
+        }
+      ],
+    },
+
+    netorase_chapter9_curious: {
+      messages: [
+        {
+          type: "system",
+          text: "The photoshoot begins",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "This is... quite unusual. I didn't expect the photographer to be so close to you.",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "He's showing me poses... It's part of the creative process 📸",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "How do you like it? Is it strange to watch?",
+          delay: 5500
+        },
+        {
+          type: "sent",
+          text: "Yes, strange... but interesting at the same time.",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "The photographer says you can suggest a pose or angle if you want...",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "Or even come closer and... direct me yourself 😳",
+          delay: 10000
+        },
+      ],
+      choices: [
+        {
+          text: "I'd rather just watch from here. I need to get used to this.",
+          result: [
+            {
+              type: "received",
+              text: "Okay... Whatever makes you comfortable 😊",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer says your presence is already changing the energy of the shoot. That I look... different when I know you're watching.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter10_curious"
+        },
+        {
+          text: "I could... suggest a few poses. If you don't mind.",
+          result: [
+            {
+              type: "received",
+              text: "Really?! Of course I don't mind! 😍",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer looks very pleased. He says this is exactly what he wanted to capture — the real 'chemistry' between us.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_chapter10_curious"
+        }
+      ],
+    },
+
+    netorase_chapter10_reluctant: {
+      messages: [
+        {
+          type: "sent",
+          text: "I don't know... This all sounds very strange.",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Listen... Maybe we could go meet with him together? Just talk, no obligations 🤝",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "He wants to show us his studio and tell us more about the project.",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "Okay, let's meet with him. But just for a conversation.",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Great! I'm so happy! 😍",
+          delay: 7000
+        },
+        {
+          type: "system",
+          text: "Three days later",
+          delay: 8500
+        },
+        {
+          type: "sent",
+          text: "I didn't expect everything to be... like this.",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "You mean how he asked me to pose right in front of you? Or how he commented on your reaction?",
+          delay: 11500
+        },
+      ],
+      choices: [
+        {
+          text: "It was strange, but... interesting. I never thought I would feel this way.",
+          result: [
+            {
+              type: "received",
+              text: "Really? You enjoyed watching? 😳",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer said you fit perfectly into the concept. And that we can continue if we want...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_ending"
+        },
+        {
+          text: "I don't think this is for us. Too... unusual.",
+          result: [
+            {
+              type: "received",
+              text: "I understand... But you know, I think you actually enjoyed it 🙈",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer said such a reaction is normal for the first time. And that over time it becomes... more interesting.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_ending"
+        }
+      ],
+    },
+
+    netorase_chapter10_curious: {
+      messages: [
+        {
+          type: "system",
+          text: "One hour later",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "That was... incredible. I've never experienced anything like it.",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "Really? You liked it? 😍",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "The photographer is thrilled with the results. Says we're the perfect couple for his project!",
+          delay: 5500
+        },
+        {
+          type: "sent",
+          text: "It was strange... seeing him direct you, touch you...",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "And how did you feel at that moment? 🤔",
+          delay: 8500
+        },
+      ],
+      choices: [
+        {
+          text: "At first it was unpleasant, but then... it became arousing.",
+          result: [
+            {
+              type: "received",
+              text: "I thought so! 😏 The photographer said you had a special look... That you were enjoying the process.",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "He suggested continuing the shoots. Says next time will be even more interesting...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_ending"
+        },
+        {
+          text: "It was a strange feeling... Jealousy, but at the same time some new sensation.",
+          result: [
+            {
+              type: "received",
+              text: "That's normal! The photographer says all couples go through this 😊",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "And you know... I really liked that you were watching me. It was so... exciting.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "netorase_ending"
+        }
+      ],
+    },
+
+    netorase_ending: {
+      messages: [
+        {
+          type: "system",
+          text: "One month later",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Hi! The photographer sent the final results of our last shoot! 📸",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "Look how beautiful it turned out! {photo_name_14}",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "Wow... That's really impressive. I never would have thought we'd agree to something like this.",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "I'm so glad we tried! It completely changed our relationship 💕",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "By the way, the photographer is asking if we're ready for the next stage of the project...",
+          delay: 8500
+        },
+        {
+          type: "sent",
+          text: "What next stage?",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "He wants you to be more... involved in the process. Not just watching, but... participating 😳",
+          delay: 11500
+        },
+        {
+          type: "sent",
+          text: "You know... I think I'm ready to try.",
+          delay: 13000
+        },
+        {
+          type: "system",
+          text: "End of story",
+          delay: 14500
+        },
+      ],
+      choices: [],
+    },
+
+    ntr_chapter5: {
+      messages: [
+        {
+          type: "sent",
+          text: "Tonight? Again? Maybe you should rest?",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "I'm fine! I'm full of energy! ✨",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "Besides, it's very important for my portfolio. The photographer says these photos could open the door to a serious modeling agency for me!",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "I see... What kind of photoshoot will it be?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Something conceptual... In high fashion style 👗",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "Here are the sketches of the looks he sent me... {photo_name_3}",
+          delay: 8500
+        },
+      ],
+      choices: [
+        {
+          text: "These are... quite revealing outfits. Are you sure?",
+          result: [
+            {
+              type: "received",
+              text: "This is art! All top models shoot like this now 💁‍♀️",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "Don't worry, everything will be professional. There will be stylists, makeup artists...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter6"
+        },
+        {
+          text: "Maybe I'll come too? I want to see how these shoots work.",
+          result: [
+            {
+              type: "received",
+              text: "Umm... The photographer doesn't like outsiders on set. Says it interferes with the creative process 🎭",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "But I'll definitely show you the results! I promise!",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter6"
+        }
+      ],
+    },
+
+    ntr_chapter6: {
+      messages: [
+        {
+          type: "system",
+          text: "Sunday, 2:15 AM",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Heeeey! Are you awake? 🌙",
+          delay: 2500
+        },
+        {
+          type: "sent",
+          text: "Yes, waiting for your messages. How was the photoshoot?",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "God, it was INCREDIBLE! 🤩",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "The photographer says I'm a natural model! That I have a 'special energy'...",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "After the shoot, we went to celebrate at an exclusive club. It's so cool here!",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "Look at the cocktails they brought us! {photo_name_4}",
+          delay: 10000
+        },
+      ],
+      choices: [
+        {
+          text: "We? Who else is there with you?",
+          result: [
+            {
+              type: "received",
+              text: "The photographer and a couple of models from the photoshoot. And some of his industry friends 🥂",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "One of them is a music video producer! Can you believe it? He said I could be in music videos!",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter7"
+        },
+        {
+          text: "It's very late. When do you plan to come home?",
+          result: [
+            {
+              type: "received",
+              text: "I don't know... It's so much fun here! 💃",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer said he'll drive me home later. He has such a cool car!",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter7"
+        }
+      ],
+    },
+
+    ntr_chapter7: {
+      messages: [
+        {
+          type: "system",
+          text: "Sunday, 11:20 AM",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "Good morning! Are you home yet?",
+          delay: 2500
+        },
+        {
+          type: "system",
+          text: "Message read",
+          delay: 4000
+        },
+        {
+          type: "system",
+          text: "Sunday, 2:05 PM",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Hi! Yes, I'm home. Sorry I didn't respond, I was sleeping 😴",
+          delay: 7000
+        },
+        {
+          type: "sent",
+          text: "What time did you get back?",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "To be honest... just a couple of hours ago 🙈",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "After the club, we went to an afterparty at one of the photographer's friends. There were very influential people from the fashion world!",
+          delay: 11500
+        },
+      ],
+      choices: [
+        {
+          text: "You were with the photographer all night?",
+          result: [
+            {
+              type: "received",
+              text: "Well, not just with him... There was a whole group! Models, photographers, stylists...",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "But yes, he was around. Introducing me to everyone, talking about me... He's really helping my career! 📈",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter8"
+        },
+        {
+          text: "Maybe we can meet today? I miss you.",
+          result: [
+            {
+              type: "received",
+              text: "Oh, today won't work... I'm terribly tired and want to sleep 😓",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "Besides, the photographer sent me materials from the last shoot, I need to review them and choose the best ones for my portfolio.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter8"
+        }
+      ],
+    },
+    ntr_chapter8: {
+      messages: [
+        {
+          type: "system",
+          text: "Three days later",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "We've barely talked in the last few days. Is everything okay?",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "Hi! Yes, just very busy. So much is happening! 🌪️",
+          delay: 4000
+        },
+        {
+          type: "received",
+          text: "Guess what, I was invited to a private fashion show! As a VIP guest!",
+          delay: 5500
+        },
+        {
+          type: "sent",
+          text: "Wow, congratulations! When is the show?",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "Tonight! I'm so excited! 😍",
+          delay: 8500
+        },
+        {
+          type: "received",
+          text: "Look at the dress I'll be wearing! {photo_name_5}",
+          delay: 10000
+        },
+      ],
+      choices: [
+        {
+          text: "Looks amazing! Can I come with you?",
+          result: [
+            {
+              type: "received",
+              text: "Oh, it's a closed event... Invitation only 😕",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "Besides, the photographer says I need to focus on networking with the right people. Without distractions.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter9"
+        },
+        {
+          text: "You've been spending too much time with him lately...",
+          result: [
+            {
+              type: "received",
+              text: "It's work! He's helping my career! 🙄",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "If you were supporting me instead of being jealous, it would be much easier...",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter9"
+        }
+      ],
+    },
+    ntr_chapter9: {
+      messages: [
+        {
+          type: "system",
+          text: "Saturday, 1:15 AM",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "Heeeey! The show was INCREDIBLE! 🤩",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "So many famous people! Designers, models, celebrities!",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "Great! Glad you enjoyed it. Are you heading home now?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "No, we're at the afterparty now! The photographer introduced me to the editor-in-chief of a fashion magazine! 🥂",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "Look at our cocktails! {photo_name_6}",
+          delay: 8500
+        },
+        {
+          type: "sent",
+          text: "In the photo, someone is holding you by the waist...",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "Oh, that's the photographer! He's always so... tactile 😄",
+          delay: 11500
+        },
+      ],
+      choices: [
+        {
+          text: "I don't like this. He's taking too many liberties.",
+          result: [
+            {
+              type: "received",
+              text: "Oh, come on! It's just a friendly gesture! 🙄",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "Besides, he's doing so much for me... Thanks to him I've met the right people!",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter10"
+        },
+        {
+          text: "When can we see each other? I miss you.",
+          result: [
+            {
+              type: "received",
+              text: "I miss you too! But there's so much happening right now... 😓",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "The photographer says next week will be crucial for my career. We have several important meetings and photoshoots scheduled.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_chapter10"
+        }
+      ],
+    },
+    ntr_chapter10: {
+      messages: [
+        {
+          type: "system",
+          text: "Two weeks later",
+          delay: 1000
+        },
+        {
+          type: "sent",
+          text: "We hardly see each other lately. Maybe we can meet today?",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "Hi! Sorry, I can't today. I have an important meeting with modeling agency representatives 👩‍💼",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "I understand... How about tomorrow?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Tomorrow is difficult too... The photographer is organizing a private party for important industry people.",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "Listen... We need to talk. But not now, later.",
+          delay: 8500
+        },
+      ],
+      choices: [
+        {
+          text: "Talk about what? Did something happen?",
+          result: [
+            {
+              type: "received",
+              text: "Nothing bad! Just... my life has changed a lot recently 🌟",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "I signed a contract with an agency! I'll be traveling a lot... And the photographer will be working with me.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_ending"
+        },
+        {
+          text: "I can guess what you want to talk about. There's something between you two, isn't there?",
+          result: [
+            {
+              type: "received",
+              text: "I... I didn't want it to turn out this way 😔",
+              delay: 1000
+            },
+            {
+              type: "received",
+              text: "But we've become very close. He understands my ambitions, my dreams... And he offered me a contract with an agency.",
+              delay: 2500
+            }
+          ],
+          nextChapter: "ntr_ending"
+        }
+      ],
+    },
+    ntr_ending: {
+      messages: [
+        {
+          type: "sent",
+          text: "So there really is something between you...",
+          delay: 1000
+        },
+        {
+          type: "received",
+          text: "I didn't plan this... It just happened 🙈",
+          delay: 2500
+        },
+        {
+          type: "received",
+          text: "He opened up a new world for me. And now I've signed a contract with an international agency!",
+          delay: 4000
+        },
+        {
+          type: "sent",
+          text: "And what now? Are you leaving with him?",
+          delay: 5500
+        },
+        {
+          type: "received",
+          text: "Yes... We're flying to Milan next week. Then Paris, New York...",
+          delay: 7000
+        },
+        {
+          type: "received",
+          text: "I'm sorry it turned out this way. But I can't miss such an opportunity.",
+          delay: 8500
+        },
+        {
+          type: "sent",
+          text: "I always supported your dreams, but not like this... Not at the cost of our relationship.",
+          delay: 10000
+        },
+        {
+          type: "received",
+          text: "I'm sorry... But I've chosen my path. I hope you find someone who will appreciate you properly.",
+          delay: 11500
+        },
+        {
+          type: "system",
+          text: "End of story",
+          delay: 13000
         },
       ],
       choices: [],

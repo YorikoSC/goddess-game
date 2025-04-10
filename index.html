@@ -1,59 +1,73 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyDearLina</title>
     <link rel="stylesheet" href="styles.css?2">
 </head>
-<body>
-    <div class="phone">
-        <div class="status-bar">
-            <span class="time">00:00</span>
-            <div class="battery">🔋 84%</div>
-        </div>
 
-        <div class="screen active" data-screen="chat">
-            <div class="chat-header">
-                <img src="img/lina_avatar.jpg" class="avatar" alt="Lina">
-                <div class="chat-info">
-                    <h2>Lina 🖤</h2>
-                    <p class="online-status">online</p>
+<body>
+    <main>
+        <div class="phone">
+            <div class="status-bar">
+                <span class="time">00:00</span>
+                <div class="battery">🔋 84%</div>
+            </div>
+
+            <div class="screen active" data-screen="chat">
+                <div class="chat-header">
+                    <img src="img/lina_avatar.jpg" class="avatar" alt="Lina">
+                    <div class="chat-info">
+                        <h2>Lina 🖤</h2>
+                        <p class="online-status">online</p>
+                    </div>
+                </div>
+
+                <div class="chat-wrapper">
+                    <div class="chat-messages" id="chat"></div>
+                </div>
+                <div class="choices" id="choices"></div>
+            </div>
+
+            <div class="screen" data-screen="puregram">
+                <div class="pg-header">
+                    <button class="back-btn" onclick="game.showScreen('chat')">←</button>
+                    <h2>PureGram</h2>
+                </div>
+                <div class="pg-posts" id="posts"></div>
+            </div>
+
+            <div class="screen endgame-screen" data-screen="endgame">
+                <div class="endgame-content">
+                    <h2>Конец первой главы</h2>
+                    <p>Спасибо за игру!</p>
+                    <p>Продолжение следует...</p>
+                    <button class="start-new-chapter">Начать новую главу</button>
                 </div>
             </div>
-            
-            <div class="chat-wrapper">
-                <div class="chat-messages" id="chat"></div>
-            </div>
-            <div class="choices" id="choices"></div>
+
+            <nav class="nav">
+                <button title="Начать новую игру" class="nav-btn--endGame" data-screen="endgame">🏁</button>
+                <button title="Начать главу заного" class="start-chapter-over" data-screen="chat">⬅️</button>
+                <div class="btn--lang-container">
+
+                    <button title="Поменять язык" class="lang-btn" data-lang="ru">RU</button></button>
+                </div>
+                <button class="nav-btn active" data-screen="chat">💬</button>
+                <button class="nav-btn" data-screen="puregram">📸</button>
+            </nav>
+
+
         </div>
+    </main>
 
-        <div class="screen" data-screen="puregram">
-            <div class="pg-header">
-                <button class="back-btn" onclick="game.showScreen('chat')">←</button>
-                <h2>PureGram</h2>
-            </div>
-            <div class="pg-posts" id="posts"></div>
-        </div>
-
-        <div class="screen endgame-screen" data-screen="endgame">
-            <div class="endgame-content">
-                <h2>Конец первой главы</h2>
-                <p>Спасибо за игру!</p>
-                <p>Продолжение следует...</p>
-            </div>
-        </div>
-
-        <nav class="nav">
-            <button class="nav-btn active" data-screen="chat">💬</button>
-            <button class="nav-btn" data-screen="puregram">📸</button>
-        </nav>
-
-        
-    </div>
 
     <audio id="sound" src="sounds/msg.mp3"></audio>
     <script src="data.js?3"></script>
+    <script src="data2.js"></script>
     <script src="script.js?3"></script>
 </body>
+
 </html>

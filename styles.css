@@ -45,7 +45,7 @@ body {
 }
 
 .chat-messages {
-    padding:  15px 15px 15px;
+    padding: 15px 15px 15px;
     padding-bottom: 40px;
     display: flex;
     overflow-y: scroll;
@@ -66,7 +66,7 @@ body {
     color: var(--text);
     font-size: 16px;
     line-height: 1.4;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .message.received {
@@ -103,7 +103,7 @@ body {
     padding: 15px;
     border: 1px solid var(--border);
     border-radius: 10px;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     display: flex;
     gap: 10px;
@@ -135,11 +135,12 @@ body {
     position: relative;
 }
 
-.pg-header button{
+.pg-header button {
     display: flex;
     left: 0;
     position: absolute;
 }
+
 .pg-posts {
     min-height: 550px;
     max-height: 550px;
@@ -270,8 +271,15 @@ body {
 }
 
 @keyframes msgIn {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Fullscreen image viewer */
@@ -366,4 +374,66 @@ body {
 
 .endgame-screen.active {
     display: flex;
+}
+
+/* Message image styling */
+.message-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.message-image:hover {
+    transform: scale(1.02);
+}
+
+/* Make sure received messages with images have proper styling */
+.message.received img {
+    /* max-width: 240px; */
+    display: block;
+}
+
+/* Make sure sent messages with images have proper styling */
+.message.sent img {
+    /* max-width: 240px; */
+    display: block;
+}
+
+.nav-btn--endGame,
+.start-chapter-over {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn--lang-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.lang-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    background: rgba(76, 76, 76, 0.492);
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s;
+    border-radius: 5px;
+
+}
+
+.lang-btn:disabled{
+    opacity: 0.5;
+    /* cursor: not-allowed; */
 }
