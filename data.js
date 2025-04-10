@@ -1,4 +1,73 @@
+const endChapterFactory_1 = (index) => {
+  const CHAPTER_15 = {
+    messages: [
+    {
+      type: "received",
+      text: "Ладно, уже так поздно. Спать пора! Я пойду, и ты долго не сиди",
+      delay: 1000
+    },
+    {
+      type: "sent",
+      text: "Дааа, ты права. Пойду тогда тоже понемногу",
+      delay: 2500
+    }],
+    choices: [
+    {
+      text: "Сладких снов!",
+      result: [
+      {
+        type: "received",
+        text: "Спасибо! Увидимся завтра в университете 💫",
+        delay: 1000
+      }, ],
+      nextChapter: "end_" + index
+    },
+    {
+      text: "Но даже как-то жалко прощаться на сегодня...",
+      result: [
+      {
+        type: "received",
+        text: "Мне, если честно, тоже... Но нам обоим нужно выспаться 🌙",
+        delay: 1000
+      },
+      {
+        type: "sent",
+        text: "Ну, тогда сладких снов тебе, и доброй ночи! ❤️",
+        delay: 1000
+      }, ],
+      nextChapter: "end_" + index
+    }],
+  };
+
+  const CHAPTER_END = {
+      messages: [
+      {
+        type: "received",
+        text: "Сладких снов и спокойной ночи! ❤️",
+        delay: 1000
+      },
+    ],
+    choices: [],
+    isLastChapter: true,
+  };
+
+  return {
+    ['chapter15_' + index]: CHAPTER_15,
+    ['end_' + index]: CHAPTER_END,
+  }
+};
 const GameData = {
+	...endChapterFactory_1('date_cancel'),
+	...endChapterFactory_1('date'),
+	...endChapterFactory_1('lesson_library_successful'),
+	...endChapterFactory_1('lesson_library'),
+	...endChapterFactory_1('lessons_successful'),
+	...endChapterFactory_1('lessons'),
+	...endChapterFactory_1('male_photo'),
+	...endChapterFactory_1('pair_photo'),
+	...endChapterFactory_1('photo_postfactum'),
+	...endChapterFactory_1('solo_photo'),
+
   ru:
   {
     start:
@@ -1225,76 +1294,6 @@ const GameData = {
         }],
     },
 
-    chapter15:
-    {
-      messages: [
-        {
-          type: "received",
-          text: "Ладно, уже так поздно. Спать пора! Я пойду, и ты долго не сиди",
-          delay: 1000
-        },
-        {
-          type: "sent",
-          text: "Дааа, ты права. Пойду тогда тоже понемногу",
-          delay: 2500
-        }],
-      choices: [
-        {
-          text: "Сладких снов!",
-          result: [
-            {
-              type: "received",
-              text: "Спасибо! Увидимся завтра в университете 💫",
-              delay: 1000
-            },],
-          nextChapter: "end"
-        },
-        {
-          text: "Но даже как-то жалко прощаться на сегодня...",
-          result: [
-            {
-              type: "received",
-              text: "Мне, если честно, тоже... Но нам обоим нужно выспаться 🌙",
-              delay: 1000
-            },
-            {
-              type: "sent",
-              text: "Ну, тогда сладких снов тебе, и доброй ночи! ❤️",
-              delay: 1000
-            },],
-          nextChapter: "end"
-        }],
-    },
-
-    end:
-    {
-      messages: [
-        {
-          type: "received",
-          text: "Сладких снов и спокойной ночи! ❤️",
-          delay: 1000
-        },],
-      choices: [],
-      isLastChapter: true,
-    },
-
-    posts: [
-      {
-        img: "img/post1.jpg",
-        text: "Новый смелый образ для блога ✨ #кожаннаякуртка #стиль #мода #блогер",
-        likes: 234
-      },
-      {
-        img: "img/post2.jpg",
-        text: "Когда эксперимент удался 💄 #сексуальныйстиль #макияж #красота #фотосессия",
-        likes: 587
-      },
-      {
-        img: "img/post3.jpg",
-        text: "Секрет идеальной фотосессии? Правильный ракурс... и не только 📸 #фотография #модель #фотосет #идеальныйкадр",
-        likes: 891
-      },],
-
     chapter6_misunderstanding:
     {
       messages: [
@@ -1429,7 +1428,7 @@ const GameData = {
               text: "Только не забудь свои конспекты по экономике! Они мне очень нужны.",
               delay: 2500
             }],
-          nextChapter: "chapter15"
+          nextChapter: "chapter15_lessons_library"
         },
         {
           text: "Можно у тебя, если тебе так удобнее.",
@@ -1444,7 +1443,7 @@ const GameData = {
               text: "И я приготовлю что-нибудь вкусное! Ты ведь любишь шоколадное печенье?",
               delay: 2500
             }],
-          nextChapter: "chapter15"
+          nextChapter: "chapter15_lessons"
         }],
     },
   },
@@ -2648,74 +2647,6 @@ const GameData = {
           nextChapter: "chapter15"
         }],
     },
-
-    chapter15: {
-      messages: [
-        {
-          type: "received",
-          text: "Well, it's so late. Time to sleep! I'm going to bed, and you shouldn't stay up too late either",
-          delay: 1000
-        },
-        {
-          type: "sent",
-          text: "Yeaah, you're right. I guess I'll head to bed too",
-          delay: 2500
-        }],
-      choices: [
-        {
-          text: "Sweet dreams!",
-          result: [
-            {
-              type: "received",
-              text: "Thanks! See you tomorrow at university 💫",
-              delay: 1000
-            },],
-          nextChapter: "end"
-        },
-        {
-          text: "But it's kind of sad to say goodbye for today...",
-          result: [
-            {
-              type: "received",
-              text: "To be honest, I feel the same way... But we both need to get some sleep 🌙",
-              delay: 1000
-            },
-            {
-              type: "sent",
-              text: "Well, then sweet dreams and good night! ❤️",
-              delay: 1000
-            },],
-          nextChapter: "end"
-        }],
-    },
-
-    end: {
-      messages: [
-        {
-          type: "received",
-          text: "Sweet dreams and good night! ❤️",
-          delay: 1000
-        },],
-      choices: [],
-      isLastChapter: true,
-    },
-
-    posts: [
-      {
-        img: "img/post1.jpg",
-        text: "New bold look for the blog ✨ #leatherjacket #style #fashion #blogger",
-        likes: 234
-      },
-      {
-        img: "img/post2.jpg",
-        text: "When the experiment worked out 💄 #sexyStyle #makeup #beauty #photoshoot",
-        likes: 587
-      },
-      {
-        img: "img/post3.jpg",
-        text: "The secret to a perfect photoshoot? The right angle... and more 📸 #photography #model #photoset #perfectshot",
-        likes: 891
-      },],
 
     chapter6_misunderstanding: {
       messages: [
