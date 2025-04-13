@@ -1,4 +1,3 @@
-// chapters/chapter5_protective.js
 export default {
   getText(gameState) {
     const texts = gameState.language === 'en' ? {
@@ -8,32 +7,22 @@ export default {
       msg1: "Мой персональный защитник! Как мило 🥰",
       msg2: "Знаешь, мне нравится, что ты так заботишься обо мне..."
     };
-    
-    return [
-      {
-        type: "received",
-        text: texts.msg1,
-        delay: 1000
-      },
-      {
-        type: "received",
-        text: texts.msg2,
-        delay: 2500
-      }
-    ];
+
+    // Возвращаем пустой массив, все сообщения будут в результатах выборов
+    return [];
   },
   
   getChoices(gameState) {
     const texts = gameState.language === 'en' ? {
       choice1: "I'll always protect you.",
-      result1a: "My hero! 💖",
+      result1: "My hero! 💖",
       choice2: "That's what friends are for, right?",
-      result2a: "Friends... sure. 😏"
+      result2: "Friends... sure. 😏"
     } : {
       choice1: "Я всегда буду тебя защищать.",
-      result1a: "Мой герой! 💖",
+      result1: "Мой герой! 💖",
       choice2: "Для этого и нужны друзья, верно?",
-      result2a: "Друзья... конечно. 😏"
+      result2: "Друзья... конечно. 😏"
     };
     
     return [
@@ -43,8 +32,8 @@ export default {
         result: [
           {
             type: "received",
-            text: texts.result1a,
-            delay: 1000
+            text: texts.result1,
+            delay: 4000
           }
         ],
         nextChapter: "warm_good_night"
@@ -55,8 +44,8 @@ export default {
         result: [
           {
             type: "received",
-            text: texts.result2a,
-            delay: 1000
+            text: texts.result2,
+            delay: 4000
           }
         ],
         nextChapter: "warm_good_night"

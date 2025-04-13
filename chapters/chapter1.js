@@ -1,4 +1,3 @@
-// chapters/chapter1.js
 export default {
   getText(gameState) {
     const texts = gameState.language === 'en' ? {

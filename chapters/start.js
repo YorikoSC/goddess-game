@@ -1,19 +1,20 @@
-// chapters/start.js
+
 export default {
   getText(gameState) {
     return [];
   },
   
   getChoices(gameState) {
-    const texts = {
-      ru: '"У меня новые сообщения... надо посмотреть"',
-      en: '"I have new messages... I should check them"'
+    const texts = gameState.language === 'en' ? {
+      start: '"I have new messages... I should check them"'
+    } : {
+      start: '"У меня новые сообщения... надо посмотреть"'
     };
     
     return [
       {
         id: "start",
-        text: texts[gameState.language || 'ru'],
+        text: texts.start,
         nextChapter: "chapter1"
       }
     ];
