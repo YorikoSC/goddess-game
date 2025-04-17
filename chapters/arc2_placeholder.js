@@ -35,10 +35,45 @@ export default {
     // Handle restart button click
     const restartButton = content.querySelector('.restart-btn');
     restartButton.addEventListener('click', () => {
+      // Удаляем оверлей
       overlay.remove();
-      // Сбрасываем выборы игрока
+      
+      // Очищаем состояние игры
       gameState.choices = {};
-      loadChapter('start');
+      gameState.arc = 1;
+      gameState.isBusy = false;
+      gameState.dialogueEnded = false;
+      gameState.isChapterEnding = false;
+      gameState.generateMessage = false;
+      gameState.currentChapter = null;
+      gameState.previousChapter = null;
+      
+      // Очищаем сохранения и чат
+      if (window.clearProgress) {
+        window.clearProgress();
+      }
+      if (window.clearChat) {
+        window.clearChat();
+      }
+      
+      // Показываем экран чата
+      const chatScreen = document.querySelector('[data-screen="chat"]');
+      if (chatScreen) {
+        document.querySelectorAll('.screen').forEach(screen => {
+          screen.classList.remove('active');
+        });
+        chatScreen.classList.add('active');
+      }
+      
+      // Загружаем первую главу
+      if (window.loadChapter) {
+        window.loadChapter('chapter1');
+      }
+      
+      // Показываем навигацию
+      if (window.showNavigation) {
+        window.showNavigation();
+      }
     });
 
     return [];

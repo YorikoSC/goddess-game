@@ -55,6 +55,33 @@ body {
     display: flex;
 }
 
+/* Добавляем после существующих стилей .screen */
+.start-screen {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg);
+}
+
+.start-screen.active {
+    display: flex;
+}
+
+.start-game-button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: var(--neon);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.start-game-button:hover {
+    background-color: #00cc70;
+}
+
 /* Chat screen styles */
 .chat-header {
     display: flex;

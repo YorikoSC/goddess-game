@@ -2,7 +2,25 @@
 
 // Глобальный объект игры для доступа из HTML
 import { determineSecondArcStart, saveGameState, loadGameState } from './ArcManager.js';
-window.game = {};
+window.game = {
+    // ...существующие свойства...
+    
+    startSecondArc: function() {
+        console.log('Запуск второй арки');
+        
+        // Очищаем чат перед началом новой арки
+        clearChat();
+        
+        // Устанавливаем номер арки
+        gameState.arc = 2;
+        
+        // Загружаем первую главу второй арки
+        loadChapter('arc2_placeholder');
+        
+        // Показываем навигацию
+        showNavigation();
+    }
+};
 
 // Состояние игры
 const gameState = {
@@ -13,8 +31,21 @@ const gameState = {
   isBusy: false, // Индикатор занятости (блокировка взаимодействия)
   dialogueEnded: false, // Флаг завершения диалога
   isChapterEnding: false, // Флаг окончания главы
-  generateMessage: false // Флаг генерации сообщений
+  generateMessage: false, // Флаг генерации сообщений
+  previousChapter: null // Добавляем новое поле
 };
+
+let savedState = null; // Переменная для хранения состояния
+
+function saveStateAtChoice() {
+    savedState = {
+        currentChapter: gameState.currentChapter,
+        choices: JSON.parse(JSON.stringify(gameState.choices)), // Копируем выборы
+        arc: gameState.arc,
+        language: gameState.language
+    };
+    console.log('Состояние сохранено:', savedState);
+}
 
 export class LanguageManager {
     constructor() {
@@ -170,82 +201,65 @@ function updateClock() {
 
 // Функция для заполнения экрана PureGram
 function loadPuregramPosts() {
-  const postsContainer = document.getElementById('posts');
-  
-  // Очищаем контейнер перед добавлением новых постов
-  postsContainer.innerHTML = '';
-  
-  // Массив с данными о постах (пример)
-  const posts = [
-    {
-      image: 'img/lina_post1.jpg',
-      caption: 'Мой новый фотосет 💫',
-      likes: 256
-    },
-    {
-      image: 'img/lina_post2.jpg',
-      caption: 'Прогулка по городу ☀️',
-      likes: 178
-    },
-    {
-      image: 'img/lina_post3.jpg',
-      caption: 'Фото с новой фотосессии 📸',
-      likes: 321
+    console.log('Загрузка постов PureGram');
+    const postsContainer = document.getElementById('posts');
+    if (!postsContainer) {
+        console.error('Контейнер для постов не найден');
+        return;
     }
-  ];
-  
-  // Создаем элементы для каждого поста
-  posts.forEach(post => {
+    
+    // Очищаем контейнер
+    postsContainer.innerHTML = '';
+    
+    // Добавляем посты
+    const posts = [
+        {
+            image: 'img/lina_post1.jpg',
+            caption: 'Мой новый фотосет 💫',
+            likes: 256
+        },
+        {
+            image: 'img/lina_post2.jpg',
+            caption: 'Прогулка по городу ☀️',
+            likes: 178
+        },
+        {
+            image: 'img/lina_post3.jpg',
+            caption: 'Фото с новой фотосессии 📸',
+            likes: 321
+        }
+    ];
+    
+    posts.forEach(post => {
+        const postElement = createPostElement(post);
+        postsContainer.appendChild(postElement);
+    });
+}
+
+// Добавим вспомогательную функцию для создания элемента поста
+function createPostElement(post) {
     const postElement = document.createElement('div');
     postElement.className = 'pg-post';
     
     postElement.innerHTML = `
-      <div class="pg-post-header">
-        <img src="img/lina_avatar.jpg" class="pg-avatar" alt="Lina">
-        <span>Lina</span>
-      </div>
-      <div class="pg-post-image">
-        <img src="${post.image}" alt="Post" class="post-image">
-      </div>
-      <div class="pg-post-actions">
-        <button class="like-btn" data-liked="false">❤️ ${post.likes}</button>
-        <button>💬</button>
-        <button>📤</button>
-      </div>
-      <div class="pg-post-caption">
-        <p>${post.caption.replace(/#(\w+)/g, '<span class="hashtag">#$1</span>')}</p>
-      </div>
+        <div class="pg-post-header">
+            <img src="img/lina_avatar.jpg" class="pg-avatar" alt="Lina">
+            <span>Lina</span>
+        </div>
+        <div class="pg-post-image">
+            <img src="${post.image}" alt="Post" class="post-image">
+        </div>
+        <div class="pg-post-actions">
+            <button class="like-btn" data-liked="false">❤️ ${post.likes}</button>
+            <button>💬</button>
+            <button>📤</button>
+        </div>
+        <div class="pg-post-caption">
+            <p>${post.caption}</p>
+        </div>
     `;
     
-    postsContainer.appendChild(postElement);
-  });
-  
-  // Добавляем обработчики событий для лайков
-  document.querySelectorAll('.like-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const isLiked = e.target.dataset.liked === 'true';
-      const likesCount = parseInt(e.target.textContent.match(/\d+/)[0]);
-
-      e.target.dataset.liked = !isLiked;
-      e.target.textContent = `❤️ ${isLiked ? likesCount - 1 : likesCount + 1}`;
-      e.target.style.color = isLiked ? '#fff' : '#ff0055';
-    });
-  });
-  
-  // Добавляем возможность просмотра изображений в полноэкранном режиме
-  document.querySelectorAll('.post-image').forEach(img => {
-    img.addEventListener('click', () => {
-      openFullscreenImage(img.src);
-    });
-  });
-  
-  // Добавляем обработчики хэштегов
-  document.querySelectorAll('.hashtag').forEach(hashtag => {
-    hashtag.addEventListener('click', () => {
-      alert(`Searching for ${hashtag.textContent}`);
-      // Здесь можно реализовать функциональность поиска по хэштегам
-    });
-  });
+    return postElement;
 }
 
 // Функция открытия изображения в полноэкранном режиме
@@ -285,9 +299,12 @@ function openFullscreenImage(src) {
 // Загрузка главы
 async function loadChapter(chapterId) {
     try {
-        console.log(`Попытка загрузки главы: ${chapterId}, состояние isBusy:`, gameState.isBusy);
+        console.log(`Загрузка главы: ${chapterId}`);
         
-        gameState.isBusy = false;
+        // Сохраняем текущую главу как предыдущую перед загрузкой новой
+        if (gameState.currentChapter && chapterId !== gameState.currentChapter) {
+            gameState.previousChapter = gameState.currentChapter;
+        }
         
         const chapterModule = await import(`./chapters/${chapterId}.js`);
         const chapter = chapterModule.default;
@@ -298,33 +315,11 @@ async function loadChapter(chapterId) {
         }
         
         gameState.currentChapter = chapterId;
-        console.log(`Глава ${chapterId} успешно загружена`);
         
-        if (chapter.translations) {
-            // Если в главе есть переводы, устанавливаем их
-            window.game.languageManager.setChapterTranslations(chapter.translations);
-            
-            // Очищаем чат и перерендериваем с новым языком
-            const chatContainer = document.getElementById('chat');
-            chatContainer.innerHTML = '';
-            
-            // Получаем сообщения для текущего языка
-            const messages = chapter.getText(gameState);
-            if (messages && messages.length > 0) {
-                displayMessages(messages, chatContainer, () => {
-                    const choices = chapter.getChoices ? chapter.getChoices(gameState) : [];
-                    if (choices && choices.length > 0) {
-                        renderChoices(choices, document.getElementById('choices'));
-                    }
-                });
-            }
-        } else {
-            // Рендерим главу как обычно
-            renderChapter(chapter);
-        }
+        // Добавляем параметр для мгновенной загрузки
+        renderChapter(chapter, false);
         
         return true;
-        
     } catch (error) {
         console.error(`Ошибка загрузки главы ${chapterId}:`, error);
         return false;
@@ -457,7 +452,7 @@ function addMessage(type, text, container) {
 }
 
 // Отображение содержимого главы
-function renderChapter(chapter) {
+function renderChapter(chapter, instant = false) {
     if (!chapter || typeof chapter.getText !== 'function') {
         console.error('Неверный формат главы');
         return;
@@ -466,33 +461,37 @@ function renderChapter(chapter) {
     const chatContainer = document.getElementById('chat');
     const choicesContainer = document.getElementById('choices');
     
-    // Очищаем контейнер выборов
+    // Очищаем контейнеры
     choicesContainer.innerHTML = '';
     
-    // Получаем выборы
+    // Получаем сообщения и выборы
+    const messages = chapter.getText(gameState);
     const choices = chapter.getChoices ? chapter.getChoices(gameState) : [];
     
-    // Проверяем, является ли это стартовой главой
-    if (gameState.currentChapter === 'start') {
-        console.log('Рендеринг стартовой главы');
-        renderChoices(choices, choicesContainer);
-        return;
-    }
-    
-    // Для обычных глав получаем сообщения
-    const messages = chapter.getText(gameState);
-    
-    // Обрабатываем сообщения и выборы
-    if (messages && messages.length > 0) {
-        gameState.isBusy = true;
-        displayMessages(messages, chatContainer, () => {
-            gameState.isBusy = false;
-            if (choices && choices.length > 0) {
-                renderChoices(choices, choicesContainer);
-            }
-        });
-    } else if (choices && choices.length > 0) {
-        renderChoices(choices, choicesContainer);
+    if (instant) {
+        // Мгновенно отображаем все сообщения
+        if (messages && messages.length > 0) {
+            messages.forEach(message => {
+                addMessage(message.type, message.text, chatContainer);
+            });
+        }
+        // Сразу показываем выборы
+        if (choices && choices.length > 0) {
+            renderChoices(choices, choicesContainer);
+        }
+    } else {
+        // Обычное постепенное отображение
+        if (messages && messages.length > 0) {
+            gameState.isBusy = true;
+            displayMessages(messages, chatContainer, () => {
+                gameState.isBusy = false;
+                if (choices && choices.length > 0) {
+                    renderChoices(choices, choicesContainer);
+                }
+            });
+        } else if (choices && choices.length > 0) {
+            renderChoices(choices, choicesContainer);
+        }
     }
 }
 
@@ -641,49 +640,29 @@ function startSecondArc() {
 
 // Функция для переключения между экранами
 function showScreen(screenId) {
-  // Получаем активный экран перед изменениями
-  const currentActiveScreen = document.querySelector('.screen.active');
-  
-  // Если мы покидаем экран endgame, показываем навигацию снова
-  if (currentActiveScreen && currentActiveScreen.dataset.screen === 'endgame') {
-    showNavigation();
-  }
-  
-  // Если мы покидаем экран чата, мы можем захотеть отменить продолжающийся вывод сообщений
-  if (currentActiveScreen && currentActiveScreen.dataset.screen === 'chat' && screenId !== 'chat') {
-    // Сбрасываем состояние чата, если мы переходим от него
-    gameState.isBusy = false;
-    gameState.dialogueEnded = false;
-  }
-  
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('active');
-  });
-  
-  // Показываем выбранный экран - используем более надежный селектор и проверяем его существование
-  const targetScreen = document.querySelector(`.screen[data-screen="${screenId}"]`);
-  if (targetScreen) {
-    targetScreen.classList.add('active');
+    console.log('Показываем экран:', screenId);
     
-    // Обновляем кнопки навигации
-    if (screenId !== 'endgame') {
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.screen === screenId);
-      });
+    // Получаем активный экран
+    const currentActiveScreen = document.querySelector('.screen.active');
+    if (currentActiveScreen) {
+        currentActiveScreen.classList.remove('active');
     }
     
-    // Если мы показываем экран endgame, скрываем навигацию
-    if (screenId === 'endgame') {
-      hideNavigation();
+    // Показываем выбранный экран
+    const targetScreen = document.querySelector(`.screen[data-screen="${screenId}"]`);
+    if (targetScreen) {
+        targetScreen.classList.add('active');
+        
+        // Если переключаемся на PureGram, загружаем посты
+        if (screenId === 'puregram') {
+            loadPuregramPosts();
+        }
+        
+        // Обновляем состояние кнопок навигации
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.screen === screenId);
+        });
     }
-    
-    // Если переключаемся на PureGram, загружаем посты
-    if (screenId === 'puregram') {
-      loadPuregramPosts();
-    }
-  } else {
-    console.error(`Экран с именем "${screenId}" не найден`);
-  }
 }
 
 // Начало новой игры
@@ -776,60 +755,160 @@ function clearProgress() {
   console.log('Прогресс очищен');
 }
 
+// Функция загрузки предыдущей главы
+async function loadPreviousChapter() {
+    const previousChapter = gameState.previousChapter;
+    
+    try {
+        const chapterModule = await import(`./chapters/${previousChapter}.js`);
+        const chapter = chapterModule.default;
+        
+        if (!chapter) {
+            console.error('Предыдущая глава не найдена');
+            return;
+        }
+        
+        // Рендерим главу с мгновенным отображением
+        renderChapter(chapter, true);
+        
+    } catch (error) {
+        console.error('Ошибка загрузки предыдущей главы:', error);
+    }
+}
+
+// Добавляем новую функцию для перезапуска главы
+function restartChapter() {
+    console.log('Перезапуск главы');
+    
+    if (!gameState.previousChapter) {
+        console.log('Нет предыдущей главы для возврата');
+        return;
+    }
+    
+    // Очищаем чат
+    clearChat();
+    
+    // Загружаем предыдущую главу с мгновенным отображением
+    loadPreviousChapter();
+}
+
 // Инициализация игры
 function initGame() {
-    // Создаем экземпляр LanguageManager и сохраняем его в глобальном объекте game
+    // Создаем экземпляр LanguageManager
     window.game.languageManager = new LanguageManager();
     
     // Обновляем время
     updateClock();
     setInterval(updateClock, 60000);
+
+    // Добавляем обработчик для кнопки начала игры
+    const startButton = document.querySelector('.start-game-button');
+    if (startButton) {
+        startButton.addEventListener('click', function() {
+            console.log('Начало новой игры');
+            
+            // Скрываем стартовый экран
+            const startScreen = document.querySelector('.start-screen');
+            if (startScreen) {
+                startScreen.classList.remove('active');
+            }
+            
+            // Очищаем состояние игры
+            gameState.choices = {};
+            gameState.arc = 1;
+            gameState.isBusy = false;
+            gameState.dialogueEnded = false;
+            gameState.isChapterEnding = false;
+            
+            // Очищаем сохранения
+            clearProgress();
+            clearChat();
+            
+            // Показываем экран чата
+            const chatScreen = document.querySelector('[data-screen="chat"]');
+            if (chatScreen) {
+                chatScreen.classList.add('active');
+            }
+            
+            // Показываем навигацию
+            showNavigation();
+            
+            // Загружаем первую главу
+            loadChapter('chapter1');
+        });
+    }
     
-    // Настраиваем кнопки навигации
+    // Добавляем обработчики для навигационных кнопок
     document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
             const screenId = this.getAttribute('data-screen');
-            showScreen(screenId);
+            if (screenId) {
+                console.log('Переключение на экран:', screenId);
+                showScreen(screenId);
+                
+                // Специальная обработка для PureGram
+                if (screenId === 'puregram') {
+                    loadPuregramPosts();
+                }
+            }
         });
     });
 
-    // Настраиваем кнопку "Начать новую игру"
-    document.querySelector('.nav-btn--endGame').addEventListener('click', () => {
-        startNewGame();
-    });
+    // Также добавим обработчик для кнопки возврата в PureGram
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showScreen('chat');
+        });
+    }
 
-    // Настраиваем кнопку "Начать главу заново"
-    document.querySelector('.start-chapter-over').addEventListener('click', async () => {
-        if (gameState.isBusy) return;
-        
-        gameState.isBusy = true;
-        
-        // Очищаем чат
-        clearChat();
-        
-        // Сохраняем текущую главу
-        const currentChapter = gameState.currentChapter;
-        
-        // Сбрасываем выборы только для текущей главы
-        if (gameState.choices[currentChapter]) {
-            delete gameState.choices[currentChapter];
-        }
-        
-        // Перезагружаем текущую главу
-        await loadChapter(currentChapter);
-        
-        gameState.isBusy = false;
-    });
+    // Добавляем обработчик для кнопки перезапуска главы
+    const restartChapterBtn = document.querySelector('.start-chapter-over');
+    if (restartChapterBtn) {
+        restartChapterBtn.addEventListener('click', () => {
+            if (gameState.isBusy) return;
+            restartChapter();
+        });
+    }
 
-    // Экспортируем функции для доступа из HTML
-    window.game.showScreen = showScreen;
-    window.game.startNewGame = startNewGame;
-    window.game.saveGame = saveGame;
-    window.game.loadGame = loadGame;
-    window.game.openFullscreenImage = openFullscreenImage;
+    // Добавляем обработчик для кнопки перезапуска арки
+    const restartArcBtn = document.querySelector('.nav-btn--endGame');
+    if (restartArcBtn) {
+        restartArcBtn.addEventListener('click', () => {
+            if (gameState.isBusy) return;
+            
+            // Очищаем состояние игры
+            gameState.choices = {};
+            gameState.arc = 1;
+            gameState.isBusy = false;
+            gameState.dialogueEnded = false;
+            gameState.isChapterEnding = false;
+            gameState.generateMessage = false;
+            gameState.currentChapter = null;
+            gameState.previousChapter = null;
+            
+            // Очищаем сохранения и чат
+            clearProgress();
+            clearChat();
+            
+            // Возвращаемся на экран чата
+            const chatScreen = document.querySelector('[data-screen="chat"]');
+            if (chatScreen) {
+                chatScreen.classList.add('active');
+            }
+            
+            // Загружаем первую главу
+            loadChapter('chapter1');
+            
+            // Показываем навигацию
+            showNavigation();
+        });
+    }
 
-    // Загружаем начальную главу
-    loadChapter('start');
+    // Скрываем навигацию изначально
+    hideNavigation();
 }
 
 // Функция сохранения игры
