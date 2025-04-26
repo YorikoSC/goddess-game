@@ -653,15 +653,18 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
     text-shadow: 1px 1px 2px #000;
+    display: flex;
+    flex-direction: column;
 }
 
 .monolog-content {
-    padding-bottom: 60px;
+    flex: 1;
+    padding-bottom: 80px; /* Увеличиваем отступ для кнопки */
 }
 
 .monolog-button {
-    position: fixed;
-    bottom: 20px;
+    position: relative; /* Возвращаем relative позиционирование */
+    bottom: 50px; /* Поднимаем кнопку выше */
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.7);
@@ -671,14 +674,11 @@ body {
     border-radius: 20px;
     font-size: 16px;
     cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    pointer-events: none;
-}
-
-.monolog-button.visible {
     opacity: 1;
-    pointer-events: auto;
+    z-index: 1000; /* Увеличиваем z-index */
+    width: auto;
+    min-width: 150px;
+    text-align: center;
 }
 
 .monolog-button:hover {

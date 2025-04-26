@@ -467,7 +467,7 @@ function renderChapter(chapter, instant = false) {
     if (messages && messages.length > 0 && messages[0].type === "monolog-placeholder") {
         const monolog = messages[0];
         
-        // Clear entire chat wrapper to ensure clean state
+        // Clear entire chat wrapper
         const chatWrapper = document.querySelector('.chat-wrapper');
         chatWrapper.innerHTML = '';
 
@@ -476,23 +476,32 @@ function renderChapter(chapter, instant = false) {
         
         const textDiv = document.createElement('div');
         textDiv.className = 'monolog-content';
-        textDiv.innerHTML = monolog.content.split('\n\n').join('<br><br>'); // Properly handle paragraphs
+        textDiv.innerHTML = monolog.content.split('\n\n').join('<br><br>');
         monologContainer.appendChild(textDiv);
         
         const button = document.createElement('button');
         button.className = 'monolog-button';
-        button.textContent = monolog.buttonText;
+        button.textContent = monolog.buttonText || "Продолжить...";
         
-        // Show button only after scrolling to bottom
+        // Показываем кнопку при прокрутке до конца
         monologContainer.addEventListener('scroll', () => {
-            const nearBottom = monologContainer.scrollHeight - monologContainer.scrollTop <= monologContainer.clientHeight + 50;
-            button.classList.toggle('visible', nearBottom);
+            const isAtBottom = 
+                monologContainer.scrollHeight - monologContainer.scrollTop 
+                <= monologContainer.clientHeight + 100;
+            
+            if (isAtBottom) {
+                button.classList.add('visible');
+            }
         });
         
-        button.onclick = () => loadChapter(monolog.nextChapter);
-        monologContainer.appendChild(button);
+        // Добавляем обработчик для перехода к следующей главе
+        button.addEventListener('click', () => {
+            if (monolog.nextChapter) {
+                loadChapter(monolog.nextChapter);
+            }
+        });
         
-        // Add monolog container directly to chat wrapper
+        monologContainer.appendChild(button);
         chatWrapper.appendChild(monologContainer);
         return;
     }
