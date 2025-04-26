@@ -34,12 +34,61 @@ body {
 }
 
 .status-bar {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 15px;
-    color: var(--text);
-    font-size: 14px;
-    border-bottom: 1px solid var(--border);
+    display: none; /* По умолчанию скрыт */
+}
+
+/* Показываем только на десктопах */
+@media (min-width: 768px) {
+    .status-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 15px;
+        background-color: #000;
+        color: #fff;
+        font-size: 12px;
+    }
+
+    .battery-indicator {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .battery-level {
+        width: 25px;
+        height: 12px;
+        border: 1px solid #fff;
+        border-radius: 2px;
+        position: relative;
+        padding: 1px;
+    }
+
+    .battery-fill {
+        height: 100%;
+        background-color: var(--neon);
+        animation: chargeBattery 3s infinite linear;
+    }
+
+    @keyframes chargeBattery {
+        0% { width: 15%; }
+        50% { width: 95%; }
+        100% { width: 15%; }
+    }
+
+    .battery-cap {
+        width: 2px;
+        height: 4px;
+        background-color: #fff;
+        margin-left: 1px;
+    }
+}
+
+/* Скрываем на мобильных устройствах */
+@media (max-width: 767px) {
+    .phone-container {
+        padding-top: 0;
+    }
 }
 
 .screen {
