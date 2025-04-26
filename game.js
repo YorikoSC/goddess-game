@@ -1,22 +1,19 @@
+import { initImageCarousel, clearImageCarousel } from './js/imageCarousel.js';
+
 // game.js - основной файл игры
 
 // Глобальный объект игры для доступа из HTML
 import { determineSecondArcStart, saveGameState, loadGameState } from './ArcManager.js';
 window.game = {
     startSecondArc: function() {
-        console.log('Запуск второй арки');
-        
-        // Очищаем чат перед началом новой арки
-        clearChat();
-        
-        // Устанавливаем номер арки
         gameState.arc = 2;
+        loadChapter('arc2_date_monolog'); // Изменено с arc2_start на arc2_date_monolog
         
-        // Загружаем первую главу второй арки
-        loadChapter('arc2_start');
-        
-        // Показываем навигацию
-        showNavigation();
+        // Обновляем UI если нужно
+        const arcIndicator = document.getElementById('currentArc');
+        if (arcIndicator) {
+            arcIndicator.textContent = '2';
+        }
     }
 };
 
@@ -290,26 +287,40 @@ function openFullscreenImage(src) {
 
 // Загрузка главы
 async function loadChapter(chapterId) {
+    clearImageCarousel();
     try {
-        console.log(`Загрузка главы: ${chapterId}`);
+        console.log(`Loading chapter: ${chapterId}`);
         
-        // Сохраняем текущую главу как предыдущую перед загрузкой новой
-        if (gameState.currentChapter && chapterId !== gameState.currentChapter) {
-            gameState.previousChapter = gameState.currentChapter;
+        // Определяем путь к файлу главы
+        let chapterPath;
+        if (chapterId.startsWith('arc2_')) {
+            chapterPath = `./chapters/arc2/${chapterId}.js`;
+            // Устанавливаем номер арки при переходе на вторую арку
+            gameState.arc = 2;
+        } else {
+            chapterPath = `./chapters/arc1/${chapterId}.js`;
         }
         
-        const chapterModule = await import(`./chapters/${chapterId}.js`);
-        const chapter = chapterModule.default;
+        const chapterModule = await import(chapterPath);
         
-        if (!chapter) {
+        if (!chapterModule?.default) {
             console.error(`Ошибка: глава ${chapterId} не найдена`);
             return false;
         }
         
-        gameState.currentChapter = chapterId;
+        // Сохраняем текущую главу как предыдущую
+        if (gameState.currentChapter && chapterId !== gameState.currentChapter) {
+            gameState.previousChapter = gameState.currentChapter;
+        }
         
-        // Добавляем параметр для мгновенной загрузки
-        renderChapter(chapter, false);
+        gameState.currentChapter = chapterId;
+        renderChapter(chapterModule.default, false);
+        
+        // Обновляем индикатор арки в UI
+        const arcIndicator = document.getElementById('currentArc');
+        if (arcIndicator) {
+            arcIndicator.textContent = gameState.arc.toString();
+        }
         
         return true;
     } catch (error) {
@@ -433,33 +444,74 @@ function renderChapter(chapter, instant = false) {
         return;
     }
 
-    const chatContainer = document.getElementById('chat');
-    const choicesContainer = document.getElementById('choices');
-    
-    choicesContainer.innerHTML = '';
-    
+    // Get messages and choices first
     const messages = chapter.getText(gameState);
     const choices = chapter.getChoices ? chapter.getChoices(gameState) : [];
-    
+
+    // Get containers after getMessage call (in case initImageCarousel changed DOM)
+    const chatContainer = document.getElementById('chat');
+    const choicesContainer = document.getElementById('choices');
+
+    if (!chatContainer || !choicesContainer) {
+        console.error('Контейнеры чата не найдены');
+        return;
+    }
+
+    // Clear choices container
+    choicesContainer.innerHTML = '';
+
+    // Handle monolog message type
+    if (messages && messages.length > 0 && messages[0].type === "monolog-placeholder") {
+        const monolog = messages[0];
+        
+        // Clear entire chat wrapper to ensure clean state
+        const chatWrapper = document.querySelector('.chat-wrapper');
+        chatWrapper.innerHTML = '';
+
+        const monologContainer = document.createElement('div');
+        monologContainer.className = 'monolog-placeholder';
+        
+        const textDiv = document.createElement('div');
+        textDiv.className = 'monolog-content';
+        textDiv.innerHTML = monolog.content.split('\n\n').join('<br><br>'); // Properly handle paragraphs
+        monologContainer.appendChild(textDiv);
+        
+        const button = document.createElement('button');
+        button.className = 'monolog-button';
+        button.textContent = monolog.buttonText;
+        
+        // Show button only after scrolling to bottom
+        monologContainer.addEventListener('scroll', () => {
+            const nearBottom = monologContainer.scrollHeight - monologContainer.scrollTop <= monologContainer.clientHeight + 50;
+            button.classList.toggle('visible', nearBottom);
+        });
+        
+        button.onclick = () => loadChapter(monolog.nextChapter);
+        monologContainer.appendChild(button);
+        
+        // Add monolog container directly to chat wrapper
+        chatWrapper.appendChild(monologContainer);
+        return;
+    }
+
+    // Handle regular messages
     if (instant) {
-        if (messages && messages.length > 0) {
-            messages.forEach(message => {
-                addMessage(message.type, message.text, chatContainer);
-            });
-        }
-        if (choices && choices.length > 0) {
+        messages?.forEach(message => {
+            addMessage(message.type, message.text, chatContainer);
+        });
+        if (choices?.length > 0) {
             renderChoices(choices, choicesContainer);
         }
     } else {
-        if (messages && messages.length > 0) {
+        if (messages?.length > 0) {
             gameState.isBusy = true;
             displayMessages(messages, chatContainer, () => {
                 gameState.isBusy = false;
-                if (choices && choices.length > 0) {
+                if (choices?.length > 0) {
                     renderChoices(choices, choicesContainer);
                 }
             });
-        } else if (choices && choices.length > 0) {
+        } else if (choices?.length > 0) {
             renderChoices(choices, choicesContainer);
         }
     }
@@ -607,7 +659,7 @@ function startNewGame() {
   
   showNavigation();
   
-  loadChapter('chapter_1');
+  loadChapter('chapter1');
 }
 
 // Очистка чата
@@ -637,7 +689,7 @@ function loadProgress() {
   if (savedState) {
     gameState.language = savedState.language || 'ru';
     gameState.arc = savedState.arc || 1;
-    gameState.currentChapter = savedState.currentChapter || 'chapter_1';
+    gameState.currentChapter = savedState.currentChapter || 'chapter1';
     gameState.choices = savedState.choices || {};
     
     console.log('Прогресс загружен через ArcManager:', savedState);
@@ -652,7 +704,7 @@ function loadProgress() {
   if (savedProgress) {
     try {
       const progress = JSON.parse(savedProgress);
-      gameState.currentChapter = progress.chapter || 'chapter_1';
+      gameState.currentChapter = progress.chapter || 'chapter1';
       gameState.arc = progress.arc || 1;
       gameState.language = progress.language || 'ru';
       gameState.choices = progress.choices || {};
@@ -678,35 +730,47 @@ function clearProgress() {
 
 // Функция загрузки предыдущей главы
 async function loadPreviousChapter() {
-    const previousChapter = gameState.previousChapter;
-    
     try {
-        const chapterModule = await import(`./chapters/${previousChapter}.js`);
-        const chapter = chapterModule.default;
-        
-        if (!chapter) {
+        if (!gameState.previousChapter) {
             console.error('Предыдущая глава не найдена');
-            return;
+            return false;
         }
+
+        console.log(`Загрузка предыдущей главы: ${gameState.previousChapter}`);
         
-        renderChapter(chapter, true);
+        // Определяем путь к файлу главы в зависимости от арки
+        let chapterPath;
+        if (gameState.previousChapter.startsWith('arc2_')) {
+            chapterPath = `./chapters/arc2/${gameState.previousChapter}.js`;
+        } else {
+            chapterPath = `./chapters/arc1/${gameState.previousChapter}.js`;
+        }
+
+        const chapterModule = await import(chapterPath);
         
+        if (!chapterModule?.default) {
+            console.error(`Ошибка: глава ${gameState.previousChapter} не найдена`);
+            return false;
+        }
+
+        gameState.currentChapter = gameState.previousChapter;
+        renderChapter(chapterModule.default, false);
+        
+        return true;
     } catch (error) {
         console.error('Ошибка загрузки предыдущей главы:', error);
+        return false;
     }
 }
 
-// Перезапуск главы
+// Функция перезапуска текущей главы
 function restartChapter() {
-    console.log('Перезапуск главы');
-    
-    if (!gameState.previousChapter) {
-        console.log('Нет предыдущей главы для возврата');
+    if (!gameState.currentChapter) {
+        console.error('Текущая глава не определена');
         return;
     }
     
     clearChat();
-    
     loadPreviousChapter();
 }
 
@@ -743,7 +807,7 @@ function initGame() {
             
             showNavigation();
             
-            loadChapter('chapter_1');
+            loadChapter('chapter1'); // Проверяем, что имя файла соответствует реальному файлу
         });
     }
     
@@ -800,7 +864,7 @@ function initGame() {
                 chatScreen.classList.add('active');
             }
             
-            loadChapter('chapter_1');
+            loadChapter('chapter1');
             
             showNavigation();
         });

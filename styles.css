@@ -112,11 +112,10 @@ body {
 }
 
 .chat-wrapper {
-    height: 480px;
-    padding: 0 0 150px;
-    overflow: hidden;
     position: relative;
-    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 30px;
 }
 
 .chat-messages {
@@ -127,7 +126,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    scrollbar-width: thin;
+    scrollbar-width: none;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
@@ -610,4 +609,80 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.background-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 30px;
+}
+
+.carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel-image.active {
+    opacity: 0.85;
+}
+
+.monolog-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px 30px;
+    color: #fff;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    font-style: italic;
+    z-index: 2;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.monolog-content {
+    padding-bottom: 60px;
+}
+
+.monolog-button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--neon);
+    border: 1px solid var(--neon);
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+}
+
+.monolog-button.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.monolog-button:hover {
+    background: var(--neon);
+    color: #000;
+    transform: translateX(-50%) scale(1.05);
 }

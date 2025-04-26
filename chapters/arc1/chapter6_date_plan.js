@@ -80,7 +80,7 @@ export default {
             delay: 2500
           }
         ],
-        nextChapter: "wark_good_night"
+        nextChapter: "warm_good_night"
       }
     ];
   }
