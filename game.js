@@ -27,19 +27,22 @@ const gameState = {
   dialogueEnded: false, // Флаг завершения диалога
   isChapterEnding: false, // Флаг окончания главы
   generateMessage: false, // Флаг генерации сообщений
-  previousChapter: null // Добавляем новое поле
+  previousChapter: null, // Добавляем новое поле
+  lastCheckpoint: {
+      chapter: null,
+      choices: {}
+  }
 };
 
 let savedState = null; // Переменная для хранения состояния
 
 function saveStateAtChoice() {
-    savedState = {
-        currentChapter: gameState.currentChapter,
-        choices: JSON.parse(JSON.stringify(gameState.choices)), // Копируем выборы
-        arc: gameState.arc,
-        language: gameState.language
+    gameState.lastCheckpoint = {
+        chapter: gameState.currentChapter,
+        choices: JSON.parse(JSON.stringify(gameState.choices)),
+        arc: gameState.arc
     };
-    console.log('Состояние сохранено:', savedState);
+    console.log('Сохранена точка возврата:', gameState.lastCheckpoint);
 }
 
 export class LanguageManager {
@@ -539,6 +542,9 @@ function renderChoices(choices, container) {
         choiceButton.addEventListener('click', async () => {
             if (gameState.isBusy || gameState.dialogueEnded) return;
             
+            // Сохраняем состояние перед выбором
+            saveStateAtChoice();
+            
             gameState.isBusy = true;
             container.innerHTML = '';
             
@@ -765,13 +771,86 @@ async function loadPreviousChapter() {
 
 // Функция перезапуска текущей главы
 function restartChapter() {
-    if (!gameState.currentChapter) {
-        console.error('Текущая глава не определена');
-        return;
-    }
+    // Останавливаем все текущие процессы
+    gameState.isBusy = false;
+    gameState.dialogueEnded = false;
+    gameState.generateMessage = false;
     
-    clearChat();
-    loadPreviousChapter();
+    if (gameState.lastCheckpoint.chapter) {
+        // Восстанавливаем состояние
+        gameState.currentChapter = gameState.lastCheckpoint.chapter;
+        gameState.choices = JSON.parse(JSON.stringify(gameState.lastCheckpoint.choices));
+        gameState.arc = gameState.lastCheckpoint.arc;
+        
+        // Принудительно очищаем чат и карусель
+        clearChat();
+        clearImageCarousel();
+        
+        // Загружаем главу мгновенно
+        loadChapterInstant(gameState.lastCheckpoint.chapter);
+    } else {
+        console.log('Нет сохраненной точки возврата');
+    }
+}
+
+// Обновленная функция мгновенной загрузки главы
+async function loadChapterInstant(chapterId) {
+    try {
+        // Останавливаем все текущие операции
+        clearChat();
+        gameState.isBusy = false;
+        gameState.dialogueEnded = false;
+        gameState.generateMessage = false;
+
+        let chapterPath;
+        if (chapterId.startsWith('arc2_')) {
+            chapterPath = `./chapters/arc2/${chapterId}.js`;
+        } else {
+            chapterPath = `./chapters/arc1/${chapterId}.js`;
+        }
+
+        const chapterModule = await import(chapterPath);
+        
+        if (!chapterModule?.default) {
+            console.error(`Ошибка: глава ${chapterId} не найдена`);
+            return false;
+        }
+
+        const messages = chapterModule.default.getText(gameState);
+        const choices = chapterModule.default.getChoices ? chapterModule.default.getChoices(gameState) : [];
+        
+        const chatContainer = document.getElementById('chat');
+        const choicesContainer = document.getElementById('choices');
+
+        // Очищаем контейнеры перед добавлением нового содержимого
+        chatContainer.innerHTML = '';
+        choicesContainer.innerHTML = '';
+
+        if (messages && messages.length > 0) {
+            if (messages[0].type === "monolog-placeholder") {
+                // Если это монолог, используем renderChapter с флагом instant
+                renderChapter(chapterModule.default, true);
+            } else {
+                // Мгновенно добавляем все обычные сообщения
+                messages.forEach(message => {
+                    const msg = document.createElement('div');
+                    msg.className = message.type === 'sent' ? 'message message-sent' : 'message message-received';
+                    msg.textContent = message.text;
+                    chatContainer.appendChild(msg);
+                });
+
+                // Добавляем варианты выбора
+                if (choices && choices.length > 0) {
+                    renderChoices(choices, choicesContainer);
+                }
+            }
+        }
+        
+        return true;
+    } catch (error) {
+        console.error(`Ошибка загрузки главы ${chapterId}:`, error);
+        return false;
+    }
 }
 
 // Инициализация игры
