@@ -1,38 +1,38 @@
-// arcManager.js
+// ArcManager.js
 
-// Функция для определения завершения арки
+// Функция для определения завершения арки и начала второй
 export function determineSecondArcStart(gameState) {
   let positiveScore = 0;
   let negativeScore = 0;
   
   // Chapter 1 choices
-  if (gameState.choices.chapter1) {
-    if (gameState.choices.chapter1.compliment) positiveScore++;
-    if (gameState.choices.chapter1.question_decollate) negativeScore++;
+  if (gameState.choices.chapter_1) {
+    if (gameState.choices.chapter_1.compliment) positiveScore++;
+    if (gameState.choices.chapter_1.question_decollate) negativeScore++;
   }
   
-  // Chapter 2-3 choices
+  // Chapter 2 choices
   if (gameState.choices.chapter2) {
     if (gameState.choices.chapter2.professional_opinion) positiveScore++;
     if (gameState.choices.chapter2.question_photographer) negativeScore++;
   }
   
   // Chapter 4 choices
-  if (gameState.choices.chapter4) {
-    if (gameState.choices.chapter4.encourage_modeling) positiveScore++;
-    if (gameState.choices.chapter4.remind_studies) negativeScore++;
+  if (gameState.choices.chapter4_supportive) {
+    if (gameState.choices.chapter4_supportive.encourage_modeling) positiveScore++;
+    if (gameState.choices.chapter4_supportive.remind_studies) negativeScore++;
   }
   
   // Chapter 5 choices
-  if (gameState.choices.chapter5) {
-    if (gameState.choices.chapter5.agree_to_help) positiveScore += 2;
-    if (gameState.choices.chapter5.decline_to_help) negativeScore++;
+  if (gameState.choices.chapter5_support) {
+    if (gameState.choices.chapter5_support.agree_to_help) positiveScore += 2;
+    if (gameState.choices.chapter5_support.decline_to_help) negativeScore++;
   }
   
   // Chapter 6 choices
-  if (gameState.choices.chapter6) {
-    if (gameState.choices.chapter6.study_together) positiveScore++;
-    if (gameState.choices.chapter6.gift_intim || gameState.choices.chapter6.gift_foot) negativeScore += 2;
+  if (gameState.choices.chapter5_gift || gameState.choices.chapter6_study_together) {
+    if (gameState.choices.chapter6_study_together?.study_together) positiveScore++;
+    if (gameState.choices.chapter5_gift?.gift_intim || gameState.choices.chapter5_gift?.gift_foot) negativeScore += 2;
   }
 
   // Определяем завершение арки

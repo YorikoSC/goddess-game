@@ -3,8 +3,6 @@
 // Глобальный объект игры для доступа из HTML
 import { determineSecondArcStart, saveGameState, loadGameState } from './ArcManager.js';
 window.game = {
-    // ...существующие свойства...
-    
     startSecondArc: function() {
         console.log('Запуск второй арки');
         
@@ -15,7 +13,7 @@ window.game = {
         gameState.arc = 2;
         
         // Загружаем первую главу второй арки
-        loadChapter('arc2_placeholder');
+        loadChapter('arc2_start');
         
         // Показываем навигацию
         showNavigation();
@@ -236,7 +234,7 @@ function loadPuregramPosts() {
     });
 }
 
-// Добавим вспомогательную функцию для создания элемента поста
+// Вспомогательная функция для создания элемента поста
 function createPostElement(post) {
     const postElement = document.createElement('div');
     postElement.className = 'pg-post';
@@ -264,16 +262,13 @@ function createPostElement(post) {
 
 // Функция открытия изображения в полноэкранном режиме
 function openFullscreenImage(src) {
-  // Создаем оверлей
   const overlay = document.createElement('div');
   overlay.className = 'fullscreen-overlay';
 
-  // Создаем элемент изображения
   const img = document.createElement('img');
   img.src = src;
   img.className = 'fullscreen-image';
 
-  // Создаем кнопку закрытия
   const closeBtn = document.createElement('button');
   closeBtn.className = 'fullscreen-close';
   closeBtn.innerHTML = '&times;';
@@ -281,14 +276,11 @@ function openFullscreenImage(src) {
     document.body.removeChild(overlay);
   });
 
-  // Добавляем элементы в оверлей
   overlay.appendChild(closeBtn);
   overlay.appendChild(img);
 
-  // Добавляем оверлей в body
   document.body.appendChild(overlay);
 
-  // Закрываем при клике вне изображения
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
       document.body.removeChild(overlay);
@@ -351,20 +343,16 @@ function displayMessages(messages, container, onComplete) {
     return;
   }
   
-  // Создаем массив промисов для каждого сообщения
   const messagePromises = messages.map((message, index) => {
     return new Promise(resolve => {
       setTimeout(() => {
-        // Создаем элемент сообщения
         addMessage(message.type, message.text, container);
         resolve();
       }, message.delay || 1000);
     });
   });
   
-  // Обрабатываем все промисы последовательно
   Promise.all(messagePromises).then(() => {
-    // Устанавливаем флаг generateMessage в false после добавления всех сообщений
     gameState.generateMessage = false;
     disabledButtons(gameState.generateMessage);
     
@@ -377,11 +365,9 @@ function addMessage(type, text, container) {
     const msg = document.createElement('div');
     msg.className = type === 'sent' ? 'message message-sent' : 'message message-received';
     
-    // Добавляем ID сообщения для перевода
     const messageId = `msg_${Date.now()}`;
     msg.dataset.messageId = messageId;
     
-    // Если есть переводы, используем текст для текущего языка
     if (window.game.languageManager && window.game.languageManager.chapterTranslations) {
         const currentLang = window.game.languageManager.currentLang;
         const translations = window.game.languageManager.chapterTranslations[currentLang];
@@ -393,25 +379,20 @@ function addMessage(type, text, container) {
     msg.textContent = text;
     container.appendChild(msg);
     
-    // Проверяем, содержит ли текст плейсхолдер для фото
     if (text.includes('{photo_name_')) {
-        // Извлекаем номер фото из плейсхолдера
         const photoRegex = /{photo_name_(\d+)}/;
         const match = text.match(photoRegex);
         
         if (match && match[1]) {
             const photoNumber = match[1];
-            const photoName = `photo_name_${photoNumber}.jpg`; // Предполагаем, что фотографии называются photo_name_1.jpg, photo_name_2.jpg и т.д.
+            const photoName = `photo_name_${photoNumber}.jpg`;
             
-            // Заменяем плейсхолдер пустой строкой
             const textWithoutPhoto = text.replace(photoRegex, '');
             
-            // Если есть текст до или после фото, добавляем его
             if (textWithoutPhoto.trim() !== '') {
                 msg.textContent = textWithoutPhoto;
             }
             
-            // Создаем и добавляем изображение
             const img = document.createElement('img');
             img.src = `./img/photos/${photoName}`;
             img.alt = `Photo ${photoNumber}`;
@@ -422,27 +403,21 @@ function addMessage(type, text, container) {
             
             msg.appendChild(img);
         } else {
-            // Если регулярное выражение не сработало, просто показываем текст как есть
             msg.textContent = text;
         }
     } else {
-        // Нет плейсхолдера для фото, просто устанавливаем текст
         msg.textContent = text;
     }
     
-    // Сохраняем текст для перевода
     if (window.game.languageManager) {
         window.game.languageManager.chapterTranslations.ru[messageId] = text;
-        // Здесь должен быть английский вариант текста из главы
-        window.game.languageManager.chapterTranslations.en[messageId] = text;
+        window.game.languageManager.chapterTranslations.en[messageId] = text; // Английский перевод должен быть добавлен в будущем
     }
     
-    // Проигрываем звук для полученных сообщений
     if (type === 'received') {
         playMessageSound();
     }
     
-    // Прокручиваем вниз
     setTimeout(() => {
         container.scrollTo({
             top: container.scrollHeight,
@@ -461,26 +436,21 @@ function renderChapter(chapter, instant = false) {
     const chatContainer = document.getElementById('chat');
     const choicesContainer = document.getElementById('choices');
     
-    // Очищаем контейнеры
     choicesContainer.innerHTML = '';
     
-    // Получаем сообщения и выборы
     const messages = chapter.getText(gameState);
     const choices = chapter.getChoices ? chapter.getChoices(gameState) : [];
     
     if (instant) {
-        // Мгновенно отображаем все сообщения
         if (messages && messages.length > 0) {
             messages.forEach(message => {
                 addMessage(message.type, message.text, chatContainer);
             });
         }
-        // Сразу показываем выборы
         if (choices && choices.length > 0) {
             renderChoices(choices, choicesContainer);
         }
     } else {
-        // Обычное постепенное отображение
         if (messages && messages.length > 0) {
             gameState.isBusy = true;
             displayMessages(messages, chatContainer, () => {
@@ -503,18 +473,15 @@ function renderChoices(choices, container) {
         const choiceButton = document.createElement('button');
         choiceButton.className = 'choice-btn';
         
-        // Добавляем ID выбора для перевода
         const choiceId = `choice_${gameState.currentChapter}_${index}`;
         choiceButton.dataset.choiceId = choiceId;
         
         choiceButton.textContent = choice.text;
         choiceButton.dataset.choice = index;
         
-        // Сохраняем текст для перевода
         if (window.game.languageManager) {
             window.game.languageManager.chapterTranslations.ru[choiceId] = choice.text;
-            // Здесь должен быть английский вариант текста из главы
-            window.game.languageManager.chapterTranslations.en[choiceId] = choice.text;
+            window.game.languageManager.chapterTranslations.en[choiceId] = choice.text; // Английский перевод должен быть добавлен
         }
         
         choiceButton.addEventListener('click', async () => {
@@ -523,7 +490,6 @@ function renderChoices(choices, container) {
             gameState.isBusy = true;
             container.innerHTML = '';
             
-            // Для стартового сообщения не добавляем его в чат
             if (gameState.currentChapter !== 'start') {
                 const chatContainer = document.getElementById('chat');
                 addMessage('sent', choice.text, chatContainer);
@@ -558,40 +524,24 @@ function renderChoices(choices, container) {
 
 // Проверка завершения арки
 function checkArcCompletion() {
-  // Не проверяем завершение арки, если это стартовая глава
   if (gameState.currentChapter === 'start' || !gameState.currentChapter) {
     return null;
   }
 
-  // Проверка завершения первой арки
   if (gameState.arc === 1) {
-    // Более строгая проверка завершения арки 1
-    const requiredChapters = ['chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5'];
-    const completedChapters = requiredChapters.filter(chapter => 
-      gameState.choices[chapter] && Object.keys(gameState.choices[chapter]).length > 0
-    );
-
-    if (completedChapters.length === requiredChapters.length) {
-      gameState.arc = 2;
-      return determineArc2StartingChapter();
+    if (determineSecondArcStart(gameState)) {
+      return 'endgame';
     }
   }
   
-  // Проверка завершения второй арки
   if (gameState.arc === 2) {
-    // Аналогичная проверка для арки 2
-    const isFinalChapter = gameState.currentChapter.includes('_final');
+    const isFinalChapter = gameState.currentChapter === 'arc2_final';
     if (isFinalChapter) {
-      return 'endgame'; // Специальное значение для финала
+      return 'endgame';
     }
   }
 
   return null;
-}
-
-// Определение начальной главы второй арки
-function determineArc2StartingChapter() {
-  return determineSecondArcStart(gameState);
 }
 
 // Отображение экрана окончания главы
@@ -599,12 +549,10 @@ function showEndgameScreen() {
   document.querySelector('[data-screen="endgame"]').classList.add('active');
   document.querySelector('[data-screen="chat"]').classList.remove('active');
   
-  // Скрываем навигацию
   hideNavigation();
   
-  // Настройка кнопки для начала новой главы
   document.querySelector('.start-new-chapter').addEventListener('click', () => {
-    startSecondArc();
+    window.game.startSecondArc();
   });
 }
 
@@ -618,47 +566,23 @@ function showNavigation() {
   document.querySelector('.nav').style.display = 'flex';
 }
 
-// Начало второй арки
-function startSecondArc() {
-  document.querySelector('[data-screen="endgame"]').classList.remove('active');
-  document.querySelector('[data-screen="chat"]').classList.add('active');
-  
-  // Показываем навигацию
-  showNavigation();
-  
-  // Очищаем чат
-  document.getElementById('chat').innerHTML = '';
-  
-  // Загружаем первую главу второй арки
-  const startingChapter = determineArc2StartingChapter();
-  loadChapter(startingChapter);
-  
-  gameState.isBusy = false;
-  gameState.dialogueEnded = false;
-  gameState.isChapterEnding = false;
-}
-
 // Функция для переключения между экранами
 function showScreen(screenId) {
     console.log('Показываем экран:', screenId);
     
-    // Получаем активный экран
     const currentActiveScreen = document.querySelector('.screen.active');
     if (currentActiveScreen) {
         currentActiveScreen.classList.remove('active');
     }
     
-    // Показываем выбранный экран
     const targetScreen = document.querySelector(`.screen[data-screen="${screenId}"]`);
     if (targetScreen) {
         targetScreen.classList.add('active');
         
-        // Если переключаемся на PureGram, загружаем посты
         if (screenId === 'puregram') {
             loadPuregramPosts();
         }
         
-        // Обновляем состояние кнопок навигации
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.screen === screenId);
         });
@@ -667,7 +591,6 @@ function showScreen(screenId) {
 
 // Начало новой игры
 function startNewGame() {
-  // Очищаем состояние игры
   gameState.choices = {};
   gameState.arc = 1;
   gameState.isBusy = false;
@@ -676,20 +599,15 @@ function startNewGame() {
   gameState.generateMessage = false;
   gameState.currentChapter = null;
   
-  // Очищаем сохраненный прогресс
   clearProgress();
   
-  // Очищаем чат
   clearChat();
   
-  // Возвращаемся на экран чата
   showScreen('chat');
   
-  // Показываем навигацию
   showNavigation();
   
-  // Загружаем start.js
-  loadChapter('start');
+  loadChapter('chapter_1');
 }
 
 // Очистка чата
@@ -714,31 +632,34 @@ function saveProgress() {
 
 // Загрузка прогресса из localStorage
 function loadProgress() {
-  // Сначала пробуем загрузить через ArcManager
   const savedState = loadGameState();
   
   if (savedState) {
-    // Используем сохранение из ArcManager
     gameState.language = savedState.language || 'ru';
     gameState.arc = savedState.arc || 1;
-    gameState.currentChapter = savedState.currentChapter || 'start';
+    gameState.currentChapter = savedState.currentChapter || 'chapter_1';
     gameState.choices = savedState.choices || {};
     
     console.log('Прогресс загружен через ArcManager:', savedState);
     
-    // Загружаем текущую главу
     loadChapter(gameState.currentChapter);
     
     return true;
   }
   
-  // Если не нашли через ArcManager, используем старый метод (для обратной совместимости)
   const savedProgress = localStorage.getItem('gameProgress');
   
   if (savedProgress) {
     try {
-      // Оставшийся код без изменений...
-      // ...
+      const progress = JSON.parse(savedProgress);
+      gameState.currentChapter = progress.chapter || 'chapter_1';
+      gameState.arc = progress.arc || 1;
+      gameState.language = progress.language || 'ru';
+      gameState.choices = progress.choices || {};
+      
+      loadChapter(gameState.currentChapter);
+      
+      return true;
     } catch (error) {
       console.error('Ошибка при разборе сохраненного прогресса:', error);
       return false;
@@ -768,7 +689,6 @@ async function loadPreviousChapter() {
             return;
         }
         
-        // Рендерим главу с мгновенным отображением
         renderChapter(chapter, true);
         
     } catch (error) {
@@ -776,7 +696,7 @@ async function loadPreviousChapter() {
     }
 }
 
-// Добавляем новую функцию для перезапуска главы
+// Перезапуск главы
 function restartChapter() {
     console.log('Перезапуск главы');
     
@@ -785,60 +705,48 @@ function restartChapter() {
         return;
     }
     
-    // Очищаем чат
     clearChat();
     
-    // Загружаем предыдущую главу с мгновенным отображением
     loadPreviousChapter();
 }
 
 // Инициализация игры
 function initGame() {
-    // Создаем экземпляр LanguageManager
     window.game.languageManager = new LanguageManager();
     
-    // Обновляем время
     updateClock();
     setInterval(updateClock, 60000);
 
-    // Добавляем обработчик для кнопки начала игры
     const startButton = document.querySelector('.start-game-button');
     if (startButton) {
         startButton.addEventListener('click', function() {
             console.log('Начало новой игры');
             
-            // Скрываем стартовый экран
             const startScreen = document.querySelector('.start-screen');
             if (startScreen) {
                 startScreen.classList.remove('active');
             }
             
-            // Очищаем состояние игры
             gameState.choices = {};
             gameState.arc = 1;
             gameState.isBusy = false;
             gameState.dialogueEnded = false;
             gameState.isChapterEnding = false;
             
-            // Очищаем сохранения
             clearProgress();
             clearChat();
             
-            // Показываем экран чата
             const chatScreen = document.querySelector('[data-screen="chat"]');
             if (chatScreen) {
                 chatScreen.classList.add('active');
             }
             
-            // Показываем навигацию
             showNavigation();
             
-            // Загружаем первую главу
-            loadChapter('chapter1');
+            loadChapter('chapter_1');
         });
     }
     
-    // Добавляем обработчики для навигационных кнопок
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -847,7 +755,6 @@ function initGame() {
                 console.log('Переключение на экран:', screenId);
                 showScreen(screenId);
                 
-                // Специальная обработка для PureGram
                 if (screenId === 'puregram') {
                     loadPuregramPosts();
                 }
@@ -855,7 +762,6 @@ function initGame() {
         });
     });
 
-    // Также добавим обработчик для кнопки возврата в PureGram
     const backBtn = document.querySelector('.back-btn');
     if (backBtn) {
         backBtn.addEventListener('click', function(e) {
@@ -864,7 +770,6 @@ function initGame() {
         });
     }
 
-    // Добавляем обработчик для кнопки перезапуска главы
     const restartChapterBtn = document.querySelector('.start-chapter-over');
     if (restartChapterBtn) {
         restartChapterBtn.addEventListener('click', () => {
@@ -873,13 +778,11 @@ function initGame() {
         });
     }
 
-    // Добавляем обработчик для кнопки перезапуска арки
     const restartArcBtn = document.querySelector('.nav-btn--endGame');
     if (restartArcBtn) {
         restartArcBtn.addEventListener('click', () => {
             if (gameState.isBusy) return;
             
-            // Очищаем состояние игры
             gameState.choices = {};
             gameState.arc = 1;
             gameState.isBusy = false;
@@ -889,25 +792,20 @@ function initGame() {
             gameState.currentChapter = null;
             gameState.previousChapter = null;
             
-            // Очищаем сохранения и чат
             clearProgress();
             clearChat();
             
-            // Возвращаемся на экран чата
             const chatScreen = document.querySelector('[data-screen="chat"]');
             if (chatScreen) {
                 chatScreen.classList.add('active');
             }
             
-            // Загружаем первую главу
-            loadChapter('chapter1');
+            loadChapter('chapter_1');
             
-            // Показываем навигацию
             showNavigation();
         });
     }
 
-    // Скрываем навигацию изначально
     hideNavigation();
 }
 
@@ -938,11 +836,10 @@ window.game = {
     determineSecondArcStart,
     saveGameState,
     loadGameState,
-    languageManager: null // Будет установлен в initGame
+    languageManager: null
 };
 
 // Запускаем игру после загрузки страницы
 window.addEventListener('DOMContentLoaded', () => {
   initGame();
-  // Удаляем автоматический вызов startNewGame()
 });

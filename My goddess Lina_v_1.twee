@@ -1,0 +1,135 @@
+:: StoryTitle
+My goddess Lina
+
+
+:: StoryData
+{
+  "ifid": "9E2E8C9D-691C-450B-8941-4301A60FE762",
+  "format": "Harlowe",
+  "format-version": "3.3.9",
+  "start": "Начало",
+  "tag-colors": {
+    "Нет-связи": "red"
+  },
+  "zoom": 0.3
+}
+
+
+:: Chapter3_jealous {"position":"2175,400","size":"200,100"}
+[[chapter4_protective]][[chapter4_jealous]]
+
+
+:: Chapter3_neutral {"position":"2550,625","size":"200,100"}
+[[chapter4_supportive]][[chapter4_concerned]]
+
+
+:: ark_final {"position":"2500,2000","size":"200,200"}
+
+
+
+:: chapter2 {"position":"2575,400","size":"200,100"}
+[[Chapter3_jealous]][[Chapter3_neutral]]
+
+
+:: chapter4_concerned {"position":"2200,625","size":"200,100"}
+[[chapter5_gift]][[chapter6_study_together]]
+
+
+:: chapter4_jealous {"position":"1600,475","size":"200,100"}
+[[chapter5_relief]][[chapter5_cool]]
+
+
+:: chapter4_protective {"position":"1100,500","size":"200,100"}
+[[chapter5_protective]][[chapter5_joint]]
+
+
+:: chapter4_supportive {"position":"2375,850","size":"200,100"}
+[[chapter5_support]][[chapter5_invite]]
+
+
+:: chapter5_cool {"position":"1825,650","size":"100,100"}
+[[chapter6_priority]] ty]][[chapter6_misunderstanding]]
+
+
+:: chapter5_gift {"position":"2100,1050","size":"100,100"}
+[[chapter6_gift_foot]][[chapter6_gift_intim]]
+
+
+:: chapter5_invite {"position":"1350,200","size":"100,100"}
+[[chapter5_protective]] [[chapter5_joint]]
+
+
+:: chapter5_joint {"position":"1225,850","size":"100,100"}
+[[chapter6_photoshoot]][[chapter6_theme]]
+
+
+:: chapter5_protective {"position":"900,1000","size":"100,100"}
+[[warm_good_night]]
+
+
+:: chapter5_relief {"position":"1400,700","size":"100,100"}
+[[chapter6_denial]][[chapter6_compliment]]
+
+
+:: chapter5_support {"position":"2800,1100","size":"100,100"}
+[[ark_final]] 
+
+
+:: chapter6_compliment {"position":"1575,925","size":"100,100"}
+[[chapter6_date_plan]][[chapter6_study_together]]
+
+
+:: chapter6_date_plan {"position":"1650,1175","size":"100,100"}
+[[warm_good_night]]
+
+
+:: chapter6_denial {"position":"1375,975","size":"100,100"}
+[[chapter6_date_plan]][[chapter6_compliment]]
+
+
+:: chapter6_gift_foot {"position":"1925,1175","size":"100,100"}
+[[warm_good_night]]
+
+
+:: chapter6_gift_intim {"position":"2050,1275","size":"100,100"}
+[[warm_good_night]]
+
+
+:: chapter6_misunderstanding {"position":"2300,1125","size":"100,100"}
+[[ark_final]] 
+
+
+:: chapter6_photoshoot {"position":"1050,1000","size":"100,100"}
+[[warm_good_night]]
+
+
+:: chapter6_priority [Нет-связи] {"position":"1775,900","size":"100,100"}
+[[chapter6_date_plan]] 
+
+
+:: chapter6_study_together {"position":"1800,1100","size":"100,100"}
+[[warm_good_night]]
+
+
+:: chapter6_theme {"position":"1225,1000","size":"100,100"}
+[[warm_good_night]]
+
+
+:: chapter_1 {"position":"2625,200","size":"100,100"}
+[[декольте]][[заебись]]
+
+
+:: warm_good_night {"position":"1525,1525","size":"100,100"}
+[[ark_final]]
+
+
+:: Начало {"position":"2625,50","size":"100,100"}
+[[chapter_1]]
+
+
+:: декольте {"position":"2425,200","size":"100,100"}
+[[chapter2]]
+
+
+:: заебись {"position":"2825,200","size":"100,100"}
+[[chapter2]]
