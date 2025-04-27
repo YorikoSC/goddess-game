@@ -163,8 +163,100 @@ body {
 .chat-wrapper {
     position: relative;
     height: 100%;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    border-radius: 30px;
+}
+
+#chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    transition: all 0.3s ease;
+    min-height: 0; /* Важно для корректного flex-shrink */
+}
+
+#choices {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    background: var(--bg); /* Сплошной фон вместо градиента */
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 999;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+#choices.visible {
+    display: flex;
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+    #choices {
+        bottom: 20px;
+        max-width: 600px;
+    }
+
+    #chat.has-choices {
+        max-height: calc(100% - 180px);
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+    #choices {
+        bottom: 70px;
+        width: calc(100% - 20px);
+        padding: 10px;
+        gap: 8px;
+    }
+
+    #chat.has-choices {
+        max-height: calc(100% - 120px);
+    }
+}
+
+.choice-button {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--neon);
+    color: var(--neon);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+    text-align: center;
+}
+
+.choice-button:hover {
+    background: var(--neon);
+    color: #000;
+    transform: scale(1.05);
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+    #choices {
+        bottom: 20px;
+        max-width: 600px;
+        opacity: 100;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+    #choices {
+        bottom: 70px; /* Adjust for nav bar */
+        width: calc(100% - 60px);
+        padding: 10px;
+        gap: 8px;
+        opacity: 100;
+    }
 }
 
 .chat-messages {

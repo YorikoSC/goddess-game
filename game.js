@@ -531,61 +531,49 @@ function renderChapter(chapter, instant = false) {
 
 // Отображение вариантов выбора
 function renderChoices(choices, container) {
-    container.innerHTML = '';
+    if (!container || !choices) return;
     
-    choices.forEach((choice, index) => {
-        const choiceButton = document.createElement('button');
-        choiceButton.className = 'choice-btn';
+    container.innerHTML = '';
+    const chatContainer = document.getElementById('chat');
+
+    // Создаем все кнопки
+    choices.forEach(choice => {
+        const button = document.createElement('button');
+        button.className = 'choice-button';
+        button.textContent = choice.text;
         
-        const choiceId = `choice_${gameState.currentChapter}_${index}`;
-        choiceButton.dataset.choiceId = choiceId;
-        
-        choiceButton.textContent = choice.text;
-        choiceButton.dataset.choice = index;
-        
-        if (window.game.languageManager) {
-            window.game.languageManager.chapterTranslations.ru[choiceId] = choice.text;
-            window.game.languageManager.chapterTranslations.en[choiceId] = choice.text; // Английский перевод должен быть добавлен
-        }
-        
-        choiceButton.addEventListener('click', async () => {
-            if (gameState.isBusy || gameState.dialogueEnded) return;
+        button.addEventListener('click', () => {
+            if (gameState.isBusy) return;
             
-            // Сохраняем состояние перед выбором
-            saveStateAtChoice();
+            // Убираем классы и возвращаем чат в исходное состояние
+            chatContainer.classList.remove('has-choices');
+            container.classList.remove('visible');
             
-            gameState.isBusy = true;
-            container.innerHTML = '';
+            // Восстанавливаем высоту чата
+            chatContainer.style.maxHeight = '';
             
-            if (gameState.currentChapter !== 'start') {
-                const chatContainer = document.getElementById('chat');
-                addMessage('sent', choice.text, chatContainer);
-            }
-            
-            // Сохраняем выбор
-            if (!gameState.choices[gameState.currentChapter]) {
-                gameState.choices[gameState.currentChapter] = {};
-            }
-            gameState.choices[gameState.currentChapter][choice.id] = true;
-            
-            // Если есть результаты выбора, показываем их
-            if (choice.result && Array.isArray(choice.result)) {
-                for (const msg of choice.result) {
-                    await new Promise(resolve => setTimeout(resolve, msg.delay));
-                    addMessage(msg.type, msg.text, document.getElementById('chat'));
-                }
-            }
-            
-            // Загружаем следующую главу
-            if (choice.nextChapter) {
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                await loadChapter(choice.nextChapter);
-            }
-            
-            gameState.isBusy = false;
+            setTimeout(() => {
+                container.innerHTML = '';
+                loadChapter(choice.nextChapter);
+            }, 300);
         });
         
-        container.appendChild(choiceButton);
+        container.appendChild(button);
+    });
+
+    // Измеряем высоту контейнера выборов
+    container.classList.add('visible');
+    const choicesHeight = container.offsetHeight;
+
+    // Применяем изменения к чату
+    requestAnimationFrame(() => {
+        // Устанавливаем максимальную высоту чата
+        chatContainer.classList.add('has-choices');
+        
+        // Прокручиваем к последнему сообщению
+        setTimeout(() => {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 50);
     });
 }
 
