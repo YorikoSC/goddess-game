@@ -297,17 +297,18 @@ async function loadChapter(chapterId) {
 
     clearImageCarousel();
     try {
-        console.log(`Loading chapter: ${chapterId}`);
+        console.log(`Loading chapter: ${chapterId}`); // Добавим лог
         
-        // Определяем путь к файлу главы
         let chapterPath;
         if (chapterId.startsWith('arc2_')) {
             chapterPath = `./chapters/arc2/${chapterId}.js`;
-            gameState.arc = 2;
+            gameState.arc = 2; // Устанавливаем вторую арку
+            console.log('Switching to arc 2'); // Добавим лог
         } else {
             chapterPath = `./chapters/arc1/${chapterId}.js`;
         }
         
+        console.log('Loading from path:', chapterPath); // Добавим лог
         const chapterModule = await import(chapterPath);
         
         if (!chapterModule?.default) {
@@ -315,17 +316,8 @@ async function loadChapter(chapterId) {
             return false;
         }
         
-        if (gameState.currentChapter && chapterId !== gameState.currentChapter) {
-            gameState.previousChapter = gameState.currentChapter;
-        }
-        
         gameState.currentChapter = chapterId;
         renderChapter(chapterModule.default, false);
-        
-        const arcIndicator = document.getElementById('currentArc');
-        if (arcIndicator) {
-            arcIndicator.textContent = gameState.arc.toString();
-        }
         
         return true;
     } catch (error) {
@@ -444,28 +436,11 @@ function addMessage(type, text, container) {
 
 // Отображение содержимого главы
 function renderChapter(chapter, instant = false) {
-    if (!chapter || typeof chapter.getText !== 'function') {
-        console.error('Неверный формат главы');
-        return;
-    }
-
     // Get messages and choices first
     const messages = chapter.getText(gameState);
     const choices = chapter.getChoices ? chapter.getChoices(gameState) : [];
 
-    // Get containers after getMessage call (in case initImageCarousel changed DOM)
-    const chatContainer = document.getElementById('chat');
-    const choicesContainer = document.getElementById('choices');
-
-    if (!chatContainer || !choicesContainer) {
-        console.error('Контейнеры чата не найдены');
-        return;
-    }
-
-    // Clear choices container
-    choicesContainer.innerHTML = '';
-
-    // Handle monolog message type
+    // Handle monolog message type first
     if (messages && messages.length > 0 && messages[0].type === "monolog-placeholder") {
         const monolog = messages[0];
         
@@ -473,6 +448,7 @@ function renderChapter(chapter, instant = false) {
         const chatWrapper = document.querySelector('.chat-wrapper');
         chatWrapper.innerHTML = '';
 
+        // Create monolog container
         const monologContainer = document.createElement('div');
         monologContainer.className = 'monolog-placeholder';
         
@@ -485,21 +461,15 @@ function renderChapter(chapter, instant = false) {
         button.className = 'monolog-button';
         button.textContent = monolog.buttonText || "Продолжить...";
         
-        // Показываем кнопку при прокрутке до конца
-        monologContainer.addEventListener('scroll', () => {
-            const isAtBottom = 
-                monologContainer.scrollHeight - monologContainer.scrollTop 
-                <= monologContainer.clientHeight + 100;
+        button.addEventListener('click', async () => {
+            // Восстанавливаем структуру чата перед загрузкой следующей главы
+            chatWrapper.innerHTML = `
+                <div class="chat-messages" id="chat"></div>
+                <div class="choices" id="choices"></div>
+            `;
             
-            if (isAtBottom) {
-                button.classList.add('visible');
-            }
-        });
-        
-        // Добавляем обработчик для перехода к следующей главе
-        button.addEventListener('click', () => {
             if (monolog.nextChapter) {
-                loadChapter(monolog.nextChapter);
+                await loadChapter(monolog.nextChapter);
             }
         });
         
@@ -507,6 +477,18 @@ function renderChapter(chapter, instant = false) {
         chatWrapper.appendChild(monologContainer);
         return;
     }
+
+    // Get containers after getMessage call
+    const chatContainer = document.getElementById('chat');
+    const choicesContainer = document.getElementById('choices');
+
+    if (!chatContainer || !choicesContainer) {
+        console.error('Контейнеры чата не найдены');
+        return;
+    }
+
+    // Clear choices container
+    choicesContainer.innerHTML = '';
 
     // Handle regular messages
     if (instant) {
@@ -538,47 +520,42 @@ function renderChoices(choices, container) {
     container.innerHTML = '';
     const chatContainer = document.getElementById('chat');
 
+    // Добавляем класс для чата сразу
+    chatContainer.classList.add('has-choices');
+    
+    // Показываем контейнер выбора
+    container.classList.add('visible');
+
     choices.forEach(choice => {
         const button = document.createElement('button');
         button.className = 'choice-button';
         button.textContent = choice.text;
         
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
             if (gameState.isBusy) return;
             
+            // Убираем классы при выборе
             chatContainer.classList.remove('has-choices');
             container.classList.remove('visible');
-            chatContainer.style.maxHeight = '';
             
-            // Добавляем выбранный вариант как сообщение игрока
             addMessage('sent', choice.text, chatContainer);
             
             if (choice.result && choice.result.length > 0) {
                 gameState.isBusy = true;
-                displayMessages(choice.result, chatContainer, () => {
+                await displayMessages(choice.result, chatContainer, () => {
                     gameState.isBusy = false;
-                    const lastMessage = choice.result[choice.result.length - 1];
-                    if (lastMessage && lastMessage.nextChapter) {
-                        loadChapter(lastMessage.nextChapter);
+                    if (choice.result[choice.result.length - 1].nextChapter) {
+                        loadChapter(choice.result[choice.result.length - 1].nextChapter);
                     }
                 });
+            } else if (choice.nextChapter) {
+                loadChapter(choice.nextChapter);
             }
             
             container.innerHTML = '';
         });
         
         container.appendChild(button);
-    });
-
-    container.classList.add('visible');
-    const choicesHeight = container.offsetHeight;
-
-    requestAnimationFrame(() => {
-        chatContainer.classList.add('has-choices');
-        
-        setTimeout(() => {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }, 50);
     });
 }
 

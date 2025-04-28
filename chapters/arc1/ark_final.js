@@ -10,12 +10,18 @@ export default {
     },
     
     getChoices(gameState) {
-        // Вместо прямого вызова startSecondArc, возвращаем правильный nextChapter
         return [
             {
                 id: "continue_to_arc2",
                 text: "Продолжить...",
-                nextChapter: "arc2_date_monolog" // Правильный путь к следующей главе
+                result: [ // Добавляем массив result
+                    {
+                        type: "system",
+                        text: "Загрузка второй арки...",
+                        delay: 1000,
+                        nextChapter: "arc2_date_monolog"
+                    }
+                ]
             }
         ];
     }
