@@ -5,15 +5,15 @@ import { initImageCarousel, clearImageCarousel } from './js/imageCarousel.js';
 // Глобальный объект игры для доступа из HTML
 import { determineSecondArcStart, saveGameState, loadGameState } from './ArcManager.js';
 window.game = {
-    startSecondArc: function() {
-        gameState.arc = 2;
-        loadChapter('arc2_date_monolog'); // Изменено с arc2_start на arc2_date_monolog
-        
-        // Обновляем UI если нужно
-        const arcIndicator = document.getElementById('currentArc');
-        if (arcIndicator) {
-            arcIndicator.textContent = '2';
+    startSecondArc: async function() {
+        console.log('Starting second arc function called'); // Добавим лог
+        const nextChapter = determineSecondArcStart(gameState);
+        if (nextChapter) {
+            console.log(`Loading next chapter: ${nextChapter}`); // Добавим лог
+            await loadChapter(nextChapter);
+            return true;
         }
+        return false;
     }
 };
 
@@ -606,14 +606,34 @@ function checkArcCompletion() {
 
 // Отображение экрана окончания главы
 function showEndgameScreen() {
-  document.querySelector('[data-screen="endgame"]').classList.add('active');
-  document.querySelector('[data-screen="chat"]').classList.remove('active');
-  
-  hideNavigation();
-  
-  document.querySelector('.start-new-chapter').addEventListener('click', () => {
-    window.game.startSecondArc();
-  });
+    document.querySelector('[data-screen="endgame"]').classList.add('active');
+    document.querySelector('[data-screen="chat"]').classList.remove('active');
+    hideNavigation();
+    
+    // Удаляем старый обработчик, если он есть
+    const startButton = document.querySelector('.start-new-chapter');
+    startButton.replaceWith(startButton.cloneNode(true));
+    
+    // Добавляем новый обработчик
+    document.querySelector('.start-new-chapter').addEventListener('click', async () => {
+        document.querySelector('[data-screen="endgame"]').classList.remove('active');
+        document.querySelector('[data-screen="chat"]').classList.add('active');
+        showNavigation();
+        
+        // Очищаем чат перед началом новой арки
+        clearChat();
+        
+        // Проверяем текущую арку
+        if (gameState.arc === 1) {
+            // Если первая арка завершена, начинаем вторую
+            gameState.arc = 2;
+            await loadChapter('arc2_date_monolog');
+        } else if (gameState.arc === 2) {
+            // Если вторая арка завершена, показываем финальный экран
+            // Здесь можно добавить логику для финала игры
+            console.log('Игра завершена');
+        }
+    });
 }
 
 // Скрытие навигации

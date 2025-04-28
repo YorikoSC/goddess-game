@@ -4,6 +4,7 @@
 export function determineSecondArcStart(gameState) {
     if (gameState.currentChapter === 'warm_good_night' && 
         gameState.previousChapter === 'chapter6_date_plan') {
+        console.log('Starting second arc...'); // Добавим лог для отладки
         return 'arc2_date_monolog';
     }
     return false;
