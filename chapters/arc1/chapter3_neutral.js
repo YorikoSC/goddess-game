@@ -67,10 +67,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter4_supportive"
           }
-        ],
-        nextChapter: "chapter4_supportive"
+        ]
       },
       {
         id: "remind_studies",
@@ -84,10 +84,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter4_concerned"
           }
-        ],
-        nextChapter: "chapter4_concerned"
+        ]
       }
     ];
   }

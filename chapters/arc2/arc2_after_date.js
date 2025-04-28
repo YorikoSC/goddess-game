@@ -1,5 +1,11 @@
+import { showOverlay } from '../../js/overlay.js';
+
 export default {
     getText(gameState) {
+        setTimeout(() => {
+            showOverlay('На следующий день после свидания', 3000);
+        }, 100);
+
         return [
             {
                 type: "message",

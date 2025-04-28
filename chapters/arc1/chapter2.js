@@ -67,10 +67,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter3_jealous"
           }
-        ],
-        nextChapter: "chapter3_jealous"
+        ]
       },
       {
         id: "professional_opinion",
@@ -84,10 +84,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter3_neutral"
           }
-        ],
-        nextChapter: "chapter3_neutral"
+        ]
       }
     ];
   }

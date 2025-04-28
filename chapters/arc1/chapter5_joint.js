@@ -60,10 +60,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter6_photoshoot"
           }
-        ],
-        nextChapter: "chapter6_photoshoot"
+        ]
       },
       {
         id: "ask_theme",
@@ -77,10 +77,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter6_theme"
           }
-        ],
-        nextChapter: "chapter6_theme"
+        ]
       }
     ];
   }

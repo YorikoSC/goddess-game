@@ -60,10 +60,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "warm_good_night"
           }
-        ],
-        nextChapter: "warm_good_night"
+        ]
       },
       {
         id: "ask_about_clothes",
@@ -77,10 +77,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "warm_good_night"
           }
-        ],
-        nextChapter: "warm_good_night"
+        ]
       }
     ];
   }

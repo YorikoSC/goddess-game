@@ -64,10 +64,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 3000
+            delay: 3000,
+            nextChapter: "warm_good_night"
           }
-        ],
-        nextChapter: "warm_good_night"
+        ]
       },
       {
         id: "library",
@@ -91,10 +91,10 @@ export default {
           {
             type: "sent",
             text: texts.result2d,
-            delay: 6000
+            delay: 6000,
+            nextChapter: "warm_good_night"
           }
-        ],
-        nextChapter: "warm_good_night"
+        ]
       }
     ];
   }

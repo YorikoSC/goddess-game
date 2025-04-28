@@ -66,10 +66,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter2"
           }
-        ],
-        nextChapter: "chapter2"
+        ]
       },
       {
         id: "compliment",
@@ -83,10 +83,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter2"
           }
-        ],
-        nextChapter: "chapter2"
+        ]
       }
     ];
   }

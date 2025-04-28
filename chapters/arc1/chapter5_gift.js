@@ -74,10 +74,10 @@ export default {
           {
             type: "sent",
             text: texts.result1c,
-            delay: 4000
+            delay: 4000,
+            nextChapter: "chapter6_gift_intim"
           }
-        ],
-        nextChapter: "chapter6_gift_intim"
+        ]
       },
       {
         id: "ask_feet_photos",
@@ -91,10 +91,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter6_gift_foot"
           }
-        ],
-        nextChapter: "chapter6_gift_foot"
+        ]
       }
     ];
   }

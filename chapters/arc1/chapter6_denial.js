@@ -60,10 +60,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter6_date_plan"
           }
-        ],
-        nextChapter: "chapter6_date_plan"
+        ]
       },
       {
         id: "more_than_friend",
@@ -77,10 +77,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter6_compliment"
           }
-        ],
-        nextChapter: "chapter6_compliment"
+        ]
       }
     ];
   }

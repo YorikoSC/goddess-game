@@ -76,10 +76,10 @@ export default {
           {
             type: "received",
             text: texts.result1c,
-            delay: 4000
+            delay: 4000,
+            nextChapter: "chapter6_study_together"
           }
-        ],
-        nextChapter: "chapter6_study_together"
+        ]
       },
       {
         id: "decline_to_help",
@@ -98,10 +98,10 @@ export default {
           {
             type: "received",
             text: texts.result2c,
-            delay: 1500
+            delay: 1500,
+            nextChapter: "chapter5_gift"
           }
-        ],
-        nextChapter: "chapter5_gift"
+        ]
       }
     ];
   }

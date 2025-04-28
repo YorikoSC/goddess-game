@@ -33,10 +33,10 @@ export default {
           {
             type: "received",
             text: texts.result1,
-            delay: 4000
+            delay: 4000,
+            nextChapter: "warm_good_night"
           }
-        ],
-        nextChapter: "warm_good_night"
+        ]
       },
       {
         id: "just_friends",
@@ -45,10 +45,10 @@ export default {
           {
             type: "received",
             text: texts.result2,
-            delay: 4000
+            delay: 4000,
+            nextChapter: "warm_good_night"
           }
-        ],
-        nextChapter: "warm_good_night"
+        ]
       }
     ];
   }

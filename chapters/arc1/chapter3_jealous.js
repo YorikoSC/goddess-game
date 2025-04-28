@@ -67,10 +67,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter4_protective"
           }
-        ],
-        nextChapter: "chapter4_protective"
+        ]
       },
       {
         id: "question_attention",
@@ -84,10 +84,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter4_jealous"
           }
-        ],
-        nextChapter: "chapter4_jealous"
+        ]
       }
     ];
   }

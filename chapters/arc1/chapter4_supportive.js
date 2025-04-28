@@ -60,10 +60,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter5_support"
           }
-        ],
-        nextChapter: "chapter5_support"
+        ]
       },
       {
         id: "encourage",
@@ -77,10 +77,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter5_invite"
           }
-        ],
-        nextChapter: "chapter5_invite"
+        ]
       }
     ];
   }

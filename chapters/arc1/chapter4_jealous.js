@@ -60,10 +60,10 @@ export default {
           {
             type: "received",
             text: texts.result1b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter5_relief"
           }
-        ],
-        nextChapter: "chapter5_relief"
+        ]
       },
       {
         id: "act_cool",
@@ -77,10 +77,10 @@ export default {
           {
             type: "received",
             text: texts.result2b,
-            delay: 2500
+            delay: 2500,
+            nextChapter: "chapter5_cool"
           }
-        ],
-        nextChapter: "chapter5_cool"
+        ]
       }
     ];
   }

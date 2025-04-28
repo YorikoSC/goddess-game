@@ -46,10 +46,10 @@ export default {
                   {
                       type: "received",
                       text: this.translations[lang].result_1,
-                      delay: 1000
+                      delay: 1000,
+                    nextChapter: "ark_final"
                   }
-              ],
-              nextChapter: "ark_final"
+              ]
           },
           {
               id: "sad_goodbye",
@@ -63,10 +63,10 @@ export default {
                   {
                       type: "received",
                       text: this.translations[lang].result_2b,
-                      delay: 2500
+                      delay: 2500,
+                    nextChapter: "ark_final"
                   }
-              ],
-              nextChapter: "ark_final"
+              ]
           }
       ];
   }
