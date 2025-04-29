@@ -1,4 +1,4 @@
-import { showOverlay } from '../../js/overlay.js';
+import { showOverlay } from '../../../js/overlay.js';
 
 export default {
     getText(gameState) {
