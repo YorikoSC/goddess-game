@@ -297,18 +297,23 @@ async function loadChapter(chapterId) {
 
     clearImageCarousel();
     try {
-        console.log(`Loading chapter: ${chapterId}`); // Добавим лог
+        console.log(`Loading chapter: ${chapterId}`);
         
         let chapterPath;
-        if (chapterId.startsWith('arc2_')) {
+        if (chapterId.startsWith('arc2_after_date')) {
+            // Главы из подпапки after_date
+            chapterPath = `./chapters/arc2/after_date/${chapterId}.js`;
+            gameState.arc = 2;
+        } else if (chapterId.startsWith('arc2_')) {
+            // Остальные главы второй арки
             chapterPath = `./chapters/arc2/${chapterId}.js`;
-            gameState.arc = 2; // Устанавливаем вторую арку
-            console.log('Switching to arc 2'); // Добавим лог
+            gameState.arc = 2;
         } else {
+            // Главы первой арки
             chapterPath = `./chapters/arc1/${chapterId}.js`;
         }
         
-        console.log('Loading from path:', chapterPath); // Добавим лог
+        console.log('Loading from path:', chapterPath);
         const chapterModule = await import(chapterPath);
         
         if (!chapterModule?.default) {
@@ -342,38 +347,43 @@ function playMessageSound() {
 
 // Отображение сообщений с задержкой
 function displayMessages(messages, container, onComplete, chapter) {
-  if (!messages || messages.length === 0) {
-    if (onComplete) {
-      gameState.generateMessage = false;
-      disabledButtons(gameState.generateMessage);
-      onComplete();
-    }
-    return;
-  }
-  
-  const messagePromises = messages.map((message, index) => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        addMessage(message.type, message.text, container);
-        
-        if (message.nextChoice && chapter) { // Проверяем наличие chapter
-            const nextChoice = chapter.getChoicesByKey(message.nextChoice, gameState);
-            if (nextChoice) {
-                renderChoices([nextChoice], container);
-            }
+    if (!messages || messages.length === 0) {
+        if (onComplete) {
+            gameState.generateMessage = false;
+            disabledButtons(gameState.generateMessage);
+            onComplete();
         }
-        
-        resolve();
-      }, message.delay || 1000);
-    });
-  });
-  
-  Promise.all(messagePromises).then(() => {
-    gameState.generateMessage = false;
-    disabledButtons(gameState.generateMessage);
+        return;
+    }
     
-    if (onComplete) onComplete();
-  });
+    const messagePromises = messages.map((message, index) => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                addMessage(message.type, message.text, container);
+                
+                if (message.nextChoice && chapter) {
+                    const nextChoice = chapter.getChoicesByKey(message.nextChoice, gameState);
+                    if (nextChoice) {
+                        // Вместо добавления текста в чат, отображаем варианты выбора
+                        const choicesContainer = document.getElementById('choices');
+                        renderChoices([{
+                            text: nextChoice.text,
+                            result: nextChoice.result
+                        }], choicesContainer);
+                    }
+                }
+                
+                resolve();
+            }, message.delay || 1000);
+        });
+    });
+    
+    Promise.all(messagePromises).then(() => {
+        gameState.generateMessage = false;
+        disabledButtons(gameState.generateMessage);
+        
+        if (onComplete) onComplete();
+    });
 }
 
 // Добавление сообщения в чат
