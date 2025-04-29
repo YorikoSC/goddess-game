@@ -296,11 +296,6 @@ export default {
             }
         };
 
-        return [
-            {
-                text: dialogStages[key].text,
-                result: dialogStages[key].result
-            }
-        ];
+        return dialogStages[key];
     }
 };

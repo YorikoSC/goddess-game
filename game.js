@@ -341,7 +341,7 @@ function playMessageSound() {
 }
 
 // Отображение сообщений с задержкой
-function displayMessages(messages, container, onComplete) {
+function displayMessages(messages, container, onComplete, chapter) {
   if (!messages || messages.length === 0) {
     if (onComplete) {
       gameState.generateMessage = false;
@@ -355,6 +355,14 @@ function displayMessages(messages, container, onComplete) {
     return new Promise(resolve => {
       setTimeout(() => {
         addMessage(message.type, message.text, container);
+        
+        if (message.nextChoice && chapter) { // Проверяем наличие chapter
+            const nextChoice = chapter.getChoicesByKey(message.nextChoice, gameState);
+            if (nextChoice) {
+                renderChoices([nextChoice], container);
+            }
+        }
+        
         resolve();
       }, message.delay || 1000);
     });
@@ -506,7 +514,7 @@ function renderChapter(chapter, instant = false) {
                 if (choices?.length > 0) {
                     renderChoices(choices, choicesContainer);
                 }
-            });
+            }, chapter); // Передаем объект chapter
         } else if (choices?.length > 0) {
             renderChoices(choices, choicesContainer);
         }
