@@ -30,7 +30,8 @@ export default {
           {
               type: "sent",
               text: this.translations[gameState.language].msg_2,
-              delay: 2500
+              delay: 2500,
+              showChoices: true
           }
       ];
   },

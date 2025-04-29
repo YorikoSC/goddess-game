@@ -31,7 +31,8 @@ export default {
       {
         type: "received",
         text: texts.msg4,
-        delay: 5500
+        delay: 5500,
+        showChoices: true
       }
     ];
   },
