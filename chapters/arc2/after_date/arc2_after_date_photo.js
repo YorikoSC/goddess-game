@@ -21,6 +21,7 @@ export default {
         return [
             {
                 id: "reaction",
+                text: texts.choice1,
                 result: [
                     {
                         type: "received",

@@ -300,16 +300,21 @@ async function loadChapter(chapterId) {
         console.log(`Loading chapter: ${chapterId}`);
         
         let chapterPath;
-        if (chapterId.startsWith('arc2_after_date')) {
-            // Главы из подпапки after_date
+        // Обработка разных форматов путей
+        if (chapterId.startsWith('arc2/')) {
+            // Для вложенных путей второй арки (arc2/way_to_NTR/...)
+            chapterPath = `./chapters/${chapterId}.js`;
+            gameState.arc = 2;
+        } else if (chapterId.startsWith('arc2_after_date')) {
+            // Для глав из папки after_date
             chapterPath = `./chapters/arc2/after_date/${chapterId}.js`;
             gameState.arc = 2;
         } else if (chapterId.startsWith('arc2_')) {
-            // Остальные главы второй арки
+            // Для остальных глав второй арки
             chapterPath = `./chapters/arc2/${chapterId}.js`;
             gameState.arc = 2;
         } else {
-            // Главы первой арки
+            // Для глав первой арки
             chapterPath = `./chapters/arc1/${chapterId}.js`;
         }
         
@@ -387,58 +392,37 @@ function displayMessages(messages, container, onComplete, chapter) {
 }
 
 // Добавление сообщения в чат
-function addMessage(type, text, container) {
+function addMessage(type, text, container, image) {
     const msg = document.createElement('div');
     msg.className = type === 'sent' ? 'message message-sent' : 'message message-received';
     
     const messageId = `msg_${Date.now()}`;
     msg.dataset.messageId = messageId;
     
-    if (window.game.languageManager && window.game.languageManager.chapterTranslations) {
-        const currentLang = window.game.languageManager.currentLang;
-        const translations = window.game.languageManager.chapterTranslations[currentLang];
-        if (translations && translations[messageId]) {
-            text = translations[messageId];
-        }
-    }
-    
-    msg.textContent = text;
-    container.appendChild(msg);
-    
-    if (text.includes('{photo_name_')) {
-        const photoRegex = /{photo_name_(\d+)}/;
-        const match = text.match(photoRegex);
-        
-        if (match && match[1]) {
-            const photoNumber = match[1];
-            const photoName = `photo_name_${photoNumber}.jpg`;
-            
-            const textWithoutPhoto = text.replace(photoRegex, '');
-            
-            if (textWithoutPhoto.trim() !== '') {
-                msg.textContent = textWithoutPhoto;
+    // Если есть текст, обрабатываем его
+    if (text) {
+        if (window.game.languageManager && window.game.languageManager.chapterTranslations) {
+            const currentLang = window.game.languageManager.currentLang;
+            const translations = window.game.languageManager.chapterTranslations[currentLang];
+            if (translations && translations[messageId]) {
+                text = translations[messageId];
             }
-            
-            const img = document.createElement('img');
-            img.src = `./img/photos/${photoName}`;
-            img.alt = `Photo ${photoNumber}`;
-            img.className = 'message-image';
-            img.addEventListener('click', () => {
-                openFullscreenImage(img.src);
-            });
-            
-            msg.appendChild(img);
-        } else {
-            msg.textContent = text;
         }
-    } else {
         msg.textContent = text;
     }
     
-    if (window.game.languageManager) {
-        window.game.languageManager.chapterTranslations.ru[messageId] = text;
-        window.game.languageManager.chapterTranslations.en[messageId] = text; // Английский перевод должен быть добавлен в будущем
+    // Если есть изображение, добавляем его
+    if (image) {
+        const img = document.createElement('img');
+        img.src = image;
+        img.className = 'chat-image';
+        img.addEventListener('click', () => {
+            openFullscreenImage(img.src);
+        });
+        msg.appendChild(img);
     }
+    
+    container.appendChild(msg);
     
     if (type === 'received') {
         playMessageSound();
@@ -543,6 +527,9 @@ function renderChoices(choices, container) {
     
     // Показываем контейнер выбора
     container.classList.add('visible');
+
+    // Сохраняем точку возврата перед отображением выборов
+    saveStateAtChoice();
 
     choices.forEach(choice => {
         const button = document.createElement('button');
