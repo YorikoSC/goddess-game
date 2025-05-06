@@ -26,25 +26,21 @@ export default {
     getChoices(gameState) {
         const texts = gameState.language === 'en' ? {
             choice1: "I see...",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo2"
+            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo2.js"
         } : {
             choice1: "Ясно...",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo2"
+            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo2.js"
         };
 
         return [
             {
                 id: "just_acknowledge",
                 text: texts.choice1,
-                result: [
-                    {
-                        type: "sent",
-                        text: texts.choice1,
-                        delay: 1000,
-                        nextChapter: texts.nextChapter
+                nextChapter: texts.nextChapter 
+                       
                     }
                 ]
             }
-        ];
-    }
+        
+    
 };
