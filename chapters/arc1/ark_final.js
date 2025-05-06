@@ -14,24 +14,12 @@ export default {
             {
                 id: "continue_to_arc2",
                 text: "Продолжить...",
-                result: [
-                    {
-                        type: "system",
-                        text: "Сохранение прогресса...",
-                        delay: 1000
-                    },
+                result: [ // Добавляем массив result
                     {
                         type: "system",
                         text: "Загрузка второй арки...",
                         delay: 1000,
-                        nextChapter: "arc2_date_monolog",
-                        onDisplay: function() {
-                            
-                            gameState.arc = 2; 
-                            saveArcProgress();
-                            saveGameState(gameState); 
-                            console.log("Игра сохранена в конце арки 1");
-                        }
+                        nextChapter: "arc2_date_monolog"
                     }
                 ]
             }

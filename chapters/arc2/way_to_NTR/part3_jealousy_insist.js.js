@@ -61,12 +61,26 @@ export default {
             {
                 id: "like_jealousy",
                 text: texts.choice1,
-                nextChapter: texts.nextChapter1 
+                result: [
+                    {
+                        type: "sent",
+                        text: texts.choice1,
+                        delay: 1000,
+                        nextChapter: texts.nextChapter1
+                    }
+                ]
             },
             {
                 id: "dislike_jealousy",
                 text: texts.choice2,
-                nextChapter: texts.nextChapter2 
+                result: [
+                    {
+                        type: "sent",
+                        text: texts.choice2,
+                        delay: 1000,
+                        nextChapter: texts.nextChapter2
+                    }
+                ]
             }
         ];
     }

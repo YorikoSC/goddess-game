@@ -10,7 +10,8 @@ export default {
             {
                 type: "received",
                 text: texts.msg1,
-                delay: 1000
+                delay: 1000,
+                showChoices: true
             }
         ];
     },
@@ -18,17 +19,24 @@ export default {
     getChoices(gameState) {
         const texts = gameState.language === 'en' ? {
             choice1: "What exactly?",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo1.js"
+            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo1"
         } : {
             choice1: "Что именно?",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo1.js"
+            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo1"
         };
 
         return [
             {
                 id: "ask_what",
                 text: texts.choice1,
-                nextChapter: texts.nextChapter // Просто указываем следующую главу без дублирования сообщения
+                result: [
+                    {
+                        type: "sent",
+                        text: texts.choice1,
+                        delay: 1000,
+                        nextChapter: texts.nextChapter
+                    }
+                ]
             }
         ];
     }

@@ -14,7 +14,6 @@ export default {
             },
             {
                 type: "photo",
-                src: "img/photos/photo_name_4.jpg",
                 description: "На фото девушка танцует в клубе, какой-то мужчина обнимает её сзади за талию",
                 delay: 1500
             },
@@ -39,21 +38,25 @@ export default {
     getChoices(gameState) {
         const texts = gameState.language === 'en' ? {
             choice1: "Listen, I don't like this. Let's stop.",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_reaction.js"
+            nextChapter: "arc2/way_to_NTR/part3_jealousy_reaction"
         } : {
             choice1: "Слушай, мне это не нравится. Давай прекратим.",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_reaction.js"
+            nextChapter: "arc2/way_to_NTR/part3_jealousy_reaction"
         };
 
         return [
             {
                 id: "express_dislike",
                 text: texts.choice1,
-                nextChapter: texts.nextChapter 
-                        
+                result: [
+                    {
+                        type: "sent",
+                        text: texts.choice1,
+                        delay: 1000,
+                        nextChapter: texts.nextChapter
                     }
                 ]
             }
-    
-    
+        ];
+    }
 };
