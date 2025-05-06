@@ -38,7 +38,7 @@ export default {
                     {
                         type: "received",
                         text: "",
-                        image: "./img/Photos/date_selfie.jpg",
+                        image: "/img/photos/date_selfie.jpg",
                         delay: 3000
                     },
                     {

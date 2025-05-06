@@ -180,6 +180,24 @@ export class LanguageManager {
                         choice.textContent = this.chapterTranslations[this.currentLang][choiceId];
                     }
                 });
+
+                const backBtn = document.querySelector('.back-btn');
+                if (backBtn) {
+                    backBtn.title = window.game.languageManager.translations[window.game.languageManager.currentLang]['back-button'] || 'Назад';
+                    backBtn.setAttribute('aria-label', window.game.languageManager.translations[window.game.languageManager.currentLang]['back-button'] || 'Назад');
+                    
+                    backBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        showScreen('chat');
+                    });
+                    
+                    window.game.languageManager.updateBackButton = function() {
+                        const translation = this.translations[this.currentLang]['back-button'] || 'Назад';
+                        backBtn.title = translation;
+                        backBtn.setAttribute('aria-label', translation);
+                    };
+                }
+
             }
 
             console.log('Тексты успешно обновлены');
@@ -288,6 +306,7 @@ function openFullscreenImage(src) {
   });
 }
 
+
 // Загрузка главы
 async function loadChapter(chapterId) {
     if (!chapterId) {
@@ -392,7 +411,7 @@ function displayMessages(messages, container, onComplete, chapter) {
 }
 
 // Добавление сообщения в чат
-function addMessage(type, text, container, image) {
+function addMessage(type, text, container, image) 
     const msg = document.createElement('div');
     msg.className = type === 'sent' ? 'message message-sent' : 'message message-received';
     
@@ -412,29 +431,12 @@ function addMessage(type, text, container, image) {
     }
     
     // Если есть изображение, добавляем его
-    if (image) {
+    if (message.image) {
         const img = document.createElement('img');
-        img.src = image;
-        img.className = 'chat-image';
-        img.addEventListener('click', () => {
-            openFullscreenImage(img.src);
-        });
-        msg.appendChild(img);
+        img.src = message.image;
+        img.onerror = () => console.error("Не удалось загрузить изображение:", message.image);
+        chatContainer.appendChild(img);
     }
-    
-    container.appendChild(msg);
-    
-    if (type === 'received') {
-        playMessageSound();
-    }
-    
-    setTimeout(() => {
-        container.scrollTo({
-            top: container.scrollHeight,
-            behavior: 'smooth'
-        });
-    }, 50);
-}
 
 // Отображение содержимого главы
 function renderChapter(chapter, instant = false) {
@@ -732,11 +734,6 @@ function loadProgress() {
   }
 }
 
-// Очистка прогресса
-function clearProgress() {
-  localStorage.removeItem('gameProgress');
-  console.log('Прогресс очищен');
-}
 
 // Функция загрузки предыдущей главы
 async function loadPreviousChapter() {
@@ -989,4 +986,4 @@ window.game = {
 // Запускаем игру после загрузки страницы
 window.addEventListener('DOMContentLoaded', () => {
   initGame();
-});
+})
