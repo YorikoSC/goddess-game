@@ -66,7 +66,7 @@ export default {
             type: "received",
             text: texts.result1b,
             delay: 3000,
-            nextChapter: "warm_good_night"
+            nextChapter: "special_start"
           }
         ]
       },
@@ -93,7 +93,7 @@ export default {
             type: "sent",
             text: texts.result2d,
             delay: 6000,
-            nextChapter: "warm_good_night"
+            nextChapter: "special_start"
           }
         ]
       }
