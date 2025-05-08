@@ -52,6 +52,9 @@ function saveStateAtChoice() {
         arc: gameState.arc
     };
     console.log('Сохранена точка возврата:', gameState.lastCheckpoint);
+    
+    // Сохраняем контрольную точку в localStorage
+    autoSave();
 }
 
 export class LanguageManager {
@@ -566,7 +569,6 @@ function renderChoices(choices, container) {
 
     // Сохраняем точку возврата перед отображением выборов
     saveStateAtChoice();
-    autoSave();
 
     choices.forEach(choice => {
         const button = document.createElement('button');
@@ -720,36 +722,44 @@ function clearChat() {
 
 // Сохранение прогресса в localStorage
 function saveProgress() {
-  const progress = {
-    chapter: gameState.currentChapter,
-    arc: gameState.arc,
-    language: gameState.language,
-    choices: gameState.choices
-  };
-  
-  localStorage.setItem('gameProgress', JSON.stringify(progress));
-  console.log('Прогресс сохранен:', progress);
-}
-
-function clearProgress() {
-    localStorage.removeItem('gameProgress');
-    console.log('Прогресс очищен');
-}
-
-function autoSave() {
-    if (!gameState.currentChapter) return;
-    
     const progress = {
-        chapter: gameState.currentChapter,
-        arc: gameState.arc,
-        language: gameState.language,
-        choices: gameState.choices,
-        lastCheckpoint: gameState.lastCheckpoint
+      chapter: gameState.currentChapter,
+      arc: gameState.arc,
+      language: gameState.language,
+      choices: gameState.choices,
+      lastCheckpoint: gameState.lastCheckpoint // Важно: добавляем lastCheckpoint в обычное сохранение
     };
     
     localStorage.setItem('gameProgress', JSON.stringify(progress));
-    console.log('Автосохранение выполнено');
-}
+    console.log('Прогресс сохранен:', progress);
+  }
+  
+  function clearProgress() {
+      localStorage.removeItem('gameProgress');
+      console.log('Прогресс очищен');
+      
+      // Сбрасываем также контрольную точку
+      gameState.lastCheckpoint = {
+          chapter: 'chapter1',
+          choices: {},
+          arc: 1
+      };
+  }
+  
+  function autoSave() {
+      if (!gameState.currentChapter) return;
+      
+      const progress = {
+          chapter: gameState.currentChapter,
+          arc: gameState.arc,
+          language: gameState.language,
+          choices: gameState.choices,
+          lastCheckpoint: gameState.lastCheckpoint
+      };
+      
+      localStorage.setItem('gameProgress', JSON.stringify(progress));
+      console.log('Автосохранение выполнено:', progress);
+  }
 
 // Загрузка прогресса из localStorage
 function loadProgress() {
@@ -764,13 +774,24 @@ function loadProgress() {
             gameState.arc = progress.arc || 1;
             gameState.language = progress.language || 'ru';
             gameState.choices = progress.choices || {};
-            gameState.lastCheckpoint = progress.lastCheckpoint || {
-                chapter: progress.chapter || 'chapter1',
-                choices: progress.choices || {},
-                arc: progress.arc || 1
-            };
+            
+            // Важно: правильно восстанавливаем контрольную точку
+            if (progress.lastCheckpoint) {
+                gameState.lastCheckpoint = {
+                    chapter: progress.lastCheckpoint.chapter,
+                    choices: progress.lastCheckpoint.choices || {},
+                    arc: progress.lastCheckpoint.arc || progress.arc || 1
+                };
+            } else {
+                gameState.lastCheckpoint = {
+                    chapter: progress.chapter || 'chapter1',
+                    choices: progress.choices || {},
+                    arc: progress.arc || 1
+                };
+            }
             
             console.log('Прогресс загружен:', progress);
+            console.log('Восстановлена контрольная точка:', gameState.lastCheckpoint);
             
             // Загружаем главу мгновенно (без анимации)
             loadChapterInstant(gameState.currentChapter);
@@ -786,19 +807,30 @@ function loadProgress() {
 
 // Функция перезапуска текущей главы
 function restartChapter() {
-    console.log('Restarting chapter. Current arc:', gameState.arc, 
-        'First chapter:', getFirstChapterOfCurrentArc(),
-        'Current choices:', gameState.choices);
+    console.log('Restarting chapter with lastCheckpoint:', gameState.lastCheckpoint);
     if (gameState.isBusy) return;
     
-    // Получаем первую главу текущей арки
-    const firstChapter = getFirstChapterOfCurrentArc();
-    
-    // Сбрасываем только выборы текущей арки
-    const arcPrefix = gameState.arc === 1 ? '' : 'arc2_';
-    for (const key in gameState.choices) {
-        if (key.startsWith(arcPrefix)) {
-            delete gameState.choices[key];
+    // Используем последнюю контрольную точку, если она существует
+    if (gameState.lastCheckpoint && gameState.lastCheckpoint.chapter) {
+        // Восстанавливаем состояние из контрольной точки
+        gameState.currentChapter = gameState.lastCheckpoint.chapter;
+        gameState.choices = JSON.parse(JSON.stringify(gameState.lastCheckpoint.choices));
+        
+        // Если контрольная точка включает arc, восстанавливаем его
+        if (gameState.lastCheckpoint.arc) {
+            gameState.arc = gameState.lastCheckpoint.arc;
+        }
+    } else {
+        // Если нет контрольной точки, используем первую главу арки
+        const firstChapter = getFirstChapterOfCurrentArc();
+        gameState.currentChapter = firstChapter;
+        
+        // Сбрасываем только выборы текущей арки
+        const arcPrefix = gameState.arc === 1 ? '' : 'arc2_';
+        for (const key in gameState.choices) {
+            if (key.startsWith(arcPrefix)) {
+                delete gameState.choices[key];
+            }
         }
     }
     
@@ -806,11 +838,9 @@ function restartChapter() {
     clearChat();
     clearImageCarousel();
     
-    // Сбрасываем текущую главу
-    gameState.currentChapter = firstChapter;
-    
-    // Загружаем первую главу арки
-    loadChapterInstant(firstChapter);
+    // Загружаем главу из контрольной точки
+    console.log('Loading checkpoint chapter:', gameState.currentChapter);
+    loadChapterInstant(gameState.currentChapter);
     
     // Показываем экран чата
     showScreen('chat');
@@ -831,11 +861,23 @@ async function loadChapterInstant(chapterId) {
         gameState.generateMessage = false;
 
         let chapterPath;
-        if (chapterId.startsWith('arc2_')) {
+        if (chapterId.startsWith('arc2/')) {
+            chapterPath = `./chapters/${chapterId}.js`;
+            gameState.arc = 2;
+        } else if (chapterId.startsWith('arc2_after_date')) {
+            chapterPath = `./chapters/arc2/after_date/${chapterId}.js`;
+            gameState.arc = 2;
+        } else if (chapterId.startsWith('arc2_')) {
             chapterPath = `./chapters/arc2/${chapterId}.js`;
+            gameState.arc = 2;
+        } else if (chapterId.startsWith('special_')) {
+            // Для специальных глав
+            chapterPath = `./chapters/special/${chapterId}.js`;
         } else {
             chapterPath = `./chapters/arc1/${chapterId}.js`;
         }
+        
+        console.log('Loading chapter instant from path:', chapterPath);
 
         const chapterModule = await import(chapterPath);
         

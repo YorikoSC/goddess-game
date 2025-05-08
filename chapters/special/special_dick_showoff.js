@@ -2,49 +2,58 @@ export default {
     getText(gameState) {
         const texts = gameState.language === 'en' ? {
             msg1: "OMG, look at this! Your lil guy is so cute, like a tiny shrimp! 😄",
-            msg2: "Cool, Lina, have fun. Stay safe!",
-            msg3: "Oh, I’m gonna have a blast, don’t sweat it! But first, be a good boy and send me a pic of your lil buddy. Gotta see it! 😏",
-            msg4: "Uh, okay..."
           } : {
-            msg1: "Боже, глянь на это! Твой малыш такой милый, прям как креветочка! 😄",
-            msg2: "Окей, Лина, оторвись там. Береги себя!",
-            msg3: "О, я зажгу, не парься! Но сперва будь паинькой и скинь фотку своего малыша. Хочу глянуть! 😏",
-            msg4: "Эм, ну ладно..."
+            msg1: "О Боже, только посмотрите на это! Твой малыш такой милый, как крошечная креветочка! 😄",
           };
     return [
         {
-            type: "photo",
+            type: "recived",
             text: texts.msg1,
-            delay:1000,
-        },
-        {
-            type: "sent",
-            text: texts.msg2,
-            delay:1500,   
-        },
-        {
-            type: "recived",
-            text: texts.msg3,
-            delay:1000,
-        },
-        {
-            type: "recived",
-            text: texts.msg3,
             delay:1000,
         }
     ];
 },
     getChoices (gameState){
         const texts = gameState.language === 'en' ? {
-            msg4: "Uh, okay..."
+            choice1: "Wait, cute?! Lina, that’s not what I was going for!",
+            msg7: "Chill, babe, don’t get your panties in a twist! It’s my fave little toy, okay? Just messin with ya, my sweet boy! 😘",
+            choice2:"Whoa, for real? Didn’t expect that...",
+            msg8: "Damn, it’s really a mini, huh? But I’m cool with it, size ain’t everything! 😏",
           } : {
-            msg4: "Эм, ну ладно..."
+            choice1: "Погоди, милый?! Лина, это не то, что я хотел услышать!",
+            msg7: "Да ладно, не трынди! Он мой любимый игрушечный малыш, ясно? Просто шучу, мой сладкий мальчик! 😘",
+            choice2: "Вау, правда? Не ожидал такого...",
+            msg8: "Серьёзно, он реально кроха, а? Но мне пох, размер не главное! 😏",
           };
         return[
             {
-                text: texts.msg4,
-                nextChapter: "dick_showoff",
-            }
+                id: "choice1",
+                text: texts.choice1,
+                delay: 1000,
+                action: (state) => {state.choices["special_dick_showoff"].choice1 = true;},
+                result: [
+                    {
+                      type: "received",
+                      text: texts.msg7,
+                      delay: 1000,
+                      nextChapter: "special_monolog"
+                    }
+                  ]
+                },
+            {
+                id: "choice2",
+                text: texts.choice2,
+                delay: 1000,
+                action: (state) => {state.choices["special_dick_showoff"].choice2 = true;},
+                result: [
+                    {
+                        type: "received",
+                        text: texts.msg8,
+                        delay: 1000,
+                        nextChapter: "special_monolog"
+                    }
+                ]
+            },
         ];
     },
 }

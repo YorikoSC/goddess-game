@@ -35,7 +35,9 @@ export default {
           };
         return[
             {
-                text: texts.msg4,
+                type: "photo",
+                src:"./img/photos/special1/hero_penis.jpg",
+                description: texts.msg4,
                 nextChapter: "special_dick_showoff",
             }
         ];
