@@ -1,9 +1,11 @@
 export default {
     getText(gameState) {
         const texts = gameState.language === 'en' ? {
-            msg1: "Here's another one... What do you think?"
+            msg1: "Here's another one... What do you think?",
+            photo1: "./chapters/arc2/way_to_NTR/img/photo_name_4.jpg",
         } : {
-            msg1: "А вот ещё одно... Как тебе?"
+            msg1: "А вот ещё одно... Как тебе?",
+            photo1: "./chapters/arc2/way_to_NTR/img/photo_name_4.jpg",
         };
 
         return [
@@ -14,7 +16,8 @@ export default {
             },
             {
                 type: "photo",
-                description: "На фото девушка танцует в клубе, какой-то мужчина обнимает её сзади за талию",
+                src: texts.photo1,
+                //description: "На фото девушка танцует в клубе, какой-то мужчина обнимает её сзади за талию",
                 delay: 1500
             },
             {
@@ -29,7 +32,7 @@ export default {
                 text: gameState.language === 'en' ? 
                     "You don't mind, do you? I can see it... affects you 😏" : 
                     "Ты же не против? Я вижу, тебя это... волнует 😏",
-                delay: 1500,
+                delay: 2500,
                 showChoices: true
             }
         ];
@@ -38,24 +41,18 @@ export default {
     getChoices(gameState) {
         const texts = gameState.language === 'en' ? {
             choice1: "Listen, I don't like this. Let's stop.",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_reaction"
+            nextChapter: "way_to_NTR/part3_jealousy_reaction"
         } : {
             choice1: "Слушай, мне это не нравится. Давай прекратим.",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_reaction"
+            nextChapter: "way_to_NTR/part3_jealousy_reaction"
         };
 
         return [
             {
                 id: "express_dislike",
                 text: texts.choice1,
-                result: [
-                    {
-                        type: "sent",
-                        text: texts.choice1,
-                        delay: 1000,
-                        nextChapter: texts.nextChapter
-                    }
-                ]
+                delay: 1000,
+                nextChapter: texts.nextChapter
             }
         ];
     }

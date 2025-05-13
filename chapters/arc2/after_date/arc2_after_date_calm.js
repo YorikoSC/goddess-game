@@ -10,14 +10,14 @@ export default {
             result1b: "Look, I'll send you the photo right now!",
             result1c: "Oh... wait... wrong photo...",
             result1d: "Damn! Delete that! I didn't mean to send it!",
-            nextChapter: "arc2_after_date_selfie"
+            nextChapter: "after_date/arc2_after_date_selfie"
         } : {
             choice1: "Я просто говорю, что заметил. Не злись.",
             result1a: "Знаешь что? Я фотографировала морской пейзаж из окна туалета! Там был потрясающий вид на закат!",
             result1b: "Вот, смотри! Сейчас скину тебе это фото!",
             result1c: "Ой... подожди... не то фото...",
             result1d: "Чёрт! Удали это! Я не хотела отправлять!",
-            nextChapter: "arc2_after_date_selfie"
+            nextChapter: "after_date/arc2_after_date_selfie"
         };
 
         return [
@@ -36,9 +36,8 @@ export default {
                         delay: 2000
                     },
                     {
-                        type: "received",
-                        text: "",
-                        image: "/img/photos/date_selfie.jpg",
+                        type: "photo",
+                        src: "./chapters/arc2/after_date/img/date_selfie.jpg",
                         delay: 3000
                     },
                     {

@@ -52,6 +52,7 @@ export default {
       {
         id: "wanted_to_ask",
         text: texts.choice1,
+        action: (state) => { state.choices['chapter6_date_plan'] = true;},
         result: [
           {
             type: "received",
@@ -69,6 +70,7 @@ export default {
       {
         id: "no_interruptions",
         text: texts.choice2,
+        action: (state) => { state.choices['chapter6_date_plan'] = true;},
         result: [
           {
             type: "received",

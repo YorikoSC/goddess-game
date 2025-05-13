@@ -48,39 +48,27 @@ export default {
         const texts = gameState.language === 'en' ? {
             choice1: "Actually, I do like it...",
             choice2: "No, I really don't like it",
-            nextChapter1: "arc2/way_to_NTR/part3_date_1_like",
-            nextChapter2: "arc2/way_to_NTR/part3_date_1_not_like"
+            nextChapter1: "way_to_NTR/part3_date_1_like",
+            nextChapter2: "way_to_NTR/part3_date_1_not_like"
         } : {
             choice1: "Вообще-то, мне это нравится...",
             choice2: "Нет, мне правда это не нравится",
-            nextChapter1: "arc2/way_to_NTR/part3_date_1_like",
-            nextChapter2: "arc2/way_to_NTR/part3_date_1_not_like"
+            nextChapter1: "way_to_NTR/part3_date_1_like",
+            nextChapter2: "way_to_NTR/part3_date_1_not_like"
         };
 
         return [
             {
                 id: "like_jealousy",
                 text: texts.choice1,
-                result: [
-                    {
-                        type: "sent",
-                        text: texts.choice1,
-                        delay: 1000,
-                        nextChapter: texts.nextChapter1
-                    }
-                ]
+                delay: 1000,
+                nextChapter: texts.nextChapter1
             },
             {
                 id: "dislike_jealousy",
                 text: texts.choice2,
-                result: [
-                    {
-                        type: "sent",
-                        text: texts.choice2,
-                        delay: 1000,
-                        nextChapter: texts.nextChapter2
-                    }
-                ]
+                delay: 1000,
+                nextChapter: texts.nextChapter2
             }
         ];
     }

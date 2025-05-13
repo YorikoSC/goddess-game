@@ -45,6 +45,7 @@ export default {
       {
         id: "her_place",
         text: texts.choice1,
+        action: (state) => { state.choices['chapter6_gift_intim'] = true;},
         result: [
           {
             type: "received",
@@ -62,6 +63,7 @@ export default {
       {
         id: "library",
         text: texts.choice2,
+        action: (state) => { state.choices['chapter6_gift_intim'] = true;},
         result: [
           {
             type: "received",

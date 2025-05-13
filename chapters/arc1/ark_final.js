@@ -12,14 +12,18 @@ export default {
     getChoices(gameState) {
         return [
             {
-                id: "continue_to_arc2",
+                id: "continue_to_special",
                 text: "Продолжить...",
-                result: [ // Добавляем массив result
+                action: (state) => {
+                    state.arc = 2;
+                    window.game.clearChat();
+                },
+                result: [
                     {
                         type: "system",
-                        text: "Загрузка второй арки...",
+                        text: "Загрузка спешала...",
                         delay: 1000,
-                        nextChapter: "arc2_date_monolog"
+                        nextChapter: "special_start"
                     }
                 ]
             }

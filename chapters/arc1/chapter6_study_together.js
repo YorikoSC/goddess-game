@@ -52,6 +52,7 @@ export default {
       {
         id: "choose_library",
         text: texts.choice1,
+        action: (state) => { state.choices['chapter6_study_together'] = true;},
         result: [
           {
             type: "received",
@@ -62,13 +63,14 @@ export default {
             type: "received",
             text: texts.result1b,
             delay: 2500,
-            nextChapter: "warm_good_night"
+            nextChapter: "cold_good_night"
           }
         ]
       },
       {
         id: "choose_her_place",
         text: texts.choice2,
+        action: (state) => { state.choices['chapter6_study_together'] = true;},
         result: [
           {
             type: "received",

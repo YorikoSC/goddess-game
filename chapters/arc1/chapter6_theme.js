@@ -52,6 +52,7 @@ export default {
       {
         id: "agree_ask_time",
         text: texts.choice1,
+        action: (state) => { state.choices['chapter6_theme'] = true;},
         result: [
           {
             type: "received",
@@ -69,6 +70,7 @@ export default {
       {
         id: "watch_first",
         text: texts.choice2,
+        action: (state) => { state.choices['chapter6_theme'] = true;},
         result: [
           {
             type: "received",

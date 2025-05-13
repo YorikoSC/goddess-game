@@ -56,6 +56,7 @@ export default {
       {
         id: "her_place",
         text: texts.choice1,
+        action: (state) => { state.choices['chapter6_gift_foot'] = true;},
         result: [
           {
             type: "received",
@@ -66,13 +67,14 @@ export default {
             type: "received",
             text: texts.result1b,
             delay: 3000,
-            nextChapter: "special_start"
+            nextChapter: "warm_good_night"
           }
         ]
       },
       {
         id: "library",
         text: texts.choice2,
+        action: (state) => { state.choices['chapter6_gift_foot'] = true;},
         result: [
           {
             type: "received",
@@ -93,7 +95,7 @@ export default {
             type: "sent",
             text: texts.result2d,
             delay: 6000,
-            nextChapter: "special_start"
+            nextChapter: "warm_good_night"
           }
         ]
       }

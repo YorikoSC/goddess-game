@@ -9,13 +9,13 @@ export default {
             result1a: "What?! Are you seriously accusing me of this?! 😠",
             result1b: "Maybe it just slipped down accidentally! Or I was adjusting my dress!",
             result1c: "I can't believe you don't trust me!",
-            nextChapter: "arc2_after_date_calm"
+            nextChapter: "after_date/arc2_after_date_calm"
         } : {
             choice1: "Когда ты вернулась из туалета, у тебя была спущена бретелька лифчика на плече. Как будто ты делала какую-то интимную фотографию.",
             result1a: "Что?! Ты серьёзно меня в этом обвиняешь?! 😠",
             result1b: "Может, она просто случайно спустилась! Или я поправляла платье!",
             result1c: "Я не могу поверить, что ты мне не доверяешь!",
-            nextChapter: "arc2_after_date_calm"
+            nextChapter: "after_date/arc2_after_date_calm"
         };
 
         return [
