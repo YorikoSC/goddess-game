@@ -25,18 +25,21 @@ export default {
             choice2: "Вау, правда? Не ожидал такого...",
             msg8: "Серьёзно, он реально кроха, а? Но мне пох, размер не главное! 😏",
           };
+        
         return[
             {
                 id: "choice1",
                 text: texts.choice1,
                 delay: 1000,
-                action: (state) => {state.choices["special_dick_showoff"].choice1 = true;},
+                action: (state) => {
+                    state.choices["special_dick_showoff"] = { choice1: true };
+                },
                 result: [
                     {
                       type: "received",
                       text: texts.msg7,
                       delay: 1000,
-                      nextChapter: "special_monolog"
+                      nextChapter: 'special_monolog'
                     }
                   ]
                 },
@@ -44,13 +47,15 @@ export default {
                 id: "choice2",
                 text: texts.choice2,
                 delay: 1000,
-                action: (state) => {state.choices["special_dick_showoff"].choice2 = true;},
+                action: (state) => {
+                    state.choices["special_dick_showoff"] = { choice2: true };
+                },
                 result: [
                     {
                         type: "received",
                         text: texts.msg8,
                         delay: 1000,
-                        nextChapter: "special_monolog"
+                        nextChapter: 'special_monolog'
                     }
                 ]
             },

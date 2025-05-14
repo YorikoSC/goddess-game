@@ -11,7 +11,7 @@ export default {
           };
     return [
         {
-            type: "recived",
+            type: "received",
             text: texts.msg1,
             delay:1000,
         },
@@ -21,7 +21,7 @@ export default {
             delay:2000,   
         },
         {
-            type: "recived",
+            type: "received",
             text: texts.msg3,
             delay:3000,
         }

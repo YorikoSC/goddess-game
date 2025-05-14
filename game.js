@@ -28,6 +28,7 @@ const gameState = {
   isChapterEnding: false, // Флаг окончания главы
   generateMessage: false, // Флаг генерации сообщений
   previousChapter: null, // Добавляем новое поле
+  boostyNotification: false, // Флаг активности окна бусти
   lastCheckpoint: {
       chapter: null,
       choices: {}
@@ -69,7 +70,14 @@ export class LanguageManager {
                 'new-game': 'Начать новую игру',
                 'restart-chapter': 'Начать главу заново',
                 'change-lang': 'Поменять язык',
-                'online': 'онлайн'
+                'online': 'онлайн',
+                'boostyText': ""
+                        + "Спасибо, что играете в мою игру! "
+                        + "Я прилагаю все усилия для скорейшего продолжения истории! "
+                        + "Вы можете поддержать меня на Boosty - это поможет в развитии проекта!"
+                    + "",
+                'boostyButton': 'Поддержать на Boosty',
+                'boostyAdditionalText': 'Начать новую игру'
             },
             en: {
                 'end-chapter': 'End of Chapter One',
@@ -79,7 +87,14 @@ export class LanguageManager {
                 'new-game': 'Start New Game',
                 'restart-chapter': 'Restart Chapter',
                 'change-lang': 'Change Language',
-                'online': 'online'
+                'online': 'online',
+                'boostyText': ""
+                        + "Thank you for playing my game! "
+                        + "I'm doing my best to continue the story as soon as possible! "
+                        + "You can support me on Boosty - this will help in the development of the project!"
+                    + "",
+                'boostyButton': 'Support on Boosty',
+                'boostyAdditionalText': 'Start new game'
             }
         };
 
@@ -197,6 +212,19 @@ export class LanguageManager {
                         choice.textContent = this.chapterTranslations[this.currentLang][choiceId];
                     }
                 });
+            }
+
+            const boostyText = document.querySelector('.boosty-overlay-text');
+            if (boostyText) {
+                boostyText.textContent = this.translations[this.currentLang]['boostyText'];
+            }
+            const boostyButton = document.querySelector('.boosty-overlay-button');
+            if (boostyButton) {
+                boostyButton.textContent = this.translations[this.currentLang]['boostyButton'];
+            }
+            const boostyAdditionalText = document.querySelector('.boosty-overlay-additional-text');
+            if (boostyAdditionalText) {
+                boostyAdditionalText.textContent = this.translations[this.currentLang]['boostyAdditionalText'];
             }
 
             console.log('Тексты успешно обновлены');
@@ -322,21 +350,14 @@ async function loadChapter(chapterId) {
     
     try {
         console.log(`Loading chapter: ${chapterId}`);
-        
-        if (chapterId.startsWith('arc2/')) {
-            chapterPath = `./chapters/${chapterId}.js`;
-            gameState.arc = 2;
-        } else if (chapterId.startsWith('arc2_after_date')) {
-            chapterPath = `./chapters/arc2/after_date/${chapterId}.js`;
-            gameState.arc = 2;
-        } else if (chapterId.startsWith('arc2_')) {
-            chapterPath = `./chapters/arc2/${chapterId}.js`;
-            gameState.arc = 2;
-        } else if (chapterId.startsWith('special_')) {
+
+        if (chapterId.startsWith('special_')) {
             // Для специальных глав
             chapterPath = `./chapters/special/${chapterId}.js`;
-        } else {
+        } else if (gameState.arc === 1) {
             chapterPath = `./chapters/arc1/${chapterId}.js`;
+        } else if (gameState.arc === 2) {
+            chapterPath = `./chapters/arc2/${chapterId}.js`;
         }
         
         console.log('Loading from path:', chapterPath);
@@ -352,6 +373,10 @@ async function loadChapter(chapterId) {
             return false;
         }
         
+        // Сохраняем точку возврата перед загрузкой новой главы
+        // Тут же можно сделать проверку, является ли глава новой аркой
+        saveStateAtChoice();
+
         gameState.currentChapter = chapterId;
         autoSave();
         renderChapter(chapterModule.default, false);
@@ -362,6 +387,8 @@ async function loadChapter(chapterId) {
         if (chapterPath) {
             console.error('Полный путь:', new URL(chapterPath, window.location.href).href);
         }
+        // Показать уведомление бусти, если произошла ошибка при загрузке главы
+        boostyNotification();
         return false;
     }
     setTimeout(() => {
@@ -399,7 +426,7 @@ function displayMessages(messages, container, onComplete, chapter) {
             setTimeout(() => {
                 // Добавляем обработку фото-сообщений
                 if (message.type === 'photo') {
-                    addMessage('received', message.description, container, message.src);
+                    addMessage(message.photoSent ? 'sent' : 'received', message.description, container, message.src);
                 } else {
                     addMessage(message.type, message.text, container);
                 }
@@ -430,10 +457,11 @@ function displayMessages(messages, container, onComplete, chapter) {
 
 // Добавление сообщения в чат
 function addMessage(type, text, container, image) {
-    const savedWidth = container.offsetWidth;
-    container.style.width = `${savedWidth}px`;
     const msg = document.createElement('div');
     msg.className = type === 'sent' ? 'message message-sent' : 'message message-received';
+    if (type === 'monolog') {
+        msg.className = 'message message-monolog';
+    }
     
     const messageId = `msg_${Date.now()}`;
     msg.dataset.messageId = messageId;
@@ -460,7 +488,6 @@ function addMessage(type, text, container, image) {
         });
         msg.appendChild(img);
     }
-    
     container.appendChild(msg);
     
     if (type === 'received') {
@@ -504,6 +531,7 @@ function renderChapter(chapter, instant = false) {
         
         button.addEventListener('click', async () => {
             // Восстанавливаем структуру чата перед загрузкой следующей главы
+            const chatWrapper = document.querySelector('.chat-wrapper');
             chatWrapper.innerHTML = `
                 <div class="chat-messages" id="chat"></div>
                 <div class="choices" id="choices"></div>
@@ -531,6 +559,9 @@ function renderChapter(chapter, instant = false) {
     // Clear choices container
     choicesContainer.innerHTML = '';
 
+    if (chapter.before) {
+        chapter.before();
+    }
     // Handle regular messages
     if (instant) {
         messages?.forEach(message => {
@@ -567,13 +598,10 @@ function renderChoices(choices, container) {
     // Показываем контейнер выбора
     container.classList.add('visible');
 
-    // Сохраняем точку возврата перед отображением выборов
-    saveStateAtChoice();
-
     choices.forEach(choice => {
         const button = document.createElement('button');
         button.className = 'choice-button';
-        button.textContent = choice.text;
+        button.textContent = choice.type === 'photo' ? choice.description : choice.text;
         
         button.addEventListener('click', async () => {
             if (gameState.isBusy) return;
@@ -582,18 +610,30 @@ function renderChoices(choices, container) {
             chatContainer.classList.remove('has-choices');
             container.classList.remove('visible');
             
-            addMessage('sent', choice.text, chatContainer);
+            if (choice.type === 'photo') {
+                addMessage('sent', choice.text, chatContainer, choice.src);
+            } else {
+                addMessage('sent', choice.text, chatContainer);
+            }
             
             if (choice.result && choice.result.length > 0) {
                 gameState.isBusy = true;
                 await displayMessages(choice.result, chatContainer, () => {
                     gameState.isBusy = false;
+                    if (choice.action) {
+                        choice.action(gameState);
+                    }
                     if (choice.result[choice.result.length - 1].nextChapter) {
                         loadChapter(choice.result[choice.result.length - 1].nextChapter);
                     }
                 });
-            } else if (choice.nextChapter) {
-                loadChapter(choice.nextChapter);
+            } else {
+                if (choice.action) {
+                    choice.action(gameState);
+                }
+                if (choice.nextChapter) {
+                    loadChapter(choice.nextChapter);
+                }
             }
             
             container.innerHTML = '';
@@ -601,6 +641,11 @@ function renderChoices(choices, container) {
         
         container.appendChild(button);
     });
+}
+
+function boostyNotification() {
+    showScreen('boosty');
+    gameState.boostyNotification = true;
 }
 
 // Проверка завершения арки
@@ -671,6 +716,11 @@ function showNavigation() {
 // Функция для переключения между экранами
 function showScreen(screenId) {
     console.log('Показываем экран:', screenId);
+
+    // Блокируем остальные экраны пока активно окно бусти
+    if (gameState.boostyNotification) {
+        screenId = 'boosty';
+    }
     
     const currentActiveScreen = document.querySelector('.screen.active');
     if (currentActiveScreen) {
@@ -701,6 +751,7 @@ function startNewGame() {
   gameState.isChapterEnding = false;
   gameState.generateMessage = false;
   gameState.currentChapter = null;
+  gameState.boostyNotification = false;
   
   clearProgress();
   
@@ -810,6 +861,9 @@ function restartChapter() {
     console.log('Restarting chapter with lastCheckpoint:', gameState.lastCheckpoint);
     if (gameState.isBusy) return;
     
+    // Сбрасываем окно бусти, если открыто
+    gameState.boostyNotification = false;
+
     // Используем последнюю контрольную точку, если она существует
     if (gameState.lastCheckpoint && gameState.lastCheckpoint.chapter) {
         // Восстанавливаем состояние из контрольной точки
@@ -861,20 +915,13 @@ async function loadChapterInstant(chapterId) {
         gameState.generateMessage = false;
 
         let chapterPath;
-        if (chapterId.startsWith('arc2/')) {
-            chapterPath = `./chapters/${chapterId}.js`;
-            gameState.arc = 2;
-        } else if (chapterId.startsWith('arc2_after_date')) {
-            chapterPath = `./chapters/arc2/after_date/${chapterId}.js`;
-            gameState.arc = 2;
-        } else if (chapterId.startsWith('arc2_')) {
-            chapterPath = `./chapters/arc2/${chapterId}.js`;
-            gameState.arc = 2;
-        } else if (chapterId.startsWith('special_')) {
+        if (chapterId.startsWith('special_')) {
             // Для специальных глав
             chapterPath = `./chapters/special/${chapterId}.js`;
-        } else {
+        } else if (gameState.arc === 1) {
             chapterPath = `./chapters/arc1/${chapterId}.js`;
+        } else if (gameState.arc === 2) {
+            chapterPath = `./chapters/arc2/${chapterId}.js`;
         }
         
         console.log('Loading chapter instant from path:', chapterPath);
@@ -896,6 +943,9 @@ async function loadChapterInstant(chapterId) {
         chatContainer.innerHTML = '';
         choicesContainer.innerHTML = '';
 
+        if (chapterModule.default.before) {
+            chapterModule.default.before();
+        }
         if (messages && messages.length > 0) {
             if (messages[0].type === "monolog-placeholder") {
                 // Если это монолог, используем renderChapter с флагом instant
@@ -905,7 +955,21 @@ async function loadChapterInstant(chapterId) {
                 messages.forEach(message => {
                     const msg = document.createElement('div');
                     msg.className = message.type === 'sent' ? 'message message-sent' : 'message message-received';
+                    if (message.type === 'monolog') {
+                        msg.className = 'message message-monolog';
+                    }
                     msg.textContent = message.text;
+                    if (message.type === 'photo') {
+                        msg.className = message.photoSent ? 'message message-sent' : 'message message-received';
+                        const img = document.createElement('img');
+                        img.src = message.src;
+                        img.className = 'chat-image';
+                        img.alt = ''; // Добавляем alt для доступности
+                        img.addEventListener('click', () => {
+                            openFullscreenImage(img.src);
+                        });
+                        msg.appendChild(img);
+                    }
                     chatContainer.appendChild(msg);
                 });
 
@@ -914,6 +978,8 @@ async function loadChapterInstant(chapterId) {
                     renderChoices(choices, choicesContainer);
                 }
             }
+        } else if (choices && choices.length > 0) {
+            renderChoices(choices, choicesContainer);
         }
         
         return true;
@@ -959,6 +1025,7 @@ function initGame() {
             gameState.isBusy = false;
             gameState.dialogueEnded = false;
             gameState.isChapterEnding = false;
+            gameState.boostyNotification = false;
             
             clearProgress();
             clearChat();
@@ -1011,27 +1078,8 @@ if (restartChapterBtn) {
     if (restartArcBtn) {
         restartArcBtn.addEventListener('click', () => {
             if (gameState.isBusy) return;
-            
-            gameState.choices = {};
-            gameState.arc = 1;
-            gameState.isBusy = false;
-            gameState.dialogueEnded = false;
-            gameState.isChapterEnding = false;
-            gameState.generateMessage = false;
-            gameState.currentChapter = null;
-            gameState.previousChapter = null;
-            
-            clearProgress();
-            clearChat();
-            
-            const chatScreen = document.querySelector('[data-screen="chat"]');
-            if (chatScreen) {
-                chatScreen.classList.add('active');
-            }
-            
-            loadChapter('chapter1');
-            
-            showNavigation();
+
+            startNewGame();
         });
     }
 
@@ -1066,6 +1114,8 @@ window.game = {
     saveGameState,
     loadGameState,
     clearProgress, // Добавляем в экспорт, если нужно
+    clearChat,
+    boostyNotification,
     languageManager: null
 };
 

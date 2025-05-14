@@ -296,6 +296,12 @@ body {
     align-self: flex-end;
 }
 
+.message.monolog, .message-monolog {
+    background: #0a0a0a;
+    align-self: center;
+    max-width: 100%!important;
+}
+
 .chat-image {
     max-width: 80%;
     border-radius: 10px;
@@ -846,4 +852,47 @@ body {
     background: var(--neon);
     color: #000;
     transform: translateX(-50%) scale(1.05);
+}
+
+.boosty-overlay {
+    height: 100%;
+    width: 100%;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.boosty-overlay-text {
+    text-align: center;
+    color: #fff;
+}
+
+.boosty-overlay-button {
+    margin-top: 45px;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: var(--neon);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.boosty-overlay-button:hover {
+    background-color: #00cc70;
+}
+
+.boosty-overlay-additional-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: lightblue;
+    text-decoration: underline;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
 }

@@ -8,12 +8,12 @@ export default {
             choice1: "Yes, it's a beautiful place indeed. Did you enjoy it? Wasn't it boring?",
             result1a: "Boring? With you? No way! 😊",
             result1b: "Although... did you notice I was a bit distracted?",
-            nextChapter: "arc2_after_date_phone"
+            nextChapter: "after_date/arc2_after_date_phone"
         } : {
             choice1: "Да, место действительно красивое. Тебе понравилось? Не было скучно?",
             result1a: "Скучно? С тобой? Ну что ты! 😊",
             result1b: "Хотя... ты заметил, что я была немного рассеянной?",
-            nextChapter: "arc2_after_date_phone"
+            nextChapter: "after_date/arc2_after_date_phone"
         };
 
         return [

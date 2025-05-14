@@ -29,24 +29,26 @@ export default {
       {
         id: "promise_protection",
         text: texts.choice1,
+        action: (state) => { state.choices['chapter5_protective'] = true;},
         result: [
           {
             type: "received",
             text: texts.result1,
             delay: 4000,
-            nextChapter: "warm_good_night"
+            nextChapter: "ark_final"
           }
         ]
       },
       {
         id: "just_friends",
         text: texts.choice2,
+        action: (state) => { state.choices['chapter5_protective'] = true;},
         result: [
           {
             type: "received",
             text: texts.result2,
             delay: 4000,
-            nextChapter: "warm_good_night"
+            nextChapter: "ark_final"
           }
         ]
       }

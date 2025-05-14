@@ -52,6 +52,7 @@ export default {
       {
         id: "suggest_meeting",
         text: texts.choice1,
+        action: (state) => {state.choices['chapter6_misunderstanding'] = true;},
         result: [
           {
             type: "received",
@@ -62,13 +63,14 @@ export default {
             type: "received",
             text: texts.result1b,
             delay: 2500,
-            nextChapter: "ark_final"
+            nextChapter: "cold_good_night"
           }
         ]
       },
       {
         id: "just_friends",
         text: texts.choice2,
+        action: (state) => {state.choices['chapter6_misunderstanding'] = true;},
         result: [
           {
             type: "received",
@@ -79,7 +81,7 @@ export default {
             type: "received",
             text: texts.result2b,
             delay: 2500,
-            nextChapter: "ark_final"
+            nextChapter: "cold_good_night"
           }
         ]
       }

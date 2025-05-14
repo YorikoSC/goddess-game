@@ -26,7 +26,7 @@ export default {
             {
                 type: "received",
                 text: texts.msg3,
-                delay: 1000
+                delay: 2000
             },
             {
                 type: "received",
@@ -38,26 +38,23 @@ export default {
     },
 
     getChoices(gameState) {
+        if (gameState._choiceLock) return [];
+        gameState._choiceLock = true;
+
         const texts = gameState.language === 'en' ? {
             choice1: "No, I'm not interested. Please, enough.",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_insist"
+            nextChapter: "way_to_NTR/part3_jealousy_insist"
         } : {
             choice1: "Нет, не интересно. Пожалуйста, хватит.",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_insist"
+            nextChapter: "way_to_NTR/part3_jealousy_insist"
         };
 
         return [
             {
                 id: "reject",
                 text: texts.choice1,
-                result: [
-                    {
-                        type: "sent",
-                        text: texts.choice1,
-                        delay: 1000,
-                        nextChapter: texts.nextChapter
-                    }
-                ]
+                delay: 1000,
+                nextChapter: texts.nextChapter
             }
         ];
     }

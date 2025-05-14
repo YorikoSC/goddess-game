@@ -19,24 +19,17 @@ export default {
     getChoices(gameState) {
         const texts = gameState.language === 'en' ? {
             choice1: "What exactly?",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo1"
+            nextChapter: "way_to_NTR/part3_jealousy_photo1"
         } : {
             choice1: "Что именно?",
-            nextChapter: "arc2/way_to_NTR/part3_jealousy_photo1"
+            nextChapter: "way_to_NTR/part3_jealousy_photo1"
         };
 
         return [
             {
                 id: "ask_what",
                 text: texts.choice1,
-                result: [
-                    {
-                        type: "sent",
-                        text: texts.choice1,
-                        delay: 1000,
-                        nextChapter: texts.nextChapter
-                    }
-                ]
+                nextChapter: texts.nextChapter
             }
         ];
     }

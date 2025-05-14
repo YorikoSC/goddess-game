@@ -30,12 +30,12 @@ export default {
             choice1: "Hi! Slept great. How about you?",
             result1a: "Mmm, I'm still impressed by our evening... Especially the dessert 🍰",
             result1b: "By the way, thanks for the restaurant! The sea view was absolutely stunning ✨",
-            nextChapter: "arc2_after_date_place" // Правильный путь
+            nextChapter: "after_date/arc2_after_date_place" // Правильный путь
         } : {
             choice1: "Привет! Отлично спалось. А ты как?",
             result1a: "Ммм, я всё ещё под впечатлением от вечера... Особенно от десерта 🍰",
             result1b: "Кстати, спасибо за ресторан! Вид на море был просто потрясающий ✨",
-            nextChapter: "arc2_after_date_place" // Правильный путь
+            nextChapter: "after_date/arc2_after_date_place" // Правильный путь
         };
 
         return [
