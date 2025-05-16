@@ -144,23 +144,14 @@ export default {
     },
 
         getChoices(gameState) {
+            const text = this.getText(gameState);
             return [
                 {
                     id: "continue",
                     text: text.msg10,
                     delay:35100,
-                    action: (state) => {
-                            // Проверяем, какой выбор был сделан ранее
-                            const lastChoice = state.choices["special_dick_showoff"];
-                    if (lastChoice && lastChoice.choice1) {
-                        state.nextChapter = 'special_wait_cute';
-                    } else if (lastChoice && lastChoice.choice2) {
-                        state.nextChapter = 'special_for_real';
-                    } else {
-                        state.nextChapter = 'special_wait_cute'; // fallback, если что-то пошло не так
-                    }
+                    nextChapter: "special_wtf"
                 }
-            }
         ];
     }
 }
