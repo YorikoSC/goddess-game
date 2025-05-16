@@ -23,7 +23,7 @@ export default {
             imageHero: "./chapters/special/img/hero_penis.jpg",
             imageLaugh: "./chapters/special/img/lina_amina_laugh.jpg",
             imageAminaBf: "./chapters/special/img/amina_bf_penis.jpg",
-            imageSurprise: "./chapters/special/img/lina_amina_surprise.jpg"
+            imageSurprise: "./chapters/special/img/lina_amina_surprise.jpg",
             msg10: "Lina, why’d you need my dick pic while you’re with Amina? Kinda sus...",
           } : {
             monologue1: "(Лина и Амина вальяжно сидят в уютном кафе, потягивают латте. Лина с хитрой ухмылкой тычет телефоном в лицо Амине, показывая фотку ГГ.)",
@@ -44,7 +44,7 @@ export default {
             imageHero: "./chapters/special/img/hero_penis.jpg",
             imageLaugh: "./chapters/special/img/lina_amina_laugh.jpg",
             imageAminaBf: "./chapters/special/img/amina_bf_penis.jpg",
-            imageSurprise: "./chapters/special/img/lina_amina_surprise.jpg"
+            imageSurprise: "./chapters/special/img/lina_amina_surprise.jpg",
             msg10: "Лина, зачем тебе фотка моего члена, если ты с Аминой? Как-то стремно...",
           };
 
