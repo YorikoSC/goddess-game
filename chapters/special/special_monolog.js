@@ -24,6 +24,7 @@ export default {
             imageLaugh: "./chapters/special/img/lina_amina_laugh.jpg",
             imageAminaBf: "./chapters/special/img/amina_bf_penis.jpg",
             imageSurprise: "./chapters/special/img/lina_amina_surprise.jpg"
+            msg10: "Lina, why’d you need my dick pic while you’re with Amina? Kinda sus...",
           } : {
             monologue1: "(Лина и Амина вальяжно сидят в уютном кафе, потягивают латте. Лина с хитрой ухмылкой тычет телефоном в лицо Амине, показывая фотку ГГ.)",
             monologue2: "(Амина давится латте, ржёт до слёз.)",
@@ -44,6 +45,7 @@ export default {
             imageLaugh: "./chapters/special/img/lina_amina_laugh.jpg",
             imageAminaBf: "./chapters/special/img/amina_bf_penis.jpg",
             imageSurprise: "./chapters/special/img/lina_amina_surprise.jpg"
+            msg10: "Лина, зачем тебе фотка моего члена, если ты с Аминой? Как-то стремно...",
           };
 
           return [
@@ -141,24 +143,24 @@ export default {
         ];
     },
 
-    getChoices(gameState) {
-    return [
-        {
-            id: "continue_to_special_wait_cute",
-            text: "Продолжить...",
-            nextChapter: 'special_wait_cute',
-            onChoose: () => {
-                gameState.choices["special_dick_showoff"] = "choice1";
+        getChoices(gameState) {
+            return [
+                {
+                    id: "continue",
+                    text: text.msg10,
+                    delay:35100,
+                    action: (state) => {
+                            // Проверяем, какой выбор был сделан ранее
+                            const lastChoice = state.choices["special_dick_showoff"];
+                    if (lastChoice && lastChoice.choice1) {
+                        state.nextChapter = 'special_wait_cute';
+                    } else if (lastChoice && lastChoice.choice2) {
+                        state.nextChapter = 'special_for_real';
+                    } else {
+                        state.nextChapter = 'special_wait_cute'; // fallback, если что-то пошло не так
+                    }
+                }
             }
-        },
-        {
-            id: "continue_to_special_for_real",
-            text: "Продолжить...",
-            nextChapter: 'special_for_real',
-            onChoose: () => {
-                gameState.choices["special_dick_showoff"] = "choice2";
-            }
-        }
-    ];
-}
+        ];
+    }
 }
