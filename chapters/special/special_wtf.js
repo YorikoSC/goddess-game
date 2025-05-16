@@ -2,9 +2,9 @@ export default {
     getText(gameState) {
 	const texts = gameState.language === 'en' ? {
         	msg1: "Lol, just a vibe check, silly! Wanted to sneak a peek at my man’s goods over latte! 😜",
-		msg12: "Nah, for real, what’s the deal?",
-		msg20: "Okay, I’ll drop it. Have fun at the café.",
-		msg34: "Fuck this, I’m done. Don’t talk to me tonight.",
+		msg2: "Nah, for real, what’s the deal?",
+		msg3: "Okay, I’ll drop it. Have fun at the café.",
+		msg4: "Fuck this, I’m done. Don’t talk to me tonight.",
         } : {
         	msg1: "Ха, просто прикол, глупый! Захотела глянуть на богатство своего парня за латте! 😜",
 		msg2: "Нет, серьёзно, в чём дело?",
@@ -21,30 +21,30 @@ export default {
                 showChoices: true
             }
         ];
-    },
+    }
 
-    getChoices(gameState) 
-	const text = this.getText(gameState);{        
-	return [
-            {
+    getChoices(gameState) {
+				const text = this.getText(gameState);       
+				return [
+        		{
                 id: "really",
-                text: texts.choice1,
-		delay:1500,
+                choice1: texts.msg2,
+								delay:1500,
                 nextChapter: "special_really"
-	    },
-		{
+						},
+						{
                 id: "really",
-                text: texts.choice1,
-		delay:1500,
-                nextChapter: "special_really"
-	    },
-	{
+                choice2: texts.msg3,
+								delay:1500,
+                nextChapter: "special_forget"
+						},
+						{
                 id: "really",
-                text: texts.choice1,
-		delay:1500,
-                nextChapter: "special_really"
-	    }
-
-                ];
-            },
+                choice3: texts.msg4,
+								delay:1500,
+                nextChapter: "special_fuckoff"
+						}
+        ];
+			},
+	};
 }
