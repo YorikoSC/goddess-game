@@ -21,30 +21,29 @@ export default {
                 showChoices: true
             }
         ];
-    }
+    },
 
     getChoices(gameState) {
-				const text = this.getText(gameState);       
-				return [
-        		{
+	const text = this.getText(gameState);       
+	return [
+        	{
                 id: "really",
-                choice1: texts.msg2,
-								delay:1500,
+                choice1: text.msg2,
+		delay:1500,
                 nextChapter: "special_really"
-						},
-						{
+		},
+		{
                 id: "really",
-                choice2: texts.msg3,
-								delay:1500,
+                choice2: text.msg3,
+		delay:1500,
                 nextChapter: "special_forget"
-						},
-						{
+		},
+		{
                 id: "really",
-                choice3: texts.msg4,
-								delay:1500,
+                choice3: text.msg4,
+		delay:1500,
                 nextChapter: "special_fuckoff"
-						}
+		}
         ];
-			},
-	};
+	}
 }
