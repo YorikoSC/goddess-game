@@ -142,14 +142,23 @@ export default {
     },
 
     getChoices(gameState) {
-        
-
-        return [
-            {
-                id: "continue_to_special_end",
-                text: "Продолжить...",
-                nextChapter: 'special_end'
+    return [
+        {
+            id: "continue_to_special_wait_cute",
+            text: "Продолжить...",
+            nextChapter: 'special_wait_cute',
+            onChoose: () => {
+                gameState.choices["special_dick_showoff"] = "choice1";
             }
-        ];
-    }
+        },
+        {
+            id: "continue_to_special_for_real",
+            text: "Продолжить...",
+            nextChapter: 'special_for_real',
+            onChoose: () => {
+                gameState.choices["special_dick_showoff"] = "choice2";
+            }
+        }
+    ];
+}
 }
