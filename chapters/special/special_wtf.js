@@ -33,13 +33,13 @@ export default {
                 nextChapter: "special_really"
 		},
 		{
-                id: "really",
+                id: "forget",
                 choice2: text.msg3,
 		delay:1500,
                 nextChapter: "special_forget"
 		},
 		{
-                id: "really",
+                id: "fuckoff",
                 choice3: text.msg4,
 		delay:1500,
                 nextChapter: "special_fuckoff"
