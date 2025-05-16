@@ -1,14 +1,6 @@
 export default {
     getText(gameState) {
-			const isChoice = state.choices["special_dick_showoff"] = {choice1: true};
-        setTimeout(() => {
-            const text = gameState.language === 'en' ? 
-                'The day after the date' : 
-                'На следующий день после свидания';
-            showOverlay(text, 3000);
-        }, 100);
-
-        const texts = gameState.language === 'en' ? {
+	const texts = gameState.language === 'en' ? {
             msg1: "Good morning, sweetie! 💋 How did you sleep after yesterday?"
         } : {
             msg1: "Доброе утро, сладкий! 💋 Как спалось после вчерашнего?"
