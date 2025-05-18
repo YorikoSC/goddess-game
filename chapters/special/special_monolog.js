@@ -144,7 +144,11 @@ export default {
     },
 
         getChoices(gameState) {
-            const text = this.getText(gameState);
+            const text = gameState.language === 'en' ? {
+            msg10: "Lina, why’d you need my dick pic while you’re with Amina? Kinda sus...",
+          } : {
+            msg10: "Лина, зачем тебе фотка моего члена, если ты с Аминой? Как-то стремно...",
+          };
             return [
                 {
                     id: "continue",
