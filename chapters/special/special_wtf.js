@@ -20,62 +20,32 @@ export default {
         const text = gameState.language === 'en' ? {
             msg2: "Nah, for real, what’s the deal?",
             msg3: "Okay, I’ll drop it. Have fun at the café.",
-            msg3a: "Aww, you’re the best! Nighty-night, my cutie! 😘",
-            msg3b: "Whatever, enjoy your café... I’m out for now. Night.",
             msg4: "Fuck this, I’m done. Don’t talk to me tonight.",
-            msg4a: "Whoa, babe, chill! Okay, I’ll back off. Sleep it off, we’ll talk later, k? 😔",
         } : {
             msg2: "Нет, серьёзно, в чём дело?",
             msg3: "Ладно, проехали. Веселись в кафе.",
-            msg3a: "Спасибо, милый! Ты топ! Споки-споки! 😘",
-            msg3b: "не уверен..",
             msg4: "Пиздец, всё, отвали. Не пиши мне сегодня.",
-            msg4a: "Да ладно тебе",
         };
 
         return [
             {
                 id: "really",
-                choice: text.msg2,
+                text: text.msg2,
                 delay: 1500,
                 nextChapter: "special_really"
             },
             {
                 id: "forget",
-                choice: text.msg3,
+                text: text.msg3,
                 delay: 1500,
-                result: [
-                    {
-                        type: "received",
-                        text: text.msg3a,
-                        delay: 1700
-                    },
-                    {
-                        id: "3b",
-                        text: text.msg3b,
-                        delay: 2100,
-                        nextChapter: "special_end"
-                    }
-                ]
+                nextChapter: "special_really_forget"
             },
             {
                 id: "fuckoff",
-                choice: text.msg4,
-                delay: 1500,
-                result: [
-                    {
-                        type: "received",
-                        text: text.msg4a,
-                        delay: 1700
-                    },
-                    {
-                        id: "3b",
-                        text: text.msg3b,
-                        delay: 2100,
-                        nextChapter: "special_end"
-                    }
-                ]
+                text: text.msg4,
+                nextChapter: "special_end_fuckoff"
             }
         ];
     }
 }
+
