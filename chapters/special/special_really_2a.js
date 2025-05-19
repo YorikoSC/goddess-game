@@ -24,7 +24,7 @@ export default {
     return [
          {
             id: "choice2",
-            choice: texts.choice2,
+            text: texts.choice2,
             delay: 2100,
             nextChapter: 'special_really_3'
         }
