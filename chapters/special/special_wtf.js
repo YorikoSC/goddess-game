@@ -36,13 +36,13 @@ export default {
         return [
             {
                 id: "really",
-                choice: text.msg2,
+                text: text.msg2,
                 delay: 1500,
                 nextChapter: "special_really"
             },
             {
                 id: "forget",
-                choice: text.msg3,
+                text: text.msg3,
                 delay: 1500,
                 result: [
                     {
@@ -60,7 +60,7 @@ export default {
             },
             {
                 id: "fuckoff",
-                choice: text.msg4,
+                text: text.msg4,
                 delay: 1500,
                 result: [
                     {
