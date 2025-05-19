@@ -1,6 +1,6 @@
 export default {
     getText(gameState) {
-        const texts = gameState.language === 'en' ? {
+        const text = gameState.language === 'en' ? {
             msg1: "Lol, just a vibe check, silly! Wanted to sneak a peek at my man’s goods over latte! 😜",
         } : {
             msg1: "Ха, просто прикол, глупый! Захотела глянуть на богатство своего парня за латте! 😜",
@@ -9,7 +9,7 @@ export default {
         return [
             {
                 type: "received",
-                text: texts.msg1,
+                text: text.msg1,
                 delay: 1000,
                 showChoices: true
             }
@@ -17,7 +17,7 @@ export default {
     },
 
     getChoices(gameState) {
-        const texts = gameState.language === 'en' ? {
+        const text = gameState.language === 'en' ? {
             msg2: "Nah, for real, what’s the deal?",
             msg3: "Okay, I’ll drop it. Have fun at the café.",
             msg3a: "Aww, you’re the best! Nighty-night, my cutie! 😘",
@@ -36,23 +36,23 @@ export default {
         return [
             {
                 id: "really",
-                choice: texts.msg2,
+                choice: text.msg2,
                 delay: 1500,
                 nextChapter: "special_really"
             },
             {
                 id: "forget",
-                choice: texts.msg3,
+                choice: text.msg3,
                 delay: 1500,
                 result: [
                     {
                         type: "received",
-                        text: texts.msg3a,
+                        text: text.msg3a,
                         delay: 1700
                     },
                     {
                         id: "3b",
-                        text: texts.msg3b,
+                        text: text.msg3b,
                         delay: 2100,
                         nextChapter: 'special_end'
                     }
@@ -60,17 +60,17 @@ export default {
             },
             {
                 id: "fuckoff",
-                choice: texts.msg4,
+                choice: text.msg4,
                 delay: 1500,
                 result: [
                     {
                         type: "received",
-                        text: texts.msg4a,
+                        text: text.msg4a,
                         delay: 1700
                     },
                     {
                         id: "3b",
-                        text: texts.msg3b,
+                        text: text.msg3b,
                         delay: 2100,
                         nextChapter: 'special_end'
                     }
