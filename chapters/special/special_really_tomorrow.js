@@ -16,16 +16,16 @@ export default {
   getChoices(gameState) {
     const texts = gameState.language === 'en' ? {
       choice1: "I'm not sure.",
-     } : {
+    } : {
       choice1: "не уверен..",
     };
-      return [
+    return [
       {
         id: "choice1",
         text: texts.choice1,
         delay: 1500,
         nextChapter: 'special_end'
       }
-  ];
-}
+    ];
+  }
 }
