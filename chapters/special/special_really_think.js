@@ -17,7 +17,7 @@ export default {
     const texts = gameState.language === 'en' ? {
       choice1: "I'm not sure.",
      } : {
-      choice1a: "не уверен..",
+      choice1: "не уверен..",
       return [
       {
         id: "choice1",
