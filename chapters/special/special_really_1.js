@@ -28,7 +28,7 @@ export default {
     return [
       {
         id: "choice1",
-        choice: texts.choice1,
+        text: texts.choice1,
         delay: 1500,
         result: [
           {
@@ -38,7 +38,7 @@ export default {
           },
           {
             id: "choice2",
-            choice: texts.choice2,
+            text: texts.choice2,
             delay: 2100,
             nextChapter: 'special_really_2'
           },
