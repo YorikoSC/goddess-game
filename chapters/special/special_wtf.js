@@ -54,7 +54,7 @@ export default {
                         id: "3b",
                         text: text.msg3b,
                         delay: 2100,
-                        nextChapter: 'special_end'
+                        nextChapter: "special_end"
                     }
                 ]
             },
@@ -72,7 +72,7 @@ export default {
                         id: "3b",
                         text: text.msg3b,
                         delay: 2100,
-                        nextChapter: 'special_end'
+                        nextChapter: "special_end"
                     }
                 ]
             }
