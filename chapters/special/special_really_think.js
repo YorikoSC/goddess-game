@@ -18,6 +18,7 @@ export default {
       choice1: "I'm not sure.",
      } : {
       choice1: "не уверен..",
+    };
       return [
       {
         id: "choice1",
