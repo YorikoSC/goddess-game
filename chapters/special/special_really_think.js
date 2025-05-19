@@ -26,4 +26,5 @@ export default {
         nextChapter: 'special_end'
       }
   ];
+  }
 }
