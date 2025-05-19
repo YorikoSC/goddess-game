@@ -26,7 +26,7 @@ export default {
         id: "choice1",
         text: texts.choice1,
         delay: 1500,
-        nextChapte: "special_really_1a"
+        nextChapter: "special_really_1a"
       }
         ];
       }
