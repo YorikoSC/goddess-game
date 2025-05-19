@@ -25,6 +25,6 @@ export default {
         delay: 1500,
         nextChapter: 'special_end'
       }
-  ];
+    ];
   }
 }
