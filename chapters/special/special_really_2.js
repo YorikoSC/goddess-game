@@ -38,7 +38,7 @@ export default {
           },
           {
             id: "choice2",
-            text: texts.choice2,
+            choice: texts.choice2,
             delay: 2100,
             nextChapter: 'special_really_3'
           },
