@@ -80,7 +80,29 @@ export default {
       { type: "received", text: texts.lina7, delay: 15400 },
       { type: "received", text: texts.lina8, delay: 17000 },
       { type: "sent", text: texts.mc4, delay: 18600 },
-      { type: "photo", text: texts.lina9, delay: 20200, src: texts.lina9_image },
+      { 
+    type: "photo", 
+    text: texts.lina9, 
+    delay: 20200, 
+    src: texts.lina9_image, 
+    onAfter: () => {
+        try {
+            console.log('Попытка добавить пост в PureGram');
+            if (typeof window.game.addNewPost === 'function') {
+                window.game.addNewPost(
+                    texts.lina9_image,
+                    'Примерка для новой фотосессии 📸✨',
+                    423
+                );
+                console.log('Функция addNewPost вызвана успешно');
+            } else {
+                console.error('Функция addNewPost не определена');
+            }
+        } catch (error) {
+            console.error('Ошибка при добавлении поста:', error);
+        }
+    }
+      }, 
       { type: "received", text: texts.lina10, delay: 21800 },
       { type: "sent", text: texts.mc5, delay: 23400 },
       { type: "received", text: texts.lina11, delay: 25000 },
