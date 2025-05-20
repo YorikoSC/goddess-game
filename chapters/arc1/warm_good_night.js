@@ -1,74 +1,49 @@
+// warm_good_night.js
 export default {
   translations: {
-      ru: {
-          msg_1: "Ладно, уже так поздно. Спать пора! Я пойду, и ты долго не сиди",
-          msg_2: "Дааа, ты права. Пойду тогда тоже понемногу",
-          choice_1: "Сладких снов!",
-          result_1: "Спасибо! Увидимся завтра в университете 💫",
-          choice_2: "Но даже как-то жалко прощаться на сегодня...",
-          result_2a: "Мне, если честно, тоже... Но нам обоим нужно выспаться 🌙",
-          result_2b: "Сладких снов и спокойной ночи! ❤️"
-      },
-      en: {
-          msg_1: "Well, it's so late already. Time to go to sleep! I'm going, and you shouldn't stay up too late either",
-          msg_2: "Yeaaah, you're right. I'll go to bed soon too",
-          choice_1: "Sweet dreams!",
-          result_1: "Thanks! See you tomorrow at university 💫",
-          choice_2: "But it's kind of sad to say goodbye for today...",
-          result_2a: "To be honest, I feel the same... But we both need to get some sleep 🌙",
-          result_2b: "Sweet dreams and good night! ❤️"
-      }
+    ru: {
+      msg_1: "Ты был таким послушным сегодня... Я довольна 😘",
+      msg_2: "Дааа, ты всегда знаешь, как меня порадовать.",
+      choice_1: "Сладких снов, моя госпожа!",
+      result_1: "Хороший мальчик! Увидимся завтра 💫",
+      choice_2: "Надеюсь, я заслужил награду...",
+      result_2a: "О, ты заслужил... Но я решу, что именно 😏",
+      result_2b: "Сладких снов, мой любимый слуга! ❤️"
+    },
+    en: {
+      msg_1: "You’ve been so obedient today... I’m pleased 😘",
+      msg_2: "Yeaaah, you always know how to make me happy.",
+      choice_1: "Sweet dreams, my mistress!",
+      result_1: "Good boy! See you tomorrow 💫",
+      choice_2: "I hope I’ve earned a reward...",
+      result_2a: "Oh, you have... But I’ll decide what it is 😏",
+      result_2b: "Sweet dreams, my favorite servant! ❤️"
+    }
   },
-
   getText(gameState) {
-      return [
-          {
-              type: "received",
-              text: this.translations[gameState.language].msg_1,
-              delay: 1000
-          },
-          {
-              type: "sent",
-              text: this.translations[gameState.language].msg_2,
-              delay: 2500,
-              showChoices: true
-          }
-      ];
+    return [
+      { type: "received", text: this.translations[gameState.language].msg_1, delay: 1000 },
+      { type: "sent", text: this.translations[gameState.language].msg_2, delay: 2500, showChoices: true }
+    ];
   },
-
   getChoices(gameState) {
-      const lang = gameState.language || 'ru';
-      
-      return [
-          {
-              id: "sweet_dreams",
-              text: this.translations[lang].choice_1,
-              result: [
-                  {
-                      type: "received",
-                      text: this.translations[lang].result_1,
-                      delay: 1000,
-                    nextChapter: "ark_final"
-                  }
-              ]
-          },
-          {
-              id: "sad_goodbye",
-              text: this.translations[lang].choice_2,
-              result: [
-                  {
-                      type: "received",
-                      text: this.translations[lang].result_2a,
-                      delay: 1000
-                  },
-                  {
-                      type: "received",
-                      text: this.translations[lang].result_2b,
-                      delay: 2500,
-                    nextChapter: "ark_final"
-                  }
-              ]
-          }
-      ];
+    const lang = gameState.language || 'ru';
+    return [
+      {
+        id: "sweet_dreams",
+        text: this.translations[lang].choice_1,
+        result: [
+          { type: "received", text: this.translations[lang].result_1, delay: 1000, nextChapter: "ark_final" }
+        ]
+      },
+      {
+        id: "ask_reward",
+        text: this.translations[lang].choice_2,
+        result: [
+          { type: "received", text: this.translations[lang].result_2a, delay: 1000 },
+          { type: "received", text: this.translations[lang].result_2b, delay: 2500, nextChapter: "ark_final" }
+        ]
+      }
+    ];
   }
 };
