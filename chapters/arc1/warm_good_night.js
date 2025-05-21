@@ -32,7 +32,7 @@ export default {
         id: "sweet_dreams",
         text: texts.choice_1,
         result: [
-          { type: "received", text: texts.result_1, delay: 1000, nextChapter: "ark_final" }
+          { type: "received", text: texts.result_1, delay: 1000, nextChapter: "Chapter7_intro" }
         ]
       },
       {
@@ -41,7 +41,7 @@ export default {
         action: (state) => { state.choices.warm_good_night = "reward_asked"; },
         result: [
           { type: "received", text: texts.result_2a, delay: 1000 },
-          { type: "received", text: texts.result_2b, delay: 2500, nextChapter: "ark_final" }
+          { type: "received", text: texts.result_2b, delay: 2500, nextChapter: "Chapter7_intro" }
         ]
       }
     ];

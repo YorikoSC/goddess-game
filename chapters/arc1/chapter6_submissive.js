@@ -30,7 +30,6 @@ export default {
       mc9: "I’ll do my best, Lina. I want you to feel good.",
       lina19: "That’s what I like to hear. We leave at 10 tomorrow.",
       lina20: "Get some rest, you’ll need your energy.",
-      mc10: "Got it. Night, Lina."
     } : {
       lina1: "Привет, съёмка завтра. Ты готов к этому?",
       lina2: "Я прям в предвкушении, особенно с тобой рядом.",
@@ -92,7 +91,6 @@ export default {
       { type: "sent", text: texts.mc9, delay: 42600 },
       { type: "received", text: texts.lina19, delay: 44200 },
       { type: "received", text: texts.lina20, delay: 45800 },
-      { type: "sent", text: texts.mc10, delay: 47400, nextChapter: "warm_good_night" }
     ];
   },
   getChoices(gameState) {

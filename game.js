@@ -274,7 +274,7 @@ function createPostElement(post) {
             <span>Lina</span>
         </div>
         <div class="pg-post-image">
-            <img src="${post.image}" alt="Post" class="post-image">
+            <img src="${post.image}" alt="Post" class="post-image" onclick="window.game.openFullscreenImage('${post.image}')">
         </div>
         <div class="pg-post-actions">
             <div class="pg-post-like-action">
@@ -295,7 +295,7 @@ function createPostElement(post) {
         </div>
     `;
     
-    return postElement; // Добавляем return
+    return postElement;
 }
 
 

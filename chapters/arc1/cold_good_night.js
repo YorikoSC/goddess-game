@@ -15,8 +15,8 @@ export default {
   },
   getChoices(gameState) {
     return [{
-      text: gameState.language === 'en' ? "Say goodbye" : "Попрощаться",
-      nextChapter: "ark_final"
+      text: gameState.language === 'en' ? "Night..." : "Снов...",
+      nextChapter: "Chapter7_intro"
     }];
   }
 };
