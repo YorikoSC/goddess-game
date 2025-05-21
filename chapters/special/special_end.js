@@ -8,10 +8,11 @@ export default {
             btn: "Вернуться в реальность"
         };
 
+        // Проверяем chapter8 и его значение
         let next;
-        if (gameState.choices['chapter6_misunderstanding']) {
+        if (gameState.choices['chapter8'] === "accept") {
             next = "hanger_1/hanger1";
-        } else if (gameState.choices['chapter6_photoshoot']) {
+        } else if (gameState.choices['chapter8'] === "reluctant") {
             next = "hanger_2/hanger2";
         } else if (gameState.choices['chapter6_theme']) {
             next = "hanger_3/hanger3";
@@ -28,6 +29,9 @@ export default {
         } else if (gameState.choices['chapter6_date_plan']) {
             next = "after_date/arc2_after_date";
         }
+
+        console.log('Current chapter8 choice:', gameState.choices['chapter8']); // Добавляем лог для отладки
+        console.log('Selected next chapter:', next); // Добавляем лог для отладки
 
         return [
             {

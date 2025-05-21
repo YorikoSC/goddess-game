@@ -243,43 +243,27 @@ function updateClock() {
 }
 
 // Функция для заполнения экрана PureGram
-function loadPuregramPosts() {
-    console.log('Загрузка постов PureGram');
-    const postsContainer = document.getElementById('posts');
-    if (!postsContainer) {
-        console.error('Контейнер для постов не найден');
-        return;
+const defaultPosts = [
+    {
+        image: 'img/lina_post1.jpg',
+        caption: 'Мой новый фотосет 💫',
+        likes: 256
+    },
+    {
+        image: 'img/lina_post2.jpg',
+        caption: 'Прогулка по городу ☀️',
+        likes: 178
+    },
+    {
+        image: 'img/lina_post3.jpg',
+        caption: 'Фото с новой фотосессии 📸',
+        likes: 321
     }
-    
-    // Очищаем контейнер
-    postsContainer.innerHTML = '';
-    
-    // Добавляем посты
-    const posts = [
-        {
-            image: 'img/lina_post1.jpg',
-            caption: 'Мой новый фотосет 💫',
-            likes: 256
-        },
-        {
-            image: 'img/lina_post2.jpg',
-            caption: 'Прогулка по городу ☀️',
-            likes: 178
-        },
-        {
-            image: 'img/lina_post3.jpg',
-            caption: 'Фото с новой фотосессии 📸',
-            likes: 321
-        }
-    ];
-    
-    posts.forEach(post => {
-        const postElement = createPostElement(post);
-        postsContainer.appendChild(postElement);
-    });
-}
+];
 
-// Вспомогательная функция для создания элемента поста
+let chapterPosts = JSON.parse(localStorage.getItem('chapterPosts')) || []; // Массив для хранения постов текущей главы
+
+// Исправляем функцию createPostElement
 function createPostElement(post) {
     const postElement = document.createElement('div');
     postElement.className = 'pg-post';
@@ -290,7 +274,7 @@ function createPostElement(post) {
             <span>Lina</span>
         </div>
         <div class="pg-post-image">
-            <img src="${post.image}" alt="Post" class="post-image">
+            <img src="${post.image}" alt="Post" class="post-image" onclick="window.game.openFullscreenImage('${post.image}')">
         </div>
         <div class="pg-post-actions">
             <div class="pg-post-like-action">
@@ -312,6 +296,33 @@ function createPostElement(post) {
     `;
     
     return postElement;
+}
+
+
+function loadPuregramPosts() {
+    console.log('Загрузка постов PureGram');
+    const postsContainer = document.getElementById('posts');
+    if (!postsContainer) {
+        console.error('Контейнер для постов не найден');
+        return;
+    }
+    
+    // Очищаем контейнер
+    postsContainer.innerHTML = '';
+    
+    // Объединяем посты главы с дефолтными
+    const allPosts = [...chapterPosts, ...defaultPosts];
+    
+    allPosts.forEach(post => {
+        if (!post || !post.image) {
+            console.error('Некорректный пост:', post);
+            return;
+        }
+        const postElement = createPostElement(post);
+        if (postElement) {
+            postsContainer.appendChild(postElement);
+        }
+    });
 }
 
 // Функция открытия изображения в полноэкранном режиме
@@ -433,13 +444,21 @@ function displayMessages(messages, container, onComplete, chapter) {
     const messagePromises = messages.map((message, index) => {
         return new Promise(resolve => {
             setTimeout(() => {
-                // Добавляем обработку фото-сообщений
                 if (message.type === 'photo') {
-                    addMessage(message.photoSent ? 'sent' : 'received', message.description, container, message.src);
+                    addMessage(message.photoSent ? 'sent' : 'received', message.text, container, message.src);
+                    // Безопасно добавляем вызов onAfter
+                    if (typeof message.onAfter === 'function') {
+                        try {
+                            message.onAfter();
+                        } catch (error) {
+                            console.error('Ошибка в onAfter:', error);
+                        }
+                    }
                 } else {
                     addMessage(message.type, message.text, container);
                 }
                 
+                // Сохраняем существующую логику
                 if (message.nextChoice && chapter) {
                     const nextChoice = chapter.getChoicesByKey(message.nextChoice, gameState);
                     if (nextChoice) {
@@ -456,10 +475,10 @@ function displayMessages(messages, container, onComplete, chapter) {
         });
     });
     
+    // Сохраняем существующую логику завершения
     Promise.all(messagePromises).then(() => {
         gameState.generateMessage = false;
         disabledButtons(gameState.generateMessage);
-        
         if (onComplete) onComplete();
     });
 }
@@ -765,6 +784,8 @@ function startNewGame() {
   clearProgress();
   
   clearChat();
+  localStorage.removeItem('chapterPosts'); // Очищаем сохраненные посты
+  chapterPosts = []; // Очищаем текущие посты
   
   showScreen('chat');
   
@@ -1125,7 +1146,28 @@ window.game = {
     clearProgress, // Добавляем в экспорт, если нужно
     clearChat,
     boostyNotification,
-    languageManager: null
+    languageManager: null,
+    addNewPost: function(image, caption, likes) {
+        console.log('Добавление нового поста:', {image, caption, likes});
+        
+        if (!image) {
+            console.error('Отсутствует изображение для поста');
+            return;
+        }
+        
+        // Добавляем пост в массив
+        chapterPosts.unshift({
+            image: image,
+            caption: caption,
+            likes: likes || 0
+        });
+        
+        // Сохраняем посты в localStorage
+        localStorage.setItem('chapterPosts', JSON.stringify(chapterPosts));
+        
+        console.log('Обновленные посты:', chapterPosts);
+        loadPuregramPosts();
+    }
 };
 
 // Запускаем игру после загрузки страницы
