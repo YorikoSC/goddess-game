@@ -2,6 +2,7 @@ export default {
   translations: {
     ru: {
       msg1: "Лина, ты никогда не слала мне такие фотки ног. Обидно. Даже повода не давала завестись, не показывала, что можно уже как-то... на пошлые темы говорить.",
+      nude_image: "img/lina_nude_tease_censored.jpg",
       lina1: "О, так ты наконец-то взрослый? Марк просил, он знает, что хочет, настойчивый, дерзкий, это всегда возбуждает девушек, малыш. Вот, держи, это для тебя.",
       msg2: "Что за хуйня? Почему оно цензурировано?",
       lina2: "Потому что Марк заслужил видеть всё. Он не боится просить, а ты... ты слишком мягкий. Я не хочу, чтобы мой мальчик пропустил такую важную часть взросления.",
@@ -40,11 +41,14 @@ export default {
       linaReluctant2: "Время у тебя есть. Я никуда не ухожу.",
       playerReluctant2: "Ладно, попробуем. Но это тяжело.",
       linaReluctant3: "Ты лучший, правда. Всё будет как прежде, просто немного в новой динамике.",
-      linaReluctantFinal: "Я люблю тебя. И я тебя."
+      linaReluctantMC: "Я люблю тебя.",
+      linaReluctantFinal: "И я тебя тоже."
+
     },
     en: {
       msg1: "Lina, you never sent me such photos of your feet. It's hurtful. You never even hinted that we could talk about naughty stuff.",
       lina1: "Oh, so you're finally acting grown-up? Mark asked for them, he knows what he wants, he's bold, assertive, that always turns girls on, babe. Here, this is for you.",
+      nude_image: "img/lina_nude_tease_censored.jpg",
       msg2: "What the fuck? Why is it censored?",
       lina2: "Because Mark earned the right to see everything. He's not afraid to ask, but you... you're too soft. I don't want my boy to miss out on such an important part of growing up.",
       msg3: "This is humiliating, Lina. Why do you give him what you don't give me?",
@@ -82,7 +86,8 @@ export default {
       linaReluctant2: "You've got time. I'm not going anywhere.",
       playerReluctant2: "Okay, let's try. But it's hard.",
       linaReluctant3: "You're the best, really. Things will be like before, just with a new dynamic.",
-      linaReluctantFinal: "I love you. And I love you too."
+      linaReluctantMC: "I love you.",
+      linaReluctantFinal: "And I love you too."
     }
   },
   getText(gameState) {
@@ -91,7 +96,7 @@ export default {
     return [
       { type: "sent", text: texts.msg1, delay: 1500 },
       { type: "received", text: texts.lina1, delay: 3200 },
-      { type: "received", image: "lina_nude_tease_censored.jpg", delay: 4900 },
+      { type: "photo", src: texts.nude_image, delay: 4900 },
       { type: "sent", text: texts.msg2, delay: 6600 },
       { type: "received", text: texts.lina2, delay: 8300 },
       { type: "sent", text: texts.msg3, delay: 10000 },
@@ -135,7 +140,8 @@ export default {
           { type: "sent", text: texts.playerAccept2, delay: 6100 },
           { type: "received", text: texts.linaAccept3, delay: 7800 },
           { type: "received", text: texts.linaAcceptFinal, delay: 9500 },
-          { type: "sent", text: texts.linaReluctantFinal, delay: 11200, nextChapter: "ark_final" }
+          { type: "sent", text: texts.linaReluctantMC, delay: 11200},
+          { type: "received", text: texts.linaReluctantFinal, delay: 12900, nextChapter: "ark_final" }
         ]
       },
       {
@@ -151,7 +157,8 @@ export default {
           { type: "sent", text: texts.playerReluctant2, delay: 6100 },
           { type: "received", text: texts.linaReluctant3, delay: 7800 },
           { type: "received", text: texts.linaReluctantFinal, delay: 9500 },
-          { type: "sent", text: texts.linaReluctantFinal, delay: 11200, nextChapter: "ark_final" }
+          { type: "sent", text: texts.linaReluctantMC, delay: 11200},
+          { type: "received", text: texts.linaReluctantFinal, delay: 12900, nextChapter: "ark_final" }
         ]
       }
     ];

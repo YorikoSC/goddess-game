@@ -84,10 +84,10 @@ export default {
       { type: "sent", text: texts.mc4, delay: 18600 },
       { type: "received", text: texts.lina9, delay: 20200 },
       { type: "received", text: texts.lina10, delay: 21800 },
-      { type: "sent", text: texts.mc5, delay: 23400 },
+      { type: "sent", text: texts.mc5, delay: 22500 },
       { type: "photo", 
           text: texts.lina11, 
-          delay: 22500, 
+          delay: 23400, 
           src: texts.lina11_image, 
           onAfter: () => {
             try {

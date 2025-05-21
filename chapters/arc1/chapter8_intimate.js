@@ -2,6 +2,7 @@ export default {
   translations: {
     ru: {
       msg1: "Лина, ты никогда не слала мне такие интимные фотки. Обидно. Даже повода не давала завестись, не показывала, что можно уже на пошлые темы говорить.",
+      nude_image: "img/lina_nude_tease_censored.jpg",
       lina1: "О, так ты наконец-то взрослый? Марк просил, он знает, что хочет, настойчивый, дерзкий, это всегда возбуждает девушек, малыш. Вот, держи, это для тебя.",
       msg2: "Пиздец... Ты правда это сделала? Для меня?",
       lina2: "Да, но только потому, что ты попросил. Марк сам берёт, что хочет, а ты ждёшь, пока я предложу.",
@@ -14,6 +15,7 @@ export default {
       msg6: "И что мне теперь делать?",
       lina6: "Тебе решать. Можешь принять это или нет. Но я не собираюсь менять своё поведение.",
       msg7: "Это пиздец как больно, Лина. Ты даже не даёшь мне шанса.",
+      lina7_image: "img/lina_pair_shoot_3.jpg",
       lina7: "Шанса? Ты никогда не показывал, что готов к такому. Вот, посмотри ещё одну фотку с ним.",
       msg8: "Чёрт, он держит тебя за талию. Это слишком.",
       lina8: "Слишком? Или тебе это нравится? Признай, тебя заводит, что я с ним.",
@@ -44,6 +46,7 @@ export default {
     },
     en: {
       msg1: "Lina, you never sent me such intimate photos. It’s hurtful. You never even hinted that we could talk about naughty stuff.",
+      nude_image: "img/lina_nude_tease_censored.jpg",
       lina1: "Oh, so you’re finally acting grown-up? Mark asked for them, he knows what he wants, he’s bold, assertive, that always turns girls on, babe. Here, this is for you.",
       msg2: "What the fuck... You really did this? For me?",
       lina2: "Yeah, but only because you asked. Mark takes what he wants, while you wait for me to offer.",
@@ -56,6 +59,7 @@ export default {
       msg6: "So what am I supposed to do now?",
       lina6: "Up to you. Accept it or don’t. But I’m not changing what I do.",
       msg7: "This hurts like hell, Lina. You don’t even give me a chance.",
+      lina7_image: "img/lina_pair_shoot_3.jpg",
       lina7: "A chance? You never showed you’re ready for this. Here, look at another pic with him.",
       msg8: "Damn, he’s holding your waist. That’s too much.",
       lina8: "Too much? Or do you like it? Admit it, you’re turned on by me being with him.",
@@ -91,7 +95,7 @@ export default {
     return [
       { type: "sent", text: texts.msg1, delay: 1500 },
       { type: "received", text: texts.lina1, delay: 3200 },
-      { type: "received", image: "lina_nude_tease.jpg", delay: 4900 },
+      { type: "photo", src: texts.nude_image, delay: 4900 },
       { type: "sent", text: texts.msg2, delay: 6600 },
       { type: "received", text: texts.lina2, delay: 8300 },
       { type: "sent", text: texts.msg3, delay: 10000 },
@@ -103,7 +107,7 @@ export default {
       { type: "sent", text: texts.msg6, delay: 20200 },
       { type: "received", text: texts.lina6, delay: 21900 },
       { type: "sent", text: texts.msg7, delay: 23600 },
-      { type: "received", text: texts.lina7, image: "lina_pair_shoot_3.jpg", delay: 25300 },
+      { type: "photo", text: texts.lina7, src: texts.lina7_image, delay: 25300 },
       { type: "sent", text: texts.msg8, delay: 27000 },
       { type: "received", text: texts.lina8, delay: 28700 },
       { type: "sent", text: texts.msg9, delay: 30400 },
