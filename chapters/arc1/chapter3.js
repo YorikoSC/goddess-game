@@ -2,12 +2,12 @@ export default {
   getText(gameState) {
     const texts = gameState.language === 'en' ? {
       msg1: "Today’s shoot was unreal. The photographer was totally into it.",
-      msg2: "He kept calling me his muse, can you believe that?",
+      msg2: "He kept calling me his kitty, can you believe that?",
       msg3: "I want you there next week. You’ll come and help out, right?",
       msg4: "Don’t make me ask twice, I’m counting on you."
     } : {
-      msg1: "Сегодняшняя съёмка была просто космос. Фотограф был в восторге.",
-      msg2: "Он всё время называл меня своей музой, можешь в это поверить?",
+      msg1: "Сегодняшняя съёмка офигенная. Фотограф был в восторге.",
+      msg2: "Он всё время называл меня котёнком, можешь в это поверить?",
       msg3: "Я хочу, чтобы ты был там на следующей неделе. Придёшь помогать, да?",
       msg4: "Не заставляй меня просить дважды, я на тебя рассчитываю."
     };
