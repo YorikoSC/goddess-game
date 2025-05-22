@@ -19,17 +19,17 @@ export default {
     const texts = gameState.language === 'en' ? {
       choice1: "Go have fun, Lina. I’m okay with it.",
       result1a: "Wow, you’re actually cool with it? I like this side of you.",
-      result1b: "Guess I’ll keep you around if you stay this chill.",
+      result1b: "Maybe I’ll spoil you if you keep being this easygoing.",
       choice2: "He’s crossing a line. You shouldn’t go.",
-      result2a: "Jealous much? Relax, I’m still calling the shots here.",
-      result2b: "Don’t try to control me. We’ll talk tomorrow."
+      result2a: "You’re jealous, huh? That’s cute - means you’re scared to lose me.",
+      result2b: "But don’t even think about telling me what to do - I’m the boss!"
     } : {
       choice1: "Развлекайся, Лина. Я не против.",
       result1a: "Серьёзно, ты не против? Мне нравится эта твоя сторона.",
-      result1b: "Пожалуй, оставлю тебя, если будешь таким покладистым.",
-      choice2: "Он перегибает. Не ходи к нему.",
-      result2a: "Ревнуешь, да? Расслабься, я всё равно главная.",
-      result2b: "Не смей мне указывать. Завтра поговорим."
+      result1b: "Пожалуй, буду баловать тебя, если и дальше будешь таким покладистым.",
+      choice2: "Он перегибает. Не ходи с ним!",
+      result2a: "Ревнуешь, да? Это хорошо - значит боишься потерять.",
+      result2b: "Но даже не думай указывать мне что делать - я главная!"
     };
     return [
       {
