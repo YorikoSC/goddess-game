@@ -18,6 +18,7 @@ export default {
       mc5: "Yeah, definitely. Show me.",
       lina11: "Here you go...",
       lina11_image: "img/lina_tease.jpg",
+      Lina11_img_disc: "Outfit fitting for the next photo shoot📸✨",
       lina12: "What do you think? Will the photographer like it?",
       mc6: "You look amazing. He’d be crazy not to like it.",
       lina13: "I’m glad you think so. He’s planning a private shoot next week.",
@@ -51,6 +52,7 @@ export default {
       lina10: "Кстати, примерила кое-что для следующей съёмки. Хочешь глянуть?",
       mc5: "Спрашиваешь? Конечно, покажи.",
       lina11_image: "img/lina_tease.jpg",
+      Lina11_img_disc: "Примерка для новой фотосессии 📸✨",
       lina11: "Вот, смотри...",
       lina12: "Ну как? Фотографу понравится, думаешь?",
       mc6: "Выглядишь невероятно! Ему точно понравится.",
@@ -95,7 +97,10 @@ export default {
               if (typeof window.game.addNewPost === 'function') {
                 window.game.addNewPost(
                     texts.lina11_image,
-                    'Примерка для новой фотосессии 📸✨',
+                    {
+                        ru: "Примерка для новой фотосессии 📸✨",
+                        en: "Outfit fitting for the next photo shoot📸✨"
+                    },
                     423
                 );
                 console.log('Функция addNewPost вызвана успешно');

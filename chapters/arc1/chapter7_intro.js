@@ -20,7 +20,10 @@ export default {
         onAfter: () => {
           window.game.addNewPost(
             texts.image,
-            texts.photo_caption,
+            {
+            ru: "Внезапная парная фотосессия 📸",
+            en: "Sudden pair photoshoot 📸"
+            },
             324
           );
         }

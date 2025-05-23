@@ -43,7 +43,7 @@ export default {
             {
                 id: "fuckoff",
                 text: text.msg4,
-                nextChapter: "special_end_fuckoff"
+                nextChapter: "special_really_fuckoff"
             }
         ];
     }

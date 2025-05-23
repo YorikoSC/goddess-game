@@ -349,6 +349,13 @@ body {
     max-width: 100%!important;
 }
 
+.message-description {
+    margin-top: 5px;
+    color: #a0a0a0;
+    font-size: 14px;
+}
+
+/* Обновляем существующий стиль для изображений */
 .chat-image {
     max-width: 80%;
     border-radius: 10px;

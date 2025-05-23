@@ -138,6 +138,9 @@ export class LanguageManager {
         if (chatContainer) chatContainer.innerHTML = '';
         if (choicesContainer) choicesContainer.innerHTML = '';
         
+        // Сбрасываем массив постов главы и перезагружаем из localStorage
+        chapterPosts = JSON.parse(localStorage.getItem('chapterPosts')) || [];
+        
         // Обновляем тексты интерфейса
         this.updateTexts();
         
@@ -146,7 +149,7 @@ export class LanguageManager {
         
         // Перезагружаем текущую главу с новым языком
         if (gameState.currentChapter) {
-            loadChapter(gameState.currentChapter);
+            loadChapterInstant(gameState.currentChapter);
         }
     }
 
@@ -246,27 +249,44 @@ function updateClock() {
 const defaultPosts = [
     {
         image: 'img/lina_post1.jpg',
-        caption: 'Мой новый фотосет 💫',
+        caption: {
+            ru: 'Мой новый фотосет 💫',
+            en: 'My new photoshoot 💫'
+        },
         likes: 256
     },
     {
         image: 'img/lina_post2.jpg',
-        caption: 'Прогулка по городу ☀️',
+        caption: {
+            ru: 'Прогулка по городу ☀️',
+            en: 'City walk ☀️'
+        },
         likes: 178
     },
     {
         image: 'img/lina_post3.jpg',
-        caption: 'Фото с новой фотосессии 📸',
+        caption: {
+            ru: 'Фото с новой фотосессии 📸',
+            en: 'Photos from new photoshoot 📸'
+        },
         likes: 321
     }
 ];
 
 let chapterPosts = JSON.parse(localStorage.getItem('chapterPosts')) || []; // Массив для хранения постов текущей главы
+// Добавляем новую переменную для хранения истории постов
+let allPosts = JSON.parse(localStorage.getItem('allPosts')) || [];
 
 // Исправляем функцию createPostElement
 function createPostElement(post) {
     const postElement = document.createElement('div');
     postElement.className = 'pg-post';
+    
+    // Получаем текущий язык из gameState
+    const currentLang = gameState.language || 'ru';
+    
+    // Получаем caption для текущего языка
+    const caption = post.caption[currentLang] || post.caption['ru']; // fallback to Russian if translation missing
     
     postElement.innerHTML = `
         <div class="pg-post-header">
@@ -291,7 +311,7 @@ function createPostElement(post) {
             </svg>
         </div>
         <div class="pg-post-caption">
-            <p>${post.caption}</p>
+            <p>${caption}</p>
         </div>
     `;
     
@@ -310,10 +330,13 @@ function loadPuregramPosts() {
     // Очищаем контейнер
     postsContainer.innerHTML = '';
     
-    // Объединяем посты главы с дефолтными
-    const allPosts = [...chapterPosts, ...defaultPosts];
+    // Загружаем все сохраненные посты
+    allPosts = JSON.parse(localStorage.getItem('allPosts')) || [];
     
-    allPosts.forEach(post => {
+    // Объединяем все посты с дефолтными
+    const allPostsToShow = [...allPosts, ...defaultPosts];
+    
+    allPostsToShow.forEach(post => {
         if (!post || !post.image) {
             console.error('Некорректный пост:', post);
             return;
@@ -444,8 +467,19 @@ function displayMessages(messages, container, onComplete, chapter) {
     const messagePromises = messages.map((message, index) => {
         return new Promise(resolve => {
             setTimeout(() => {
+                // Воспроизводим звук только для полученных сообщений
+                if (message.type === 'received' || message.type === 'photo') {
+                    playMessageSound();
+                }
                 if (message.type === 'photo') {
-                    addMessage(message.photoSent ? 'sent' : 'received', message.text, container, message.src);
+                    addMessage(
+                        message.type, 
+                        message.text, 
+                        container, 
+                        message.src,
+                        message.description,// Добавляем передачу description
+                        message.messageType 
+                    );
                     // Безопасно добавляем вызов onAfter
                     if (typeof message.onAfter === 'function') {
                         try {
@@ -475,7 +509,6 @@ function displayMessages(messages, container, onComplete, chapter) {
         });
     });
     
-    // Сохраняем существующую логику завершения
     Promise.all(messagePromises).then(() => {
         gameState.generateMessage = false;
         disabledButtons(gameState.generateMessage);
@@ -484,60 +517,39 @@ function displayMessages(messages, container, onComplete, chapter) {
 }
 
 // Добавление сообщения в чат
-function addMessage(type, text, container, image) {
-    const msg = document.createElement('div');
-    msg.className = type === 'sent' ? 'message message-sent' : 'message message-received';
-    if (type === 'monolog') {
-        msg.className = 'message message-monolog';
+function addMessage(type, text, container, image, description, messageType) {
+    const messageDiv = document.createElement('div');
+    
+    // Определяем класс сообщения на основе типа или messageType для фото
+    if (type === 'photo') {
+        messageDiv.className = `message message-${messageType || 'received'}`;
+    } else {
+        messageDiv.className = `message message-${type}`;
     }
     
-    const messageId = `msg_${Date.now()}`;
-    msg.dataset.messageId = messageId;
-    
-    if (text) {
-        if (window.game.languageManager && window.game.languageManager.chapterTranslations) {
-            const currentLang = window.game.languageManager.currentLang;
-            const translations = window.game.languageManager.chapterTranslations[currentLang];
-            if (translations && translations[messageId]) {
-                text = translations[messageId];
-            }
-        }
-        msg.textContent = text;
+    // Наполняем содержимым, используя проверки на undefined
+    if (type === 'photo') {
+        messageDiv.innerHTML = `
+            ${text && text !== 'undefined' ? `<div class="message-text">${text}</div>` : ''}
+            <img src="${image}" class="chat-image" alt="Message Image" onclick="window.game.openFullscreenImage('${image}')">
+            ${description && description !== 'undefined' ? `<div class="message-description">${description}</div>` : ''}
+        `;
+    } else {
+        messageDiv.textContent = text || '';
     }
     
-    // Добавляем обработку изображений
-    if (image) {
-        const img = document.createElement('img');
-        img.src = image;
-        img.className = 'chat-image';
-        img.alt = ''; // Добавляем alt для доступности
-        img.addEventListener('click', () => {
-            openFullscreenImage(img.src);
-        });
-        msg.appendChild(img);
-    }
-    container.appendChild(msg);
-    
-    if (type === 'received') {
-        playMessageSound();
-    }
-    
-    setTimeout(() => {
-        container.scrollTo({
-            top: container.scrollHeight,
-            behavior: 'auto' 
-        });
-    }, 100);
+    container.appendChild(messageDiv);
+    container.scrollTop = container.scrollHeight;
 }
 
-// Отображение содержимого главы
+
 function renderChapter(chapter, instant = false) {
     // Get messages and choices first
     const messages = chapter.getText(gameState);
     const choices = chapter.getChoices ? chapter.getChoices(gameState) : [];
 
     // Handle monolog message type first
-    if (messages && messages.length > 0 && messages[0].type === "monolog-placeholder") {
+    if (messages && messages.length === 1 && messages[0].type === "monolog-placeholder") {
         const monolog = messages[0];
         
         // Clear entire chat wrapper
@@ -620,26 +632,29 @@ function renderChoices(choices, container) {
     container.innerHTML = '';
     const chatContainer = document.getElementById('chat');
 
-    // Добавляем класс для чата сразу
     chatContainer.classList.add('has-choices');
-    
-    // Показываем контейнер выбора
     container.classList.add('visible');
 
     choices.forEach(choice => {
         const button = document.createElement('button');
         button.className = 'choice-button';
-        button.textContent = choice.type === 'photo' ? choice.description : choice.text;
+        button.textContent = choice.buttonText || choice.text; // используем buttonText для текста кнопки
         
         button.addEventListener('click', async () => {
             if (gameState.isBusy) return;
             
-            // Убираем классы при выборе
             chatContainer.classList.remove('has-choices');
             container.classList.remove('visible');
             
             if (choice.type === 'photo') {
-                addMessage('sent', choice.text, chatContainer, choice.src);
+                addMessage(
+                    'photo', 
+                    choice.text, // передаем text как есть
+                    chatContainer, 
+                    choice.src, 
+                    choice.description,
+                    'sent'
+                );
             } else {
                 addMessage('sent', choice.text, chatContainer);
             }
@@ -769,7 +784,6 @@ function showScreen(screenId) {
     }
 }
 
-
 // Начало новой игры
 function startNewGame() {
   gameState.choices = {};
@@ -785,7 +799,9 @@ function startNewGame() {
   
   clearChat();
   localStorage.removeItem('chapterPosts'); // Очищаем сохраненные посты
+  localStorage.removeItem('allPosts'); // Очищаем историю постов
   chapterPosts = []; // Очищаем текущие посты
+  allPosts = []; // Очищаем массив всех постов
   
   showScreen('chat');
   
@@ -894,6 +910,10 @@ function restartChapter() {
     // Сбрасываем окно бусти, если открыто
     gameState.boostyNotification = false;
 
+    // Очищаем посты текущей главы
+    chapterPosts = [];
+    localStorage.removeItem('chapterPosts');
+
     // Используем последнюю контрольную точку, если она существует
     if (gameState.lastCheckpoint && gameState.lastCheckpoint.chapter) {
         // Восстанавливаем состояние из контрольной точки
@@ -990,15 +1010,12 @@ async function loadChapterInstant(chapterId) {
                     }
                     msg.textContent = message.text;
                     if (message.type === 'photo') {
-                        msg.className = message.photoSent ? 'message message-sent' : 'message message-received';
-                        const img = document.createElement('img');
-                        img.src = message.src;
-                        img.className = 'chat-image';
-                        img.alt = ''; // Добавляем alt для доступности
-                        img.addEventListener('click', () => {
-                            openFullscreenImage(img.src);
-                        });
-                        msg.appendChild(img);
+                        msg.className = `message message-${message.messageType || 'received'}`;
+                        msg.innerHTML = `
+            ${message.text ? `<div class="message-text">${message.text}</div>` : ''}
+            <img src="${message.src}" class="chat-image" alt="Message Image" onclick="window.game.openFullscreenImage('${message.src}')">
+            ${message.description ? `<div class="message-description">${message.description}</div>` : ''}
+        `;
                     }
                     chatContainer.appendChild(msg);
                 });
@@ -1155,15 +1172,27 @@ window.game = {
             return;
         }
         
-        // Добавляем пост в массив
-        chapterPosts.unshift({
-            image: image,
-            caption: caption,
-            likes: likes || 0
-        });
+        const captionObj = typeof caption === 'string' ? {
+            ru: caption,
+            en: caption
+        } : caption;
         
-        // Сохраняем посты в localStorage
+        const newPost = {
+            image: image,
+            caption: captionObj,
+            likes: likes || 0,
+            chapter: gameState.currentChapter // Сохраняем информацию о главе
+        };
+        
+        // Добавляем в текущие посты главы
+        chapterPosts.unshift(newPost);
+        
+        // Добавляем в общую историю постов
+        allPosts.unshift(newPost);
+        
+        // Сохраняем оба массива
         localStorage.setItem('chapterPosts', JSON.stringify(chapterPosts));
+        localStorage.setItem('allPosts', JSON.stringify(allPosts));
         
         console.log('Обновленные посты:', chapterPosts);
         loadPuregramPosts();

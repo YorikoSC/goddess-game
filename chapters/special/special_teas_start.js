@@ -29,15 +29,18 @@ export default {
 },
     getChoices (gameState){
         const texts = gameState.language === 'en' ? {
-            msg4: "Send photo"
+            msg4: "Send photo",
+            msg5: "Here's what you asked for 😏"
           } : {
-            msg4: "Отправить фотографию"
+            msg4: "Отправить фотографию",
+            msg5: "Вот что ты просила 😏"
           };
         return[
             {
                 type: "photo",
-                src:"./img/photos/special1/hero_penis.jpg",
-                description: texts.msg4,
+                text: texts.msg5,        // текст сообщения с фото
+                buttonText: texts.msg4,   // текст для кнопки выбора
+                src: "./img/photos/special1/hero_penis.jpg",
                 nextChapter: "special_dick_showoff",
             }
         ];
