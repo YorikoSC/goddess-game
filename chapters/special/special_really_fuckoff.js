@@ -26,7 +26,7 @@ export default {
         return [
             {
                 id: "really",
-                choice: text.msg2,
+                text: text.msg2,
                 delay: 1500,
                 nextChapter: "special_end"
             }
