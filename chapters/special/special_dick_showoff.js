@@ -7,7 +7,7 @@ export default {
           };
     return [
         {
-            type: "recived",
+            type: "received",
             text: texts.msg1,
             delay:1000,
         }
