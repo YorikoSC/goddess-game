@@ -141,7 +141,7 @@ export default {
           { type: "received", text: texts.linaAccept3, delay: 7800 },
           { type: "received", text: texts.linaAcceptFinal, delay: 9500 },
           { type: "sent", text: texts.linaReluctantMC, delay: 11200},
-          { type: "received", text: texts.linaReluctantFinal, delay: 12900, nextChapter: "ark_final" }
+          { type: "received", text: texts.linaReluctantFinal, delay: 12900, nextChapter: "chapter9_submissive" }
         ]
       },
       {
@@ -158,7 +158,7 @@ export default {
           { type: "received", text: texts.linaReluctant3, delay: 7800 },
           { type: "received", text: texts.linaReluctantFinal, delay: 9500 },
           { type: "sent", text: texts.linaReluctantMC, delay: 11200},
-          { type: "received", text: texts.linaReluctantFinal, delay: 12900, nextChapter: "ark_final" }
+          { type: "received", text: texts.linaReluctantFinal, delay: 12900, nextChapter: "chapter9_resist" }
         ]
       }
     ];
