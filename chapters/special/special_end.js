@@ -10,7 +10,7 @@ export default {
 
         // Проверяем chapter8 и его значение
         let next;
-        if (gameState.choices['chapter8'] === "accept") {
+        if (gameState.choices['chapter9'] === "i_will_proove") {
             next = "hanger_1/hanger1";
         } else if (gameState.choices['chapter8'] === "reluctant") {
             next = "hanger_2/hanger2";
