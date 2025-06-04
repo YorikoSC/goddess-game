@@ -93,11 +93,10 @@ export default {
           gameState.choices.chapter9_sex = "unfair";
         },
         result: [
-          { type: "sent", text: texts.choice1a, delay: 1000 },
-          { type: "received", text: texts.lina1a, delay: 2700 },
-          { type: "received", text: texts.lina8, delay: 4400 },
-          { type: "sent", text: texts.mc5, delay: 6100 },
-          { type: "received", text: texts.lina9, delay: 7800, nextChapter: "chapter9_resist_part2" }
+          { type: "received", text: texts.lina1a, delay: 1000 },
+          { type: "received", text: texts.lina8, delay: 2700 },
+          { type: "sent", text: texts.mc5, delay: 4400 },
+          { type: "received", text: texts.lina9, delay: 6100, nextChapter: "chapter9_resist_part2" }
         ]
       },
       {
@@ -107,11 +106,10 @@ export default {
           gameState.choices.chapter9_sex = "pushed";
         },
         result: [
-          { type: "sent", text: texts.choice1b, delay: 1000 },
-          { type: "received", text: texts.lina1b, delay: 2700 },
-          { type: "received", text: texts.lina8, delay: 4400 },
-          { type: "sent", text: texts.mc5, delay: 6100 },
-          { type: "received", text: texts.lina9, delay: 7800, nextChapter: "chapter9_resist_part2" }
+          { type: "received", text: texts.lina1b, delay: 1000 },
+          { type: "received", text: texts.lina8, delay: 2700 },
+          { type: "sent", text: texts.mc5, delay: 4400 },
+          { type: "received", text: texts.lina9, delay: 6100, nextChapter: "chapter9_resist_part2" }
         ]
       },
       {
@@ -121,11 +119,10 @@ export default {
           gameState.choices.chapter9_sex = "enough";
         },
         result: [
-          { type: "sent", text: texts.choice1c, delay: 1000 },
-          { type: "received", text: texts.lina1c, delay: 2700 },
-          { type: "received", text: texts.lina8, delay: 4400 },
-          { type: "sent", text: texts.mc5, delay: 6100 },
-          { type: "received", text: texts.lina9, delay: 7800, nextChapter: "chapter9_resist_part2" }
+          { type: "received", text: texts.lina1c, delay: 1000 },
+          { type: "received", text: texts.lina8, delay: 2700 },
+          { type: "sent", text: texts.mc5, delay: 4400 },
+          { type: "received", text: texts.lina9, delay: 6100, nextChapter: "chapter9_resist_part2" }
         ]
       }
     ];

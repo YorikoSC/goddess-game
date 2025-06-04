@@ -38,7 +38,7 @@ export default {
                 id: "forget",
                 text: text.msg3,
                 delay: 1500,
-                nextChapter: "special_really_forget"
+                nextChapter: "special_wtf_forget"
             },
             {
                 id: "fuckoff",

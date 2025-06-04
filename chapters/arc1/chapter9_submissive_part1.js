@@ -87,12 +87,35 @@ export default {
           gameState.choices.chapter9_sex = "apologize";
         },
         result: [
-          { type: "sent", text: texts.choice1a, delay: 1000 },
-          { type: "received", text: texts.lina1a, delay: 2700 },
+          { type: "received", text: texts.lina1a, delay: 1000 },
+          { type: "sent", text: texts.mc4, delay: 2700 },
           { type: "received", text: texts.lina7, delay: 4400, nextChapter: "chapter9_submissive_part2" }
         ]
       },
-      // ... аналогично для других выборов
+      {
+        id: "apologize",
+        text: texts.choice1b,
+        action: (gameState) => {
+          gameState.choices.chapter9_sex = "chance";
+        },
+        result: [
+          { type: "received", text: texts.lina1b, delay: 1000 },
+          { type: "sent", text: texts.mc4, delay: 2700 },
+          { type: "received", text: texts.lina7, delay: 4400, nextChapter: "chapter9_submissive_part2" }
+        ]
+      },
+      {
+        id: "apologize",
+        text: texts.choice1c,
+        action: (gameState) => {
+          gameState.choices.chapter9_sex = "change_theme";
+        },
+        result: [
+          { type: "received", text: texts.lina1c, delay: 1000 },
+          { type: "sent", text: texts.mc4, delay: 2700 },
+          { type: "received", text: texts.lina7, delay: 4400, nextChapter: "chapter9_submissive_part2" }
+        ]
+      }
     ];
   }
 };

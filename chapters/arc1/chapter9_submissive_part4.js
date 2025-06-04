@@ -76,6 +76,7 @@ export default {
   },
 
   getChoices(gameState) {
+    const texts = this.translations[gameState.language];
     return [
       {
         id: "i_will_prove",

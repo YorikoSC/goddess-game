@@ -123,7 +123,9 @@ export class LanguageManager {
 
     toggleLanguage() {
         console.log('Переключение языка с', this.currentLang);
-        this.currentLang = this.currentLang === 'ru' ? 'en' : 'ru';
+        // Сначала обновляем язык в gameState
+        gameState.language = this.currentLang === 'ru' ? 'en' : 'ru';
+        this.currentLang = gameState.language;
         console.log('на', this.currentLang);
         
         const langBtn = document.querySelector('.lang-btn');
@@ -143,9 +145,6 @@ export class LanguageManager {
         
         // Обновляем тексты интерфейса
         this.updateTexts();
-        
-        // Обновляем язык в gameState
-        gameState.language = this.currentLang;
         
         // Перезагружаем текущую главу с новым языком
         if (gameState.currentChapter) {
@@ -1066,7 +1065,7 @@ function initGame() {
              const hasProgress = loadProgress();
         
         if (!hasProgress) {
-            // Очищаем только при НАМЕРЕННОМ начале новой игры
+            // Очищаем только при НАМЕРЕНТОМ начале новой игры
             gameState.choices = {};
             gameState.arc = 1;
             gameState.isBusy = false;

@@ -139,7 +139,7 @@ export default {
           { type: "sent", text: texts.playerAccept2, delay: 6100 },
           { type: "received", text: texts.linaAccept3, delay: 7800 },
           { type: "received", text: texts.linaAcceptFinal, delay: 9500 },
-          { type: "sent", text: texts.linaReluctantFinal, delay: 11200, nextChapter: "chapter9_submissive" }
+          { type: "sent", text: texts.linaReluctantFinal, delay: 11200, nextChapter: "chapter9_submissive_part1" }
         ]
       },
       {
@@ -155,7 +155,7 @@ export default {
           { type: "sent", text: texts.playerReluctant2, delay: 6100 },
           { type: "received", text: texts.linaReluctant3, delay: 7800 },
           { type: "received", text: texts.linaReluctantFinal, delay: 9500 },
-          { type: "sent", text: texts.linaReluctantFinal, delay: 11200, nextChapter: "chapter9_resist" }
+          { type: "sent", text: texts.linaReluctantFinal, delay: 11200, nextChapter: "chapter9_resist_part1" }
         ]
       }
     ];

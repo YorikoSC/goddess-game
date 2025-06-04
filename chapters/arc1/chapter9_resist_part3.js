@@ -39,9 +39,8 @@ export default {
           gameState.choices.chapter9_tg = "for_fun";
         },
         result: [
-          { type: "sent", text: texts.choice3a, delay: 1000 },
-          { type: "received", text: texts.lina3a, delay: 2700 },
-          { type: "received", text: texts.lina11, delay: 4400, nextChapter: "chapter9_resist_part4" }
+          { type: "received", text: texts.lina3a, delay: 1000 },
+          { type: "received", text: texts.lina11, delay: 2700, nextChapter: "chapter9_resist_part4" }
         ]
       },
       {
@@ -51,9 +50,8 @@ export default {
           gameState.choices.chapter9_tg = "caught_change";
         },
         result: [
-          { type: "sent", text: texts.choice3b, delay: 1000 },
-          { type: "received", text: texts.lina3b, delay: 2700 },
-          { type: "received", text: texts.lina11, delay: 4400, nextChapter: "chapter9_resist_part4" }
+          { type: "received", text: texts.lina3b, delay: 1000 },
+          { type: "received", text: texts.lina11, delay: 2700, nextChapter: "chapter9_resist_part4" }
         ]
       },
       {
@@ -63,9 +61,8 @@ export default {
           gameState.choices.chapter9_tg = "change_topic";
         },
         result: [
-          { type: "sent", text: texts.choice3c, delay: 1000 },
-          { type: "received", text: texts.lina3c, delay: 2700 },
-          { type: "received", text: texts.lina11, delay: 4400, nextChapter: "chapter9_resist_part4" }
+          { type: "received", text: texts.lina3c, delay: 1000 },
+          { type: "received", text: texts.lina11, delay: 2700, nextChapter: "chapter9_resist_part4" }
         ]
       }
     ];

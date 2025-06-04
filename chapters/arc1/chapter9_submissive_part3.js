@@ -41,10 +41,9 @@ export default {
           gameState.choices.chapter9_tg = "best_feet";
         },
         result: [
-          { type: "sent", text: texts.choice3a, delay: 1000 },
-          { type: "received", text: texts.lina3a, delay: 2700 },
-          { type: "sent", text: texts.mc8, delay: 4400 },
-          { type: "received", text: texts.lina10, delay: 6100, nextChapter: "chapter9_submissive_part4" }
+          { type: "received", text: texts.lina3a, delay: 1000 },
+          { type: "sent", text: texts.mc8, delay: 2700 },
+          { type: "received", text: texts.lina10, delay: 4400, nextChapter: "chapter9_submissive_part4" }
         ]
       },
       {
@@ -54,10 +53,9 @@ export default {
           gameState.choices.chapter9_tg = "will_change";
         },
         result: [
-          { type: "sent", text: texts.choice3b, delay: 1000 },
-          { type: "received", text: texts.lina3b, delay: 2700 },
-          { type: "sent", text: texts.mc8, delay: 4400 },
-          { type: "received", text: texts.lina10, delay: 6100, nextChapter: "chapter9_submissive_part4" }
+          { type: "received", text: texts.lina3b, delay: 1000 },
+          { type: "sent", text: texts.mc8, delay: 2700 },
+          { type: "received", text: texts.lina10, delay: 4400, nextChapter: "chapter9_submissive_part4" }
         ]
       },
       {
@@ -67,10 +65,9 @@ export default {
           gameState.choices.chapter9_tg = "change_topic";
         },
         result: [
-          { type: "sent", text: texts.choice3c, delay: 1000 },
-          { type: "received", text: texts.lina3c, delay: 2700 },
-          { type: "sent", text: texts.mc8, delay: 4400 },
-          { type: "received", text: texts.lina10, delay: 6100, nextChapter: "chapter9_submissive_part4" }
+          { type: "received", text: texts.lina3c, delay: 1000 },
+          { type: "sent", text: texts.mc8, delay: 2700 },
+          { type: "received", text: texts.lina10, delay: 4400, nextChapter: "chapter9_submissive_part4" }
         ]
       }
     ];
