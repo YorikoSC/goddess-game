@@ -32,7 +32,28 @@ const gameState = {
   lastCheckpoint: {
       chapter: null,
       choices: {}
-  }
+  },
+  chats: {
+    lina: {
+        name: {
+            ru: "Лина",
+            en: "Lina"
+        },
+        avatar: "img/lina_avatar.jpg",
+        unread: 0,
+        isActive: true
+    },
+    amina: {
+        name: {
+            ru: "Амина",
+            en: "Amina"
+        },
+        avatar: "img/amina_avatar.jpg", 
+        unread: 0,
+        isActive: false
+    }
+},
+currentChat: 'lina',
 };
 
 let savedState = null; // Переменная для хранения состояния
@@ -516,7 +537,12 @@ function displayMessages(messages, container, onComplete, chapter) {
 }
 
 // Добавление сообщения в чат
-function addMessage(type, text, container, image, description, messageType) {
+function addMessage(type, text, container, image, description, messageType, chatId = 'lina') {
+    if (chatId !== gameState.currentChat) {
+        markChatUnread(chatId);
+        return;
+    }
+    
     const messageDiv = document.createElement('div');
     
     // Определяем класс сообщения на основе типа или messageType для фото
@@ -1065,7 +1091,7 @@ function initGame() {
              const hasProgress = loadProgress();
         
         if (!hasProgress) {
-            // Очищаем только при НАМЕРЕНТОМ начале новой игры
+            // Очищаем только при НАМЕРЕНТом начале новой игры
             gameState.choices = {};
             gameState.arc = 1;
             gameState.isBusy = false;
@@ -1130,6 +1156,65 @@ if (restartChapterBtn) {
     }
 
     hideNavigation();
+}
+
+function initChats() {
+    const chatListBtn = document.querySelector('.chat-list-button');
+    const chatList = document.querySelector('.chat-list');
+    const choicesContainer = document.getElementById('choices');
+    
+    chatListBtn.addEventListener('click', () => {
+        chatList.classList.toggle('active');
+        renderChatList();
+    });
+
+    chatList.addEventListener('click', (e) => {
+        const chatItem = e.target.closest('.chat-item');
+        if (chatItem) {
+            const chatId = chatItem.dataset.chatId;
+            switchChat(chatId);
+        }
+    });
+}
+
+function renderChatList() {
+    const chatList = document.querySelector('.chat-list');
+    chatList.innerHTML = '';
+    
+    Object.entries(gameState.chats).forEach(([id, chat]) => {
+        if (!chat.isActive) return;
+        
+        const chatItem = document.createElement('div');
+        chatItem.className = 'chat-item';
+        chatItem.dataset.chatId = id;
+        chatItem.innerHTML = `
+            <img src="${chat.avatar}" class="avatar" alt="${chat.name[gameState.language]}">
+            <div class="chat-info">
+                <h2>${chat.name[gameState.language]}</h2>
+                <p class="online-status">online</p>
+            </div>
+            ${chat.unread > 0 ? '<div class="unread-marker"></div>' : ''}
+        `;
+        
+        chatList.appendChild(chatItem);
+    });
+}
+
+function switchChat(chatId) {
+    const chatList = document.querySelector('.chat-list');
+    const choicesContainer = document.getElementById('choices');
+    
+    chatList.classList.remove('active');
+    
+    // Обновляем текущий чат в gameState если нужно
+    if (gameState.currentChat !== chatId) {
+        gameState.currentChat = chatId;
+    }
+    
+    // Проверяем необходимость показа выборов
+    if (gameState.dialogueEnded && !chatList.classList.contains('active')) {
+        choicesContainer.classList.add('visible');
+    }
 }
 
 // Функция сохранения игры
@@ -1201,4 +1286,5 @@ window.game = {
 // Запускаем игру после загрузки страницы
 window.addEventListener('DOMContentLoaded', () => {
   initGame();
+  initChats();
 });

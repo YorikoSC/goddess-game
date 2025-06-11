@@ -24,19 +24,26 @@
             </div>
             <div class="screen" data-screen="chat">
                 <div class="chat-header">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-                    </svg>
+                    <button class="chat-list-button" type="button">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" fill="currentColor"/>
+                        </svg>
+                    </button>
                     <div class="chat-info">
                         <h2>Lina 🖤</h2>
                         <p class="online-status">online</p>
                     </div>
                     <img src="./img/lina_avatar.jpg" class="avatar" alt="Lina">
                 </div>
+                
+                <div class="chat-list">
+                    <!-- Чаты добавляются динамически -->
+                </div>
+                
                 <div class="chat-wrapper">
                     <div class="chat-messages" id="chat"></div>
+                    <div class="choices" id="choices"></div>
                 </div>
-                <div class="choices" id="choices"></div>
             </div>
             <div class="screen" data-screen="puregram">
                 <div class="pg-header">
@@ -66,6 +73,26 @@
                     <p>Продолжение следует...</p>
                     <button class="start-new-chapter">Начать новую главу</button>
                 </div>
+            </div>
+            <!-- Обновляем структуру чата -->
+            <div id="chat-screen" class="screen">
+                <div class="chat-header">
+                    <button class="chat-list-button" type="button">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <div class="chat-info">
+                        <!-- Остальной контент шапки -->
+                    </div>
+                </div>
+                
+                <div class="chat-list">
+                    <!-- Чаты добавляются динамически -->
+                </div>
+                
+                <div id="chat" class="chat-messages"></div>
+                <div id="choices" class="choices"></div>
             </div>
             <nav class="nav">
                 <div class="nav-btn--endGame" data-screen="endgame">
