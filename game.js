@@ -1162,8 +1162,17 @@ function initChats() {
     const chatListBtn = document.querySelector('.chat-list-button');
     const chatList = document.querySelector('.chat-list');
     const choicesContainer = document.getElementById('choices');
+    let wasChoicesVisible = false;
     
     chatListBtn.addEventListener('click', () => {
+        // Сохраняем состояние видимости выборов перед открытием списка
+        wasChoicesVisible = choicesContainer.classList.contains('visible');
+        
+        // Скрываем выборы при открытии списка
+        if (!chatList.classList.contains('active')) {
+            choicesContainer.classList.remove('visible');
+        }
+        
         chatList.classList.toggle('active');
         renderChatList();
     });
@@ -1173,6 +1182,13 @@ function initChats() {
         if (chatItem) {
             const chatId = chatItem.dataset.chatId;
             switchChat(chatId);
+            
+            // Восстанавливаем состояние выборов только для активного чата
+            if (wasChoicesVisible && gameState.currentChat === chatId) {
+                choicesContainer.classList.add('visible');
+            }
+            
+            chatList.classList.remove('active');
         }
     });
 }
