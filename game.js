@@ -171,6 +171,11 @@ export class LanguageManager {
         if (gameState.currentChapter) {
             loadChapterInstant(gameState.currentChapter);
         }
+
+        // Добавляем обновление PureGram
+        if (document.querySelector('[data-screen="puregram"].active')) {
+            loadPuregramPosts();
+        }
     }
 
     setChapterTranslations(translations) {

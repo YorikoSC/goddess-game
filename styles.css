@@ -489,8 +489,7 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    scrollbar-width: none;
 }
 
 .post {
