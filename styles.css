@@ -44,7 +44,7 @@ body {
 }
 
 .status-bar {
-    display: none; /* По умолчанию скрыт */
+    /*display: none;  По умолчанию скрыт */
 }
 
 /* Показываем только на десктопах */
@@ -113,8 +113,8 @@ body {
 
 /* Скрываем на мобильных устройствах */
 @media (max-width: 767px) {
-    .phone-container {
-        padding-top: 0;
+    .status-bar {
+        display: none;
     }
 }
 
