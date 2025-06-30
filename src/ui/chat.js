@@ -1,97 +1,153 @@
 import { gameState } from '../core/gameState.js';
+import { showScreen } from './screens.js';
 
-/**
- * Добавляет сообщение в чат
- */
+export let chapterPosts = JSON.parse(localStorage.getItem('chapterPosts')) || [];
+export let allPosts = JSON.parse(localStorage.getItem('allPosts')) || [];
+const defaultPosts = [/* как в старом файле */];
+
 export function addMessage(type, text, container, image, description, messageType, chatId = 'lina') {
-    const message = document.createElement('div');
-    message.className = `message ${type}`;
-    if (image) {
-        const img = document.createElement('img');
-        img.src = image;
-        img.alt = description || '';
-        img.className = 'message-image';
-        message.appendChild(img);
+    if (chatId !== gameState.currentChat) {
+        markChatUnread(chatId);
+        return;
     }
-    if (text) {
-        const textNode = document.createElement('div');
-        textNode.className = 'message-text';
-        textNode.textContent = text;
-        message.appendChild(textNode);
+    const messageDiv = document.createElement('div');
+    messageDiv.className = type === 'photo' ? `message message-${messageType || 'received'}` : `message message-${type}`;
+    if (type === 'photo') {
+        messageDiv.innerHTML = `
+            ${text ? `<div class="message-text">${text}</div>` : ''}
+            <img src="${image}" class="chat-image" alt="Message Image" onclick="window.game.openFullscreenImage('${image}')">
+            ${description ? `<div class="message-description">${description}</div>` : ''}
+        `;
+    } else {
+        messageDiv.textContent = text || '';
     }
-    if (description) {
-        const descNode = document.createElement('div');
-        descNode.className = 'message-description';
-        descNode.textContent = description;
-        message.appendChild(descNode);
-    }
-    if (type === 'received') {
-    const sound = document.getElementById('sound');
-    if (sound) {
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
-    }
-}
-    message.dataset.type = messageType || '';
-    container.appendChild(message);
-
-    // Обновляем счетчик непрочитанных сообщений
-    if (gameState.chats[chatId]) {
-        gameState.chats[chatId].unread += 1;
-    }
+    container.appendChild(messageDiv);
+    container.scrollTop = container.scrollHeight;
 }
 
-/**
- * Отображает массив сообщений с задержкой
- */
 export function displayMessages(messages, container, onComplete, chapter) {
-    let index = 0;
-    function showNext() {
-        if (index < messages.length) {
-            const msg = messages[index];
-            addMessage(msg.type, msg.text, container, msg.image, msg.description, msg.messageType, msg.chatId);
-            index++;
-            setTimeout(showNext, msg.delay || 500);
-        } else if (typeof onComplete === 'function') {
-            onComplete(chapter);
+    if (!messages || !messages.length) {
+        if (onComplete) {
+            gameState.generateMessage = false;
+            onComplete();
         }
+        return;
     }
-    showNext();
+    const messagePromises = messages.map((message, index) => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                if (message.type === 'received' || message.type === 'photo') playMessageSound();
+                if (message.type === 'photo') {
+                    addMessage('photo', message.text, container, message.src, message.description, 'received');
+                    if (message.onAfter) message.onAfter();
+                } else {
+                    addMessage(message.type, message.text, container);
+                }
+                if (message.nextChoice && chapter) {
+                    const nextChoice = chapter.getChoicesByKey(message.nextChoice, gameState);
+                    if (nextChoice) renderChoices([{ text: nextChoice.text, result: nextChoice.result }], document.getElementById('choices'));
+                }
+                resolve();
+            }, message.delay || 1000);
+        });
+    });
+    Promise.all(messagePromises).then(() => {
+        gameState.generateMessage = false;
+        if (onComplete) onComplete();
+    });
 }
 
-/**
- * Очищает чат
- */
-export function clearChat(container) {
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
+export function renderChoices(choices, container) {
+    if (!container || !choices) return;
+    container.innerHTML = '';
+    const chatContainer = document.getElementById('chat');
+    chatContainer.classList.add('has-choices');
+    container.classList.add('visible');
+    choices.forEach(choice => {
+        const button = document.createElement('button');
+        button.className = 'choice-button';
+        button.textContent = choice.buttonText || choice.text;
+        button.addEventListener('click', async () => {
+            if (gameState.isBusy) return;
+            chatContainer.classList.remove('has-choices');
+            container.classList.remove('visible');
+            if (choice.type === 'photo') {
+                addMessage('photo', choice.text, chatContainer, choice.src, choice.description, 'sent');
+            } else {
+                addMessage('sent', choice.text, chatContainer);
+            }
+            if (choice.result && choice.result.length > 0) {
+                gameState.isBusy = true;
+                await displayMessages(choice.result, chatContainer, () => {
+                    gameState.isBusy = false;
+                    if (choice.action) choice.action(gameState);
+                    if (choice.result[choice.result.length - 1].nextChapter) loadChapter(choice.result[choice.result.length - 1].nextChapter);
+                });
+            } else if (choice.action) choice.action(gameState);
+            else if (choice.nextChapter) loadChapter(choice.nextChapter);
+            container.innerHTML = '';
+        });
+        container.appendChild(button);
+    });
 }
 
-/**
- * Рендерит список чатов
- */
-export function renderChatList() {
-    // Примерная реализация, зависит от структуры DOM
-    const chatList = document.getElementById('chat-list');
-    if (!chatList) return;
+export function playMessageSound() {
+    const sound = document.getElementById('sound');
+    sound.currentTime = 0;
+    sound.play().catch(e => console.log('Автовоспроизведение не разрешено'));
+}
+
+export function initChats() {
+    const chatListBtn = document.querySelector('.chat-list-button');
+    const chatList = document.querySelector('.chat-list');
+    const choicesContainer = document.getElementById('choices');
+    let wasChoicesVisible = false;
+
+    chatListBtn.addEventListener('click', () => {
+        wasChoicesVisible = choicesContainer.classList.contains('visible');
+        if (!chatList.classList.contains('active')) choicesContainer.classList.remove('visible');
+        chatList.classList.toggle('active');
+        renderChatList();
+    });
+
+    chatList.addEventListener('click', (e) => {
+        const chatItem = e.target.closest('.chat-item');
+        if (chatItem) {
+            const chatId = chatItem.dataset.chatId;
+            switchChat(chatId);
+            if (wasChoicesVisible && gameState.currentChat === chatId) choicesContainer.classList.add('visible');
+            chatList.classList.remove('active');
+        }
+    });
+}
+
+function renderChatList() {
+    const chatList = document.querySelector('.chat-list');
     chatList.innerHTML = '';
-    Object.entries(gameState.chats).forEach(([chatId, chat]) => {
+    Object.entries(gameState.chats).forEach(([id, chat]) => {
+        if (!chat.isActive) return;
         const chatItem = document.createElement('div');
-        chatItem.className = 'chat-item' + (gameState.currentChat === chatId ? ' active' : '');
-        chatItem.textContent = chat.name[gameState.language] || chatId;
-        chatItem.onclick = () => switchChat(chatId);
+        chatItem.className = 'chat-item';
+        chatItem.dataset.chatId = id;
+        chatItem.innerHTML = `
+            <img src="${chat.avatar}" class="avatar" alt="${chat.name[gameState.language]}">
+            <div class="chat-info">
+                <h2>${chat.name[gameState.language]}</h2>
+                <p class="online-status">online</p>
+            </div>
+            ${chat.unread > 0 ? '<div class="unread-marker"></div>' : ''}
+        `;
         chatList.appendChild(chatItem);
     });
 }
 
-/**
- * Переключает активный чат
- */
-export function switchChat(chatId) {
-    if (gameState.chats[chatId]) {
-        gameState.currentChat = chatId;
-        renderChatList();
-        // Можно добавить обновление сообщений в чате
+function switchChat(chatId) {
+    if (gameState.currentChat !== chatId) gameState.currentChat = chatId;
+    if (gameState.dialogueEnded && !document.querySelector('.chat-list').classList.contains('active')) {
+        document.getElementById('choices').classList.add('visible');
     }
+}
+
+function markChatUnread(chatId) {
+    if (chatId !== gameState.currentChat) gameState.chats[chatId].unread++;
 }

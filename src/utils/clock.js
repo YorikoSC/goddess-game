@@ -1,6 +1,6 @@
-export function updateClock(element) {
+export function updateClock() {
     const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    element.textContent = `${hours}:${minutes}`;
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    document.querySelector('.time').textContent = `${hours}:${minutes}`;
 }

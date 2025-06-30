@@ -1,56 +1,71 @@
-/**
- * Создаёт DOM-элемент поста PureGram
- */
-export function createPostElement(post) {
+import { gameState } from '../core/gameState.js';
+import { showScreen } from './screens.js';
+
+let chapterPosts = JSON.parse(localStorage.getItem('chapterPosts')) || [];
+let allPosts = JSON.parse(localStorage.getItem('allPosts')) || [];
+const defaultPosts = [/* как в старом файле */];
+
+function createPostElement(post) {
     const postElement = document.createElement('div');
-    postElement.className = 'puregram-post';
-
-    const img = document.createElement('img');
-    img.src = post.image;
-    img.alt = post.caption?.ru || '';
-    img.className = 'puregram-post-image';
-    img.onclick = () => openFullscreenImage(post.image);
-    postElement.appendChild(img);
-
-    const caption = document.createElement('div');
-    caption.className = 'puregram-post-caption';
-    caption.textContent = post.caption?.ru || '';
-    postElement.appendChild(caption);
-
-    const likes = document.createElement('div');
-    likes.className = 'puregram-post-likes';
-    likes.textContent = `❤ ${post.likes}`;
-    postElement.appendChild(likes);
-
+    postElement.className = 'pg-post';
+    const caption = post.caption[gameState.language] || post.caption['ru'];
+    postElement.innerHTML = `
+        <div class="pg-post-header">
+            <img src="img/lina_avatar.jpg" class="pg-avatar" alt="Lina">
+            <span>Lina</span>
+        </div>
+        <div class="pg-post-image">
+            <img src="${post.image}" alt="Post" class="post-image" onclick="window.game.openFullscreenImage('${post.image}')">
+        </div>
+        <div class="pg-post-actions">
+            <div class="pg-post-like-action">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 16 16">
+                    <path d="m8 2.748..."/> <!-- как в старом файле -->
+                </svg>
+                <span class="pg-post-likes">${post.likes}</span>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" class="pg-post-chat-action" viewBox="0 0 16 16">
+                <path d="M2.678 11.894..."/> <!-- как в старом файле -->
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" class="pg-post-send-action" viewBox="0 0 16 16">
+                <path d="M15.854.146..."/> <!-- как в старом файле -->
+            </svg>
+        </div>
+        <div class="pg-post-caption">
+            <p>${caption}</p>
+        </div>
+    `;
     return postElement;
 }
 
-/**
- * Загружает и отображает посты PureGram
- */
-export function loadPuregramPosts(posts, container) {
-    container.innerHTML = '';
-    posts.forEach(post => {
+export function loadPuregramPosts() {
+    console.log('Загрузка постов PureGram');
+    const postsContainer = document.getElementById('posts');
+    if (!postsContainer) return;
+
+    postsContainer.innerHTML = '';
+    allPosts = JSON.parse(localStorage.getItem('allPosts')) || [];
+    const allPostsToShow = [...allPosts, ...defaultPosts];
+
+    allPostsToShow.forEach(post => {
+        if (!post || !post.image) return;
         const postElement = createPostElement(post);
-        container.appendChild(postElement);
+        if (postElement) postsContainer.appendChild(postElement);
     });
 }
 
-/**
- * Открывает изображение в полноэкранном режиме
- */
 export function openFullscreenImage(src) {
     const overlay = document.createElement('div');
     overlay.className = 'fullscreen-overlay';
-
     const img = document.createElement('img');
     img.src = src;
     img.className = 'fullscreen-image';
-
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'fullscreen-close';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.addEventListener('click', () => document.body.removeChild(overlay));
+    overlay.appendChild(closeBtn);
     overlay.appendChild(img);
     document.body.appendChild(overlay);
-
-    overlay.onclick = () => {
-        document.body.removeChild(overlay);
-    };
+    overlay.addEventListener('click', (e) => e.target === overlay && document.body.removeChild(overlay));
 }

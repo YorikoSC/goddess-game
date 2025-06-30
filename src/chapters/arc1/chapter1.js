@@ -1,58 +1,47 @@
 export default {
-    id: 'chapter1',
-    translations: {
-        ru: {
-            lina1: "Привет креветка💋",
-            min1: "Привет Лина, как тебе спалось?",
-            lina2: "После вчерашней ночки я спала отлично, жаль только осталась не до конца удовлетворенной",
-            min2: "Немного неприятно, это слышать..",
-            lina3: "Не волнуйся, мне с этим помогли))",
-            min3: "Что?.. кто тебе помог?",
-            lina4: "Ууу посмотрите, какой серьезный хах",
-            min4: "Лина, это не смешно, ты с кем-то спала?",
-            lina5: "Нууу..",
-            min5: "Боже, Лина, почему??",
-        },
-        en: {
-            lina1: "Hey shrimp 💋",
-            min1: "Hey Lina, how did you sleep?",
-            lina2: "After last night, I slept great, just not fully satisfied",
-            min2: "It’s kinda hurtful to hear that..",
-            lina3: "Don’t worry, I got some help with that ))",
-            min3: "What?.. Who helped you?",
-            lina4: "Ooh, look at how serious you are haha",
-            min4: "Lina, this isn’t funny, did you sleep with someone?",
-            lina5: "Well...",
-            min5: "God, Lina, why??",
-        }
-    },
-    getText(gameState) {
-        const lang = gameState.language || 'ru';
-        const texts = this.translations[lang];
-        return [
-            { type: "received", text: texts.lina1, delay: 1500 },
-            { type: "sent", text: texts.min1, delay: 3000 },
-            { type: "received", text: texts.lina2, delay: 4500 },
-            { type: "sent", text: texts.min2, delay: 6000 },
-            { type: "received", text: texts.lina3, delay: 7500 },
-            { type: "sent", text: texts.min3, delay: 9000 },
-            { type: "received", text: texts.lina4, delay: 10500 },
-            { type: "sent", text: texts.min4, delay: 12000 },
-            { type: "received", text: texts.lina5, delay: 13500, showChoices: true  },
-        ];
-    },
-    getChoices(gameState) {
-        const lang = gameState.language || 'ru';
-        const texts = this.translations[lang];
-        return [
-            {
-                id: "curious",
-                text: texts.min5,
-                action: (gameState) => {
-                    gameState.choices.chapter1 = "curious";
-                },
-                nextChapter: "chapter1b"
-            }
-        ];
-    }
+  getText(gameState) {
+    const texts = gameState.language === 'en' ? {
+      msg1: "Hey, guess what? The photographer wants me to do a swimwear shoot next time. Can you believe it?",
+      msg2: "Wow, that sounds bold! Are you excited or nervous about it?",
+      msg3: "A bit of both, honestly. I’ve never done anything like that before."
+    } : {
+      msg1: "Привет, угадай, что? Фотограф хочет, чтобы я снялась в купальнике на следующей съёмке. Можешь в это поверить?",
+      msg2: "Вау, это звучит смело! Ты взволнована или нервничаешь?",
+      msg3: "И то, и другое, честно говоря. Я никогда раньше такого не делала."
+    };
+    return [
+      { type: "received", text: texts.msg1, delay: 1000 },
+      { type: "sent", text: texts.msg2, delay: 2500 },
+      { type: "received", text: texts.msg3, delay: 4000, showChoices: true }
+    ];
+  },
+  getChoices(gameState) {
+    const texts = gameState.language === 'en' ? {
+      choice1: "I think you’ll look amazing. You’re always stunning, no matter what you wear.",
+      result1: "Thanks, that means a lot coming from you.",
+      choice2: "Just don’t let that photographer get too flirty with you, okay?",
+      result2: "Oh, are you jealous already? That’s cute."
+    } : {
+      choice1: "Я думаю, ты будешь выглядеть потрясающе. Ты всегда выглядишь потрясающе, что бы ни надела.",
+      result1: "Спасибо, это много значит, когда это говоришь ты.",
+      choice2: "Только не давай тому фотографу слишком флиртовать с тобой, ладно?",
+      result2: "О, ты уже ревнуешь? Это мило."
+    };
+    return [
+      {
+        id: "encourage",
+        text: texts.choice1,
+        result: [
+          { type: "received", text: texts.result1, delay: 1000, nextChapter: "chapter2" }
+        ]
+      },
+      {
+        id: "tease",
+        text: texts.choice2,
+        result: [
+          { type: "received", text: texts.result2, delay: 1000, nextChapter: "chapter2" }
+        ]
+      }
+    ];
+  }
 };
