@@ -41,20 +41,43 @@ export class LanguageManager {
     this.updateTexts();
     this.chapterLoader.updateLanguage(); // Обновляем чат
     this.screenManager.updatePostsLanguage(); // Обновляем посты в PureGram
+    this.updateLanguageButton(); // Обновляем кнопку смены языка
     this.gameStateManager.saveProgress();
   }
 
+  updateLanguageButton() {
+    const langButton = document.querySelector('.lang-btn');
+    if (langButton) {
+      langButton.textContent = this.currentLang === 'ru' ? 'EN' : 'RU';
+      langButton.setAttribute('data-lang', this.currentLang === 'ru' ? 'en' : 'ru');
+      langButton.title = this.translations[this.currentLang]['change-lang'];
+    } else {
+      console.warn('Кнопка языка (.lang-btn) не найдена в DOM');
+    }
+  }
+
   updateTexts() {
-    document.querySelector('.endgame-content h2').textContent = this.translations[this.currentLang]['end-chapter'];
-    document.querySelector('.endgame-content p:nth-child(2)').textContent = this.translations[this.currentLang]['thanks'];
-    document.querySelector('.endgame-content p:nth-child(3)').textContent = this.translations[this.currentLang]['to-be-continued'];
-    document.querySelector('.start-new-chapter').textContent = this.translations[this.currentLang]['new-chapter'];
-    document.querySelector('.nav-btn--endGame').title = this.translations[this.currentLang]['new-game'];
-    document.querySelector('.start-chapter-over').title = this.translations[this.currentLang]['restart-chapter'];
-    document.querySelector('.lang-btn').title = this.translations[this.currentLang]['change-lang'];
-    document.querySelector('.online-status').textContent = this.translations[this.currentLang]['online'];
-    document.querySelector('.boosty-overlay-text').textContent = this.translations[this.currentLang]['boostyText'];
-    document.querySelector('.boosty-overlay-button').textContent = this.translations[this.currentLang]['boostyButton'];
-    document.querySelector('.boosty-overlay-additional-text').textContent = this.translations[this.currentLang]['boostyAdditionalText'];
+    const elements = [
+      { selector: '.endgame-content h2', key: 'end-chapter' },
+      { selector: '.endgame-content p:nth-child(2)', key: 'thanks' },
+      { selector: '.endgame-content p:nth-child(3)', key: 'to-be-continued' },
+      { selector: '.start-new-chapter', key: 'new-chapter', property: 'textContent' },
+      { selector: '.nav-btn--endGame', key: 'new-game', property: 'title' },
+      { selector: '.start-chapter-over', key: 'restart-chapter', property: 'title' },
+      { selector: '.lang-btn', key: 'change-lang', property: 'title' },
+      { selector: '.online-status', key: 'online' },
+      { selector: '.boosty-overlay-text', key: 'boostyText' },
+      { selector: '.boosty-overlay-button', key: 'boostyButton' },
+      { selector: '.boosty-overlay-additional-text', key: 'boostyAdditionalText' }
+    ];
+
+    elements.forEach(({ selector, key, property = 'textContent' }) => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element[property] = this.translations[this.currentLang][key];
+      } else {
+        console.warn(`Элемент ${selector} не найден в DOM`);
+      }
+    });
   }
 }

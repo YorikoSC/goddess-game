@@ -1,7 +1,7 @@
 export class GameStateManager {
   constructor() {
     this.gameState = {
-      currentChapter: null,
+      currentChapter: 'chapter1',
       choices: {},
       arc: 1,
       language: 'ru',
@@ -15,6 +15,7 @@ export class GameStateManager {
         chapter: null,
         choices: {},
       },
+      lastChoiceIndex: null,
       chats: {
         lina: {
           name: { ru: 'Лина', en: 'Lina' },
@@ -33,6 +34,7 @@ export class GameStateManager {
     };
     this.chapterPosts = JSON.parse(localStorage.getItem('chapterPosts')) || [];
     this.allPosts = JSON.parse(localStorage.getItem('allPosts')) || [];
+    console.log('GameStateManager инициализирован, clearProgress доступен:', typeof this.clearProgress === 'function');
   }
 
   saveProgress() {
@@ -42,6 +44,7 @@ export class GameStateManager {
       language: this.gameState.language,
       choices: this.gameState.choices,
       lastCheckpoint: this.gameState.lastCheckpoint,
+      lastChoiceIndex: this.gameState.lastChoiceIndex,
     };
     localStorage.setItem('gameProgress', JSON.stringify(progress));
     console.log('Прогресс сохранен:', progress);
@@ -61,6 +64,7 @@ export class GameStateManager {
           choices: {},
           arc: 1,
         };
+        this.gameState.lastChoiceIndex = progress.lastChoiceIndex || null;
         console.log('Прогресс загружен:', progress);
         return true;
       } catch (error) {
@@ -73,12 +77,17 @@ export class GameStateManager {
 
   clearProgress() {
     localStorage.removeItem('gameProgress');
-    console.log('Прогресс очищен');
+    localStorage.removeItem('chapterPosts');
+    localStorage.removeItem('allPosts');
+    this.chapterPosts = [];
+    this.allPosts = [];
     this.gameState.lastCheckpoint = {
       chapter: 'chapter1',
       choices: {},
       arc: 1,
     };
+    this.gameState.lastChoiceIndex = null;
+    console.log('Прогресс очищен');
   }
 
   startNewGame() {
@@ -88,8 +97,9 @@ export class GameStateManager {
     this.gameState.dialogueEnded = false;
     this.gameState.isChapterEnding = false;
     this.gameState.generateMessage = false;
-    this.gameState.currentChapter = null;
+    this.gameState.currentChapter = 'chapter1';
     this.gameState.boostyNotification = false;
+    this.gameState.lastChoiceIndex = null;
     this.clearProgress();
     this.chapterPosts = [];
     this.allPosts = [];

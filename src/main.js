@@ -15,7 +15,16 @@ const messageRenderer = new MessageRenderer(
   gameStateManager
 );
 const chapterLoader = new ChapterLoader(messageRenderer, gameStateManager);
-const languageManager = new LanguageManager(gameStateManager, chapterLoader, screenManager);
+const languageManager = new LanguageManager(gameStateManager, chapterLoader, screenManager); // Убрана лишняя запятая
+
+console.log('GameStateManager импортирован:', GameStateManager);
+console.log('gameStateManager создан:', gameStateManager);
+console.log('clearProgress доступен:', gameStateManager.clearProgress);
+
+// Проверка наличия clearProgress
+if (!gameStateManager.clearProgress) {
+  console.error('Метод clearProgress не найден в gameStateManager');
+}
 
 // Глобальный объект игры
 window.game = {
@@ -36,7 +45,7 @@ window.game = {
   determineSecondArcStart,
   saveGameState,
   loadGameState,
-  clearProgress: gameStateManager.clearProgress.bind(gameStateManager),
+  clearProgress: gameStateManager.clearProgress ? gameStateManager.clearProgress.bind(gameStateManager) : () => console.error('clearProgress не доступен'),
   clearChat,
   boostyNotification,
   languageManager,
@@ -98,6 +107,7 @@ function initGame() {
   if (restartChapterBtn) {
     restartChapterBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      console.log('Нажата кнопка перезапуска главы');
       chapterLoader.restartChapter(gameStateManager.gameState);
     });
   }
@@ -105,6 +115,18 @@ function initGame() {
   const restartArcBtn = document.querySelector('.nav-btn--endGame');
   if (restartArcBtn) {
     restartArcBtn.addEventListener('click', startNewGame);
+  }
+
+  // Обработчик для кнопки смены языка (исправлено с querySelectorAll на querySelector)
+  const langButton = document.querySelector('.lang-btn');
+  if (langButton) {
+    langButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('Нажата кнопка смены языка');
+      languageManager.toggleLanguage();
+    });
+  } else {
+    console.warn('Кнопка языка (.lang-btn) не найдена');
   }
 }
 
@@ -193,7 +215,7 @@ function initChats() {
       switchChat(chatId);
       if (wasChoicesVisible && gameStateManager.gameState.currentChat === chatId) {
         choicesContainer.classList.add('visible');
-        document.getElementById('chat').classList.add('has-choices'); // Восстанавливаем сдвиг чата
+        document.getElementById('chat').classList.add('has-choices');
       }
       chatList.classList.remove('active');
     }
@@ -211,7 +233,7 @@ function initChats() {
         <img src="${chat.avatar}" class="avatar" alt="${chat.name[currentLang]}">
         <div class="chat-info">
           <h2>${chat.name[currentLang]}</h2>
-          <p class="online-status">online</p>
+          <p class="online-status">${languageManager.translations[currentLang]['online']}</p>
         </div>
         ${chat.unread > 0 ? '<div class="unread-marker"></div>' : ''}
       `;
@@ -223,7 +245,7 @@ function initChats() {
     gameStateManager.gameState.currentChat = chatId;
     if (gameStateManager.gameState.dialogueEnded && !chatList.classList.contains('active')) {
       choicesContainer.classList.add('visible');
-      document.getElementById('chat').classList.add('has-choices'); // Восстанавливаем сдвиг чата
+      document.getElementById('chat').classList.add('has-choices');
     }
   }
 }
