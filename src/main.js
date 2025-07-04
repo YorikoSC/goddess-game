@@ -1,6 +1,6 @@
 import { initImageCarousel, clearImageCarousel } from './js/imageCarousel.js';
 import { GameStateManager } from './GameStateManager.js';
-import { LanguageManager } from './languageManager.js';
+import { LanguageManager } from './LanguageManager.js';
 import { MessageRenderer } from './MessageRenderer.js';
 import { ChapterLoader } from './ChapterLoader.js';
 import { ScreenManager } from './ScreenManager.js';
@@ -15,7 +15,7 @@ const messageRenderer = new MessageRenderer(
   gameStateManager
 );
 const chapterLoader = new ChapterLoader(messageRenderer, gameStateManager);
-const languageManager = new LanguageManager(gameStateManager, chapterLoader, screenManager); // Убрана лишняя запятая
+const languageManager = new LanguageManager(gameStateManager, chapterLoader, screenManager);
 
 console.log('GameStateManager импортирован:', GameStateManager);
 console.log('gameStateManager создан:', gameStateManager);
@@ -117,17 +117,27 @@ function initGame() {
     restartArcBtn.addEventListener('click', startNewGame);
   }
 
-  // Обработчик для кнопки смены языка (исправлено с querySelectorAll на querySelector)
-  const langButton = document.querySelector('.lang-btn');
-  if (langButton) {
-    langButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      console.log('Нажата кнопка смены языка');
-      languageManager.toggleLanguage();
-    });
-  } else {
-    console.warn('Кнопка языка (.lang-btn) не найдена');
+  // Динамическое привязывание обработчика для lang-btn
+  const bindLanguageButton = () => {
+    const langButton = document.querySelector('.lang-btn');
+    if (langButton) {
+      langButton.removeEventListener('click', handleLangButtonClick); // Удаляем старый обработчик
+      langButton.addEventListener('click', handleLangButtonClick);
+      console.log('Обработчик кнопки языка привязан');
+      languageManager.updateLanguageButton(); // Обновляем кнопку при привязке
+    } else {
+      console.warn('Кнопка языка (.lang-btn) не найдена, повторная попытка через 500мс');
+      setTimeout(bindLanguageButton, 500);
+    }
+  };
+
+  function handleLangButtonClick(e) {
+    e.preventDefault();
+    console.log('Нажата кнопка смены языка');
+    languageManager.toggleLanguage();
   }
+
+  bindLanguageButton(); // Вызываем при инициализации
 }
 
 // Обновление часов

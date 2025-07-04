@@ -4,7 +4,7 @@ export class ChapterLoader {
     this.gameStateManager = gameStateManager;
     this.currentMessages = [];
     this.currentChoices = [];
-    this.currentMessageIndex = 0; // Исправлено название поля
+    this.currentMessageIndex = 0;
   }
 
   async loadChapter(chapterId, isRestart = false) {
@@ -42,50 +42,29 @@ export class ChapterLoader {
 
   async renderChapter(messages, choices, isRestart = false) {
     const currentLang = this.gameStateManager.gameState.language || 'ru';
-    let stopAtIndex = isRestart ? this.gameStateManager.gameState.lastChoiceIndex : null;
 
-    if (isRestart && stopAtIndex !== null) {
-      for (let i = 0; i <= stopAtIndex && i < messages.length; i++) {
-        const message = messages[i];
-        const text = typeof message.text === 'object' ? message.text[currentLang] || message.text.ru || '' : message.text || '';
-        const description = typeof message.description === 'object' ? message.description[currentLang] || message.description.ru || '' : message.description || '';
+    for (let i = this.currentMessageIndex; i < messages.length; i++) {
+      const message = messages[i];
+      const text = typeof message.text === 'object' ? message.text[currentLang] || message.text.ru || '' : message.text || '';
+      const description = typeof message.description === 'object' ? description[currentLang] || message.description.ru || '' : message.description || '';
 
-        this.messageRenderer.addMessage(message.type, text, message.src, description);
-        console.log(`Добавлено сообщение (перезапуск): ${text}`);
+      this.messageRenderer.addMessage(message.type, text, message.src, description);
+      console.log(`Добавлено сообщение: ${text}`);
 
-        if (message.onAfter) {
-          message.onAfter();
-        }
-        this.currentMessageIndex = i + 1;
+      if (message.onAfter) {
+        message.onAfter();
       }
 
-      if (choices.length > 0) {
-        this.messageRenderer.renderChoices(choices);
+      this.currentMessageIndex = i + 1;
+      await new Promise(resolve => setTimeout(resolve, message.delay || 1500));
+
+      if (choices.length > 0 && i === messages.length - 1) {
+        break;
       }
-    } else {
-      for (let i = this.currentMessageIndex; i < messages.length; i++) {
-        const message = messages[i];
-        const text = typeof message.text === 'object' ? message.text[currentLang] || message.text.ru || '' : message.text || '';
-        const description = typeof message.description === 'object' ? message.description[currentLang] || message.description.ru || '' : message.description || '';
+    }
 
-        this.messageRenderer.addMessage(message.type, text, message.src, description);
-        console.log(`Добавлено сообщение: ${text}`);
-
-        if (message.onAfter) {
-          message.onAfter();
-        }
-
-        this.currentMessageIndex = i + 1;
-        await new Promise(resolve => setTimeout(resolve, message.delay || 1500));
-
-        if (i === stopAtIndex || (choices.length > 0 && i === messages.length - 1)) {
-          break;
-        }
-      }
-
-      if (choices.length > 0 && this.currentMessageIndex >= messages.length) {
-        this.messageRenderer.renderChoices(choices);
-      }
+    if (choices.length > 0 && this.currentMessageIndex >= messages.length) {
+      this.messageRenderer.renderChoices(choices);
     }
 
     requestAnimationFrame(() => {
@@ -97,36 +76,21 @@ export class ChapterLoader {
   restartChapter(gameState) {
     const chapterId = gameState.currentChapter || 'chapter1';
     console.log(`Перезапуск главы: ${chapterId}`);
-    this.currentMessageIndex = 0; // Сбрасываем индекс
+    this.currentMessageIndex = 0;
     this.loadChapter(chapterId, true);
   }
 
   updateLanguage() {
+    // Очищаем чат
     this.messageRenderer.clearChat();
-    const messages = this.currentMessages;
-    const choices = this.currentChoices;
-    const stopAtIndex = this.gameStateManager.gameState.lastChoiceIndex || this.currentMessages.length - 1;
+    console.log('Чат очищен для смены языка');
 
-    const currentLang = this.gameStateManager.gameState.language || 'ru';
-    for (let i = 0; i <= stopAtIndex && i < messages.length; i++) {
-      const message = messages[i];
-      const text = typeof message.text === 'object' ? message.text[currentLang] || message.text.ru || '' : message.text || '';
-      const description = typeof message.description === 'object' ? description[currentLang] || message.description.ru || '' : message.description || '';
+    // Получаем текущую главу и перезагружаем её с начала
+    const chapterId = this.gameStateManager.gameState.currentChapter || 'chapter1';
+    console.log(`Смена языка: перезагружаем главу ${chapterId} с начала`);
 
-      this.messageRenderer.addMessage(message.type, text, message.src, description);
-      console.log(`Добавлено сообщение (смена языка): ${text}`);
-
-      if (message.onAfter) {
-        message.onAfter();
-      }
-    }
-
-    if (choices.length > 0 && this.currentMessageIndex >= messages.length) {
-      this.messageRenderer.renderChoices(choices);
-    }
-
-    requestAnimationFrame(() => {
-      this.messageRenderer.chatContainer.scrollTop = this.messageRenderer.chatContainer.scrollHeight;
-    });
+    // Перезагружаем главу с начала на новом языке
+    this.currentMessageIndex = 0;
+    this.loadChapter(chapterId, true);
   }
 }

@@ -1,10 +1,9 @@
-// LanguageManager.js
 export class LanguageManager {
   constructor(gameStateManager, chapterLoader, screenManager) {
     this.gameStateManager = gameStateManager;
     this.chapterLoader = chapterLoader;
     this.screenManager = screenManager;
-    this.currentLang = this.gameStateManager.gameState.language;
+    this.currentLang = this.gameStateManager.gameState.language || 'ru';
     this.translations = {
       ru: {
         'end-chapter': 'Конец первой главы',
@@ -33,11 +32,16 @@ export class LanguageManager {
         'boostyAdditionalText': 'Start new game'
       }
     };
+    this.updateLanguageButton(); // Инициализируем кнопку при создании
   }
 
   toggleLanguage() {
+    // Переключаем язык и синхронизируем с gameStateManager
     this.currentLang = this.currentLang === 'ru' ? 'en' : 'ru';
     this.gameStateManager.gameState.language = this.currentLang;
+    console.log(`Язык переключен на: ${this.currentLang}`);
+
+    // Обновляем UI
     this.updateTexts();
     this.chapterLoader.updateLanguage(); // Обновляем чат
     this.screenManager.updatePostsLanguage(); // Обновляем посты в PureGram
@@ -48,9 +52,11 @@ export class LanguageManager {
   updateLanguageButton() {
     const langButton = document.querySelector('.lang-btn');
     if (langButton) {
+      // Показываем противоположный язык (RU -> EN, EN -> RU)
       langButton.textContent = this.currentLang === 'ru' ? 'EN' : 'RU';
       langButton.setAttribute('data-lang', this.currentLang === 'ru' ? 'en' : 'ru');
-      langButton.title = this.translations[this.currentLang]['change-lang'];
+      langButton.title = this.translations[this.currentLang]['change-lang'] || 'Change Language';
+      console.log(`Кнопка языка обновлена: text=${langButton.textContent}, data-lang=${langButton.getAttribute('data-lang')}`);
     } else {
       console.warn('Кнопка языка (.lang-btn) не найдена в DOM');
     }
@@ -79,5 +85,24 @@ export class LanguageManager {
         console.warn(`Элемент ${selector} не найден в DOM`);
       }
     });
+
+    // Обновляем текст в чатах (Лина, Амина и т.д.)
+    const chatList = document.querySelector('.chat-list');
+    if (chatList) {
+      Object.entries(this.gameStateManager.gameState.chats).forEach(([id, chat]) => {
+        if (!chat.isActive) return;
+        const chatItem = chatList.querySelector(`.chat-item[data-chat-id="${id}"]`);
+        if (chatItem) {
+          const nameElement = chatItem.querySelector('.chat-info h2');
+          const onlineElement = chatItem.querySelector('.online-status');
+          if (nameElement) {
+            nameElement.textContent = chat.name[this.currentLang] || chat.name.ru;
+          }
+          if (onlineElement) {
+            onlineElement.textContent = this.translations[this.currentLang]['online'];
+          }
+        }
+      });
+    }
   }
 }
