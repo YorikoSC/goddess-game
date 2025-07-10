@@ -77,6 +77,11 @@ function initGame() {
     const startScreen = document.querySelector('.start-screen');
     if (startScreen) startScreen.classList.add('active');
   }
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(() => console.log('Сервис-воркер зарегистрирован'))
+    .catch((err) => console.error('Ошибка регистрации сервис-воркера:', err));
+}
 
   const startButton = document.querySelector('.start-game-button');
   if (startButton) {

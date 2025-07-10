@@ -11,7 +11,7 @@ function createPostElement(post) {
     const caption = post.caption[gameState.language] || post.caption['ru'];
     postElement.innerHTML = `
         <div class="pg-post-header">
-            <img src="img/lina_avatar.jpg" class="pg-avatar" alt="Lina">
+            <img src="img/lina_avatar.webp" class="pg-avatar" alt="Lina">
             <span>Lina</span>
         </div>
         <div class="pg-post-image">

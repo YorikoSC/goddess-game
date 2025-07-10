@@ -59,7 +59,7 @@ export class ScreenManager {
     postElement.className = 'pg-post';
     const caption = post.caption[currentLang] || post.caption.ru || '';
     const chat = this.gameStateManager.gameState.chats[this.gameStateManager.gameState.currentChat] || {
-      avatar: 'img/lina_avatar.jpg',
+      avatar: 'img/lina_avatar.webp',
       name: { ru: 'Lina', en: 'Lina' },
     };
 

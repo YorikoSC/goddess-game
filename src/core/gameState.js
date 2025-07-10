@@ -11,8 +11,8 @@ export const gameState = {
     boostyNotification: false,
     lastCheckpoint: { chapter: null, choices: {}, arc: 1 },
     chats: {
-        lina: { name: { ru: "Лина", en: "Lina" }, avatar: "img/lina_avatar.jpg", unread: 0, isActive: true },
-        amina: { name: { ru: "Амина", en: "Amina" }, avatar: "img/amina_avatar.jpg", unread: 0, isActive: false },
+        lina: { name: { ru: "Лина", en: "Lina" }, avatar: "img/lina_avatar.webp", unread: 0, isActive: true },
+        amina: { name: { ru: "Амина", en: "Amina" }, avatar: "img/amina_avatar.webp", unread: 0, isActive: false },
     },
     currentChat: 'lina',
 };
