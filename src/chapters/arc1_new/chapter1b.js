@@ -30,15 +30,15 @@ export default {
         const lang = gameState.language || 'ru';
         const texts = this.translations[lang];
         return [
-            { type: "received", text: texts.lina6, delay: 1000 },
-            { type: "photo", text: texts.lina7, src: "img/lina_dildo.jpg", delay: 2500 },
-            { type: "sent", text: texts.min6, delay: 4000 },
-            { type: "received", text: texts.lina8, delay: 5500 },
-            { type: "sent", text: texts.min7, delay: 7000 },
-            { type: "received", text: texts.lina9, delay: 8500 },
-            { type: "received", text: texts.lina10, delay: 10000 },
-            { type: "sent", text: texts.min8, delay: 11500 },
-            { type: "received", text: texts.lina11, delay: 13000, showChoices: true },
+            { type: "received", text: texts.lina6, delay: 500 },
+            { type: "photo", text: texts.lina7, src: "img/lina_dildo.jpg", delay: 1000 },
+            { type: "sent", text: texts.min6, delay: 1500 },
+            { type: "received", text: texts.lina8, delay: 2000 },
+            { type: "sent", text: texts.min7, delay: 2500 },
+            { type: "received", text: texts.lina9, delay: 3000 },
+            { type: "received", text: texts.lina10, delay: 3500 },
+            { type: "sent", text: texts.min8, delay: 4000 },
+            { type: "received", text: texts.lina11, delay: 4500, showChoices: true },
         ];
     },
     getChoices(gameState) {

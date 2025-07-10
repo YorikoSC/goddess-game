@@ -86,9 +86,7 @@ export default {
     delay: 20200, 
     src: texts.lina9_image, 
     onAfter: () => {
-        try {
-            console.log('Попытка добавить пост в PureGram');
-            if (typeof window.game.addNewPost === 'function') {
+            if (window.game) {
                 window.game.addNewPost(
                     texts.lina9_image,
                     {
@@ -97,14 +95,8 @@ export default {
                     },
                     423
                 );
-                console.log('Функция addNewPost вызвана успешно');
-            } else {
-                console.error('Функция addNewPost не определена');
             }
-        } catch (error) {
-            console.error('Ошибка при добавлении поста:', error);
-        }
-    }
+          }
       }, 
       { type: "received", text: texts.lina10, delay: 21800 },
       { type: "sent", text: texts.mc5, delay: 23400 },

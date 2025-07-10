@@ -44,7 +44,7 @@ body {
 }
 
 .status-bar {
-    display: none; /* По умолчанию скрыт */
+    /*display: none;  По умолчанию скрыт */
 }
 
 /* Показываем только на десктопах */
@@ -113,8 +113,8 @@ body {
 
 /* Скрываем на мобильных устройствах */
 @media (max-width: 767px) {
-    .phone-container {
-        padding-top: 0;
+    .status-bar {
+        display: none;
     }
 }
 
@@ -224,6 +224,7 @@ body {
     padding: 10px;
     transition: all 0.3s ease;
     min-height: 0; /* Важно для корректного flex-shrink */
+    scroll-behavior: smooth;
 }
 
 #choices {
@@ -322,17 +323,29 @@ body {
 }
 
 .message {
-    max-width: 85%;
-    padding: 14px 18px;
-    margin: 10px 0;
-    border-radius: 15px;
-    position: relative;
-    word-break: break-word;
-    animation: msgIn 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    font-size: 16px;
-    line-height: 1.4;
-    color: var(--text);
+  opacity: 1; /* Убираем начальную opacity: 0 */
+  animation: msgIn 0.5s ease-in forwards; /* Используем только msgIn */
+  max-width: 85%;
+  padding: 14px 18px;
+  margin: 10px 0;
+  border-radius: 15px;
+  position: relative;
+  word-break: break-word;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+@keyframes msgIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .message.sent, .message-sent {
