@@ -70,7 +70,7 @@ export default defineConfig({
       'application/javascript': ['js'], // Указываем MIME-тип для .js
     },
     allowedHosts: [
-      "devserver-preview--mydearlina.netlify.app"
+      "devserver-preview--mydearlina.netlify.app",
       "mydearlina.netlify.app"
     ],
   },
