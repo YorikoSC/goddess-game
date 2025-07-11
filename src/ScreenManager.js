@@ -3,17 +3,17 @@ export class ScreenManager {
     this.gameStateManager = gameStateManager;
     this.defaultPosts = [
       {
-        image: 'img/lina_post1.jpg',
+        image: 'img/lina_post1.webp',
         caption: { ru: 'Мой новый фотосет 💫', en: 'My new photoshoot 💫' },
         likes: 256,
       },
       {
-        image: 'img/lina_post2.jpg',
+        image: 'img/lina_post2.webp',
         caption: { ru: 'Прогулка по городу ☀️', en: 'City walk ☀️' },
         likes: 178,
       },
       {
-        image: 'img/lina_post3.jpg',
+        image: 'img/lina_post3.webp',
         caption: { ru: 'Фото с новой фотосессии 📸', en: 'Photos from new photoshoot 📸' },
         likes: 321,
       },
