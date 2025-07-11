@@ -69,10 +69,10 @@ export default defineConfig({
     mimeTypes: {
       'application/javascript': ['js'], // Указываем MIME-тип для .js
     },
-    allowedHosts{
+    allowedHosts: [
       "devserver-preview--mydearlina.netlify.app"
       "mydearlina.netlify.app"
-    },
+    ],
   },
   preview: {
     mimeTypes: {
