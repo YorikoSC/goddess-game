@@ -19,13 +19,13 @@ export class GameStateManager {
       chats: {
         lina: {
           name: { ru: 'Лина', en: 'Lina' },
-          avatar: 'img/lina_avatar.jpg',
+          avatar: 'img/lina_avatar.webp',
           unread: 0,
           isActive: true,
         },
         amina: {
           name: { ru: 'Амина', en: 'Amina' },
-          avatar: 'img/amina_avatar.jpg',
+          avatar: 'img/amina_avatar.webp',
           unread: 0,
           isActive: false,
         },

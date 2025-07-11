@@ -13,7 +13,7 @@ export class ChapterLoader {
         chapterId = 'chapter1';
       }
       const arc = this.gameStateManager.gameState.arc || 1;
-      const chapterPath = `./chapters/arc${arc}/${chapterId}.js`;
+      const chapterPath = `/chapters/arc${arc}/${chapterId}.js`;
       console.log(`Попытка загрузки: ${chapterPath}`);
       const chapterModule = await import(chapterPath);
       const chapter = chapterModule.default;
