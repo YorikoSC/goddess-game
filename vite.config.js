@@ -19,6 +19,7 @@ export default defineConfig({
             src: 'img/icons/MDL-192x192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'maskable'
           },
           {
             src: 'img/icons/MDL-512x512.png',
